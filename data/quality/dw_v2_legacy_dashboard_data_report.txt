@@ -1,5 +1,5 @@
 Reporte adapter DW V2 -> contrato legacy dashboard
-Generado: 2026-06-15T18:56:31
+Generado: 2026-06-15T19:02:30
 
 Archivos de entrada:
 - fact_remuneraciones: data\datawarehouse\v2\facts\fact_remuneraciones_mensual.csv

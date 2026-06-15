@@ -27,7 +27,7 @@
       "Total_Costo",
       "Empresa_Corta"
     ],
-    "generatedAt": "2026-06-15T18:56:31",
+    "generatedAt": "2026-06-15T19:02:30",
     "schemaVersion": "legacy-from-dw-v2.1",
     "sourceSheet": "fact_remuneraciones_mensual",
     "recordCount": 1735

@@ -1,5 +1,5 @@
 Auditoria de alcance inicial por Periodo
-Generado: 2026-06-15T19:01:06
+Generado: 2026-06-15T19:02:46
 
 Dataset:
 - frontend\src\data\generated\maintenanceCostData.dw_v2.json
