@@ -1,0 +1,42 @@
+Reporte adapter DW V2 -> contrato legacy dashboard
+Generado: 2026-06-15T14:08:38
+
+Archivos de entrada:
+- fact_remuneraciones: data\datawarehouse\v2\facts\fact_remuneraciones_mensual.csv
+- fact_dotacion: data\datawarehouse\v2\facts\fact_dotacion_mensual.csv
+- dim_trabajador: data\datawarehouse\v2\dimensions\dim_trabajador.csv
+- dim_sociedad: data\datawarehouse\v2\dimensions\dim_sociedad.csv
+- dim_centro_negocio: data\datawarehouse\v2\dimensions\dim_centro_negocio.csv
+- dim_cargo: data\datawarehouse\v2\dimensions\dim_cargo.csv
+- dim_contrato: data\datawarehouse\v2\dimensions\dim_contrato.csv
+- dim_estado_laboral: data\datawarehouse\v2\dimensions\dim_estado_laboral.csv
+
+Archivo de salida:
+- frontend\src\data\generated\maintenanceCostData.dw_v2.json
+
+Metadata de salida:
+- Registros: 1735
+- Trabajadores unicos: 398
+- Empresas unicas: 5
+- Periodo: 2026-01 a 2026-05
+- Total costo: 2620369575
+
+Campos generados:
+- RUT_Sociedad, Nombre_Sociedad, RUT_Trabajador, Nombre_Trabajador, Centro_de_Negocio, Cargo, Tipo_Trabajador, Contrato_Trabajador, Total_Haberes, Haberes_Imponibles, AFC_Empresa, Mutual, SIS, Seguro_Social, Expectativa_de_Vida, Asignación_Familiar, Total_Costo, Empresa_Corta
+
+Fallbacks aplicados:
+- RUT_Sociedad: 1735
+- Nombre_Sociedad: 1735
+- Empresa_Corta: 1735
+- Cargo: 0
+- Tipo_Trabajador: 0
+- Contrato_Trabajador: 0
+
+Advertencias:
+- 4 filas de dotacion no tienen remuneracion equivalente.
+- Fallback RUT_Sociedad='Sin dato' aplicado a 1735 registros.
+- Fallback Nombre_Sociedad usando codigo de sociedad DW V2 aplicado a 1735 registros.
+- Fallback Empresa_Corta derivado desde Nombre_Sociedad aplicado a 1735 registros.
+
+Errores:
+- Sin errores.
