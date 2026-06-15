@@ -1,0 +1,233 @@
+AUDITORIA DATA WAREHOUSE - COSTO REMUNERACIONES CORPORATIVO
+Fecha ejecucion: 2026-06-15 11:32:10
+
+=== Verificacion de archivos ===
+OK: fact_remuneraciones.csv
+OK: fact_dotacion.csv
+OK: dim_trabajador.csv
+OK: dim_sociedad.csv
+OK: dim_centro_negocio.csv
+OK: dim_contrato.csv
+OK: dim_periodo.csv
+
+=== Estructura de datasets ===
+
+=== fact_remuneraciones ===
+Filas: 1735
+Columnas: 23
+
+Columnas:
+- centro_negocio
+- ano
+- mes
+- rut
+- nombre
+- apellido_paterno
+- apellido_materno
+- total_haberes
+- de_ellos_haberes_imponibles
+- afc_empresa
+- mutual
+- sis
+- trabajo_pesado
+- cobertura_suspension
+- seguro_social
+- cotizacion_expectativa_de_vida
+- total_asignacion_familiar
+- total_costo
+- sociedad
+- periodo
+- source_year
+- source_month
+- source_file
+
+Nulos:
+centro_negocio: 0
+ano: 0
+mes: 0
+rut: 0
+nombre: 0
+apellido_paterno: 0
+apellido_materno: 3
+total_haberes: 0
+de_ellos_haberes_imponibles: 0
+afc_empresa: 0
+mutual: 0
+sis: 0
+trabajo_pesado: 0
+cobertura_suspension: 0
+seguro_social: 0
+cotizacion_expectativa_de_vida: 0
+total_asignacion_familiar: 0
+total_costo: 0
+sociedad: 0
+periodo: 0
+source_year: 0
+source_month: 0
+source_file: 0
+
+=== fact_dotacion ===
+Filas: 1739
+Columnas: 14
+
+Columnas:
+- rut
+- nombre
+- apellido_paterno
+- apellido_materno
+- centro_negocio
+- cargo
+- tipo_contratacion
+- tipo_trabajador
+- fecha_inicio_contrato
+- sociedad
+- periodo
+- source_year
+- source_month
+- source_file
+
+Nulos:
+rut: 0
+nombre: 0
+apellido_paterno: 0
+apellido_materno: 3
+centro_negocio: 0
+cargo: 0
+tipo_contratacion: 0
+tipo_trabajador: 0
+fecha_inicio_contrato: 0
+sociedad: 0
+periodo: 0
+source_year: 0
+source_month: 0
+source_file: 0
+
+=== dim_trabajador ===
+Filas: 399
+Columnas: 4
+
+Columnas:
+- rut
+- nombre
+- apellido_paterno
+- apellido_materno
+
+Nulos:
+rut: 0
+nombre: 0
+apellido_paterno: 0
+apellido_materno: 2
+
+=== dim_sociedad ===
+Filas: 5
+Columnas: 1
+
+Columnas:
+- sociedad
+
+Nulos:
+sociedad: 0
+
+=== dim_centro_negocio ===
+Filas: 56
+Columnas: 1
+
+Columnas:
+- centro_negocio
+
+Nulos:
+centro_negocio: 0
+
+=== dim_contrato ===
+Filas: 95
+Columnas: 3
+
+Columnas:
+- tipo_contratacion
+- tipo_trabajador
+- cargo
+
+Nulos:
+tipo_contratacion: 0
+tipo_trabajador: 0
+cargo: 0
+
+=== dim_periodo ===
+Filas: 5
+Columnas: 3
+
+Columnas:
+- periodo
+- ano
+- mes
+
+Nulos:
+periodo: 0
+ano: 0
+mes: 0
+
+=== Metricas de negocio - Remuneraciones ===
+Total costo empresa: 2,620,369,575
+Total haberes: 2,500,573,479
+Promedio costo trabajador: 6,583,843.15
+Trabajadores unicos: 398
+
+Registros por periodo:
+2026-01: 344
+2026-02: 349
+2026-03: 348
+2026-04: 351
+2026-05: 343
+
+Registros por sociedad:
+LCM: 5
+LTDA: 970
+SPA: 631
+SPA_CC: 101
+SPA_MC: 28
+
+=== Metricas de negocio - Dotacion ===
+Trabajadores unicos: 399
+
+Registros por periodo:
+2026-01: 345
+2026-02: 350
+2026-03: 349
+2026-04: 352
+2026-05: 343
+
+Registros por sociedad:
+LCM: 5
+LTDA: 970
+SPA: 631
+SPA_CC: 105
+SPA_MC: 28
+
+=== Cruce entre datasets ===
+Trabajadores en remuneraciones pero no en dotacion: 0
+Ejemplos: sin diferencias.
+
+Trabajadores en dotacion pero sin remuneraciones: 1
+Ejemplos: 41634512-0
+
+=== Validaciones corporativas ===
+total_costo >= 0: 0 registros invalidos
+fact_remuneraciones.rut no nulo: 0 registros invalidos
+fact_dotacion.rut no nulo: 0 registros invalidos
+dim_trabajador.rut no nulo: 0 registros invalidos
+fact_remuneraciones.sociedad valida: 0 valores invalidos, 0 nulos
+fact_dotacion.sociedad valida: 0 valores invalidos, 0 nulos
+dim_sociedad.sociedad valida: 0 valores invalidos, 0 nulos
+fact_remuneraciones.periodo valido: 0 registros invalidos, 0 nulos
+fact_dotacion.periodo valido: 0 registros invalidos, 0 nulos
+dim_periodo.periodo valido: 0 registros invalidos, 0 nulos
+
+=== Resumen ejecutivo ===
+Estado auditoria: APROBADO
+Datasets disponibles: 7 de 7
+Errores detectados: 0
+Observaciones: 2
+
+Observaciones:
+- Existen trabajadores en dotacion sin registro equivalente en remuneraciones.
+- No se detectaron errores corporativos criticos.
