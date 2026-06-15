@@ -1,0 +1,33 @@
+Auditoria dim_company
+Generado: 2026-06-15T19:14:39
+
+Archivos analizados:
+- data\datawarehouse\v2\dimensions\dim_company.csv
+- data\datawarehouse\v2\dimensions\dim_sociedad.csv
+- frontend\src\data\generated\maintenanceCostData.dw_v2.json
+
+Resumen:
+- Registros dim_company: 5
+- Registros dim_sociedad: 5
+- Registros dashboard: 1735
+- Sociedades dashboard: LCM, LTDA, SPA, SPA_CC, SPA_MC
+
+Columnas dim_company:
+- company_id, sociedad_id, source_sociedad_code, rut_sociedad, legal_name, display_name, short_name, business_group, is_active, homologation_status, created_at, updated_at
+
+Estado de auditoria:
+OK
+
+Errores criticos:
+- Sin errores criticos.
+
+Advertencias:
+- rut_sociedad pendiente en 5 registros.
+- legal_name pendiente en 5 registros.
+- homologation_status pending en 5 registros.
+
+Recomendaciones:
+- dim_company es apta tecnicamente como fuente de etiquetas actuales del dashboard.
+- Completar rut_sociedad con fuente corporativa oficial.
+- Completar legal_name antes de aprobar la homologacion.
+- Cambiar homologation_status a approved solo tras validacion de negocio.
