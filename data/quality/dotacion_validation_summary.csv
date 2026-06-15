@@ -1,0 +1,6 @@
+﻿rule,failed_rows
+rut_obligatorio,0
+sociedad_obligatorio,0
+periodo_obligatorio,0
+centro_negocio_obligatorio,0
+duplicado_periodo_rut_sociedad,0
