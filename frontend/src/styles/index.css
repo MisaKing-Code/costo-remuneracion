@@ -1,0 +1,64 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  * {
+    box-sizing: border-box;
+  }
+
+  html {
+    background: #151513;
+  }
+
+  body {
+    margin: 0;
+    min-width: 320px;
+    min-height: 100vh;
+    background: #151513;
+    color: #f8f5ee;
+    font-family: Inter, ui-sans-serif, system-ui, Segoe UI, sans-serif;
+  }
+
+  ::selection {
+    background: rgba(255, 123, 85, 0.38);
+  }
+}
+
+@layer components {
+  .panel {
+    @apply rounded-lg border border-white/10 bg-ink-900/95 shadow-executive;
+  }
+
+  .panel-soft {
+    @apply rounded-lg border border-white/10 bg-ink-850/95;
+  }
+
+  .tiny-label {
+    @apply text-[10px] font-semibold uppercase tracking-[0.08em] text-stone-400;
+  }
+
+  .metric-value {
+    @apply text-[24px] font-black leading-none text-stone-50 md:text-[27px];
+  }
+
+  .scrollbar-dark {
+    scrollbar-color: rgba(255, 123, 85, .55) rgba(255,255,255,.05);
+    scrollbar-width: thin;
+  }
+
+  .scrollbar-dark::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+
+  .scrollbar-dark::-webkit-scrollbar-track {
+    background: rgba(255,255,255,.05);
+    border-radius: 999px;
+  }
+
+  .scrollbar-dark::-webkit-scrollbar-thumb {
+    background: linear-gradient(180deg, #ff7b55, #9f5a43);
+    border-radius: 999px;
+  }
+}
