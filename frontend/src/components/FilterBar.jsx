@@ -1,6 +1,6 @@
 import { Filter, RotateCcw } from "lucide-react";
 
-function FilterSelect({ label, value, onChange, options, allLabel }) {
+function FilterSelect({ label, value, onChange, options = [], allLabel }) {
   return (
     <label className="flex min-w-0 flex-col gap-1">
       <span className="tiny-label">{label}</span>
@@ -22,8 +22,10 @@ function FilterSelect({ label, value, onChange, options, allLabel }) {
 
 export default function FilterBar({ filters, setFilters, options }) {
   const update = (key, value) => setFilters((current) => ({ ...current, [key]: value }));
+  const defaultPeriod = options.periods?.[0] || "Todos";
   const reset = () =>
     setFilters({
+      period: defaultPeriod,
       company: "Todas",
       businessCenter: "Todos",
       workerType: "Todos",
@@ -37,7 +39,14 @@ export default function FilterBar({ filters, setFilters, options }) {
           <Filter size={15} className="text-flame-400" />
           <span className="tiny-label text-stone-200">Filtros</span>
         </div>
-        <div className="grid gap-2 sm:grid-cols-2 xl:grid-cols-4">
+        <div className="grid gap-2 sm:grid-cols-2 xl:grid-cols-5">
+          <FilterSelect
+            label="Periodo"
+            value={filters.period}
+            onChange={(value) => update("period", value)}
+            options={options.periods}
+            allLabel="Todos"
+          />
           <FilterSelect
             label="Empresa"
             value={filters.company}

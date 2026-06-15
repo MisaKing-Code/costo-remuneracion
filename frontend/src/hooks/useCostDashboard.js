@@ -2,15 +2,17 @@ import { useMemo, useState } from "react";
 import { getMaintenanceCostDataset } from "../services/legacy/maintenanceCostService";
 import { costBreakdown, getDashboardStats, groupByCost, uniqueValues } from "../utils/analytics";
 
-const defaultFilters = {
-  company: "Todas",
-  businessCenter: "Todos",
-  workerType: "Todos",
-  contract: "Todos",
-};
+function defaultFilters(period = "Todos") {
+  return {
+    period,
+    company: "Todas",
+    businessCenter: "Todos",
+    workerType: "Todos",
+    contract: "Todos",
+  };
+}
 
 export function useCostDashboard() {
-  const [filters, setFilters] = useState(defaultFilters);
   const dataset = getMaintenanceCostDataset();
   const {
     isDatasetValid = false,
@@ -21,23 +23,31 @@ export function useCostDashboard() {
   const records = Array.isArray(datasetRecords) ? datasetRecords : [];
   const metadata = datasetMetadata && typeof datasetMetadata === "object" && !Array.isArray(datasetMetadata) ? datasetMetadata : {};
 
+  const periodOptions = useMemo(
+    () => uniqueValues(records, "Periodo").sort((a, b) => String(b).localeCompare(String(a), "es")),
+    [records],
+  );
+  const [filters, setFilters] = useState(() => defaultFilters(periodOptions[0] || "Todos"));
+
   const options = useMemo(
     () => ({
+      periods: periodOptions,
       companies: uniqueValues(records, "Nombre_Sociedad"),
       businessCenters: uniqueValues(records, "Centro_de_Negocio"),
       workerTypes: uniqueValues(records, "Tipo_Trabajador"),
       contracts: uniqueValues(records, "Contrato_Trabajador"),
     }),
-    [records],
+    [periodOptions, records],
   );
 
   const filteredRecords = useMemo(() => {
     return records.filter((item) => {
+      const byPeriod = filters.period === "Todos" || item.Periodo === filters.period;
       const byCompany = filters.company === "Todas" || item.Nombre_Sociedad === filters.company;
       const byBusinessCenter = filters.businessCenter === "Todos" || item.Centro_de_Negocio === filters.businessCenter;
       const byType = filters.workerType === "Todos" || item.Tipo_Trabajador === filters.workerType;
       const byContract = filters.contract === "Todos" || item.Contrato_Trabajador === filters.contract;
-      return byCompany && byBusinessCenter && byType && byContract;
+      return byPeriod && byCompany && byBusinessCenter && byType && byContract;
     });
   }, [filters, records]);
 
