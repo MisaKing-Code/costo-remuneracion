@@ -1,5 +1,5 @@
 Reporte adapter DW V2 -> contrato legacy dashboard
-Generado: 2026-06-15T14:39:34
+Generado: 2026-06-15T18:56:31
 
 Archivos de entrada:
 - fact_remuneraciones: data\datawarehouse\v2\facts\fact_remuneraciones_mensual.csv
@@ -22,7 +22,7 @@ Metadata de salida:
 - Total costo: 2620369575
 
 Campos generados:
-- RUT_Sociedad, Nombre_Sociedad, RUT_Trabajador, Nombre_Trabajador, Centro_de_Negocio, Cargo, Tipo_Trabajador, Contrato_Trabajador, Total_Haberes, Haberes_Imponibles, AFC_Empresa, Mutual, SIS, Seguro_Social, Expectativa_de_Vida, Asignación_Familiar, Total_Costo, Empresa_Corta
+- RUT_Sociedad, Nombre_Sociedad, RUT_Trabajador, Nombre_Trabajador, Centro_de_Negocio, Cargo, Tipo_Trabajador, Contrato_Trabajador, Periodo, Total_Haberes, Haberes_Imponibles, AFC_Empresa, Mutual, SIS, Seguro_Social, Expectativa_de_Vida, Asignación_Familiar, Total_Costo, Empresa_Corta
 
 Fallbacks aplicados:
 - RUT_Sociedad: 1735

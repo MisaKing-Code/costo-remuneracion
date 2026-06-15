@@ -29,6 +29,7 @@ LEGACY_COLUMNS = [
     "Cargo",
     "Tipo_Trabajador",
     "Contrato_Trabajador",
+    "Periodo",
     "Total_Haberes",
     "Haberes_Imponibles",
     "AFC_Empresa",
@@ -214,6 +215,7 @@ def build_legacy_records(merged, warnings):
     output["Cargo"] = merged["cargo"].map(lambda value: title_text(value))
     output["Tipo_Trabajador"] = merged["tipo_trabajador"].map(lambda value: title_text(value))
     output["Contrato_Trabajador"] = merged["tipo_contratacion"].map(lambda value: title_text(value))
+    output["Periodo"] = merged["periodo"].map(lambda value: normalize_text(value))
 
     for legacy_field, source_field in MONEY_FIELD_MAP.items():
         output[legacy_field] = coerce_money(merged[source_field])
