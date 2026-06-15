@@ -1,5 +1,5 @@
 Reporte adapter DW V2 -> contrato legacy dashboard
-Generado: 2026-06-15T19:02:30
+Generado: 2026-06-15T19:12:26
 
 Archivos de entrada:
 - fact_remuneraciones: data\datawarehouse\v2\facts\fact_remuneraciones_mensual.csv
@@ -10,6 +10,7 @@ Archivos de entrada:
 - dim_cargo: data\datawarehouse\v2\dimensions\dim_cargo.csv
 - dim_contrato: data\datawarehouse\v2\dimensions\dim_contrato.csv
 - dim_estado_laboral: data\datawarehouse\v2\dimensions\dim_estado_laboral.csv
+- dim_company: data\datawarehouse\v2\dimensions\dim_company.csv
 
 Archivo de salida:
 - frontend\src\data\generated\maintenanceCostData.dw_v2.json
@@ -24,10 +25,15 @@ Metadata de salida:
 Campos generados:
 - RUT_Sociedad, Nombre_Sociedad, RUT_Trabajador, Nombre_Trabajador, Centro_de_Negocio, Cargo, Tipo_Trabajador, Contrato_Trabajador, Periodo, Total_Haberes, Haberes_Imponibles, AFC_Empresa, Mutual, SIS, Seguro_Social, Expectativa_de_Vida, Asignación_Familiar, Total_Costo, Empresa_Corta
 
+Sociedades mapeadas:
+- Registros con match en dim_company: 1735
+- Registros sin match en dim_company: 0
+- Sociedades: LCM, LTDA, SPA, SPA_CC, SPA_MC
+
 Fallbacks aplicados:
 - RUT_Sociedad: 1735
-- Nombre_Sociedad: 1735
-- Empresa_Corta: 1735
+- Nombre_Sociedad: 0
+- Empresa_Corta: 0
 - Cargo: 0
 - Tipo_Trabajador: 0
 - Contrato_Trabajador: 0
@@ -35,8 +41,6 @@ Fallbacks aplicados:
 Advertencias:
 - 4 filas de dotacion no tienen remuneracion equivalente.
 - Fallback RUT_Sociedad='Sin dato' aplicado a 1735 registros.
-- Fallback Nombre_Sociedad usando codigo de sociedad DW V2 aplicado a 1735 registros.
-- Fallback Empresa_Corta derivado desde Nombre_Sociedad aplicado a 1735 registros.
 
 Errores:
 - Sin errores.

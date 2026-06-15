@@ -27,7 +27,7 @@
       "Total_Costo",
       "Empresa_Corta"
     ],
-    "generatedAt": "2026-06-15T19:02:30",
+    "generatedAt": "2026-06-15T19:12:26",
     "schemaVersion": "legacy-from-dw-v2.1",
     "sourceSheet": "fact_remuneraciones_mensual",
     "recordCount": 1735
@@ -33778,7 +33778,7 @@
       "Expectativa_de_Vida": 4455,
       "Asignación_Familiar": 0,
       "Total_Costo": 546316,
-      "Empresa_Corta": "SPA CC"
+      "Empresa_Corta": "SPA_CC"
     },
     {
       "RUT_Sociedad": "Sin dato",
@@ -33799,7 +33799,7 @@
       "Expectativa_de_Vida": 6514,
       "Asignación_Familiar": 0,
       "Total_Costo": 799034,
-      "Empresa_Corta": "SPA CC"
+      "Empresa_Corta": "SPA_CC"
     },
     {
       "RUT_Sociedad": "Sin dato",
@@ -33820,7 +33820,7 @@
       "Expectativa_de_Vida": 6308,
       "Asignación_Familiar": 0,
       "Total_Costo": 773760,
-      "Empresa_Corta": "SPA CC"
+      "Empresa_Corta": "SPA_CC"
     },
     {
       "RUT_Sociedad": "Sin dato",
@@ -33841,7 +33841,7 @@
       "Expectativa_de_Vida": 4323,
       "Asignación_Familiar": 0,
       "Total_Costo": 530704,
-      "Empresa_Corta": "SPA CC"
+      "Empresa_Corta": "SPA_CC"
     },
     {
       "RUT_Sociedad": "Sin dato",
@@ -33862,7 +33862,7 @@
       "Expectativa_de_Vida": 4636,
       "Asignación_Familiar": 0,
       "Total_Costo": 646371,
-      "Empresa_Corta": "SPA CC"
+      "Empresa_Corta": "SPA_CC"
     },
     {
       "RUT_Sociedad": "Sin dato",
@@ -33883,7 +33883,7 @@
       "Expectativa_de_Vida": 1235,
       "Asignación_Familiar": 0,
       "Total_Costo": 153739,
-      "Empresa_Corta": "SPA CC"
+      "Empresa_Corta": "SPA_CC"
     },
     {
       "RUT_Sociedad": "Sin dato",
@@ -33904,7 +33904,7 @@
       "Expectativa_de_Vida": 6080,
       "Asignación_Familiar": 13505,
       "Total_Costo": 788379,
-      "Empresa_Corta": "SPA CC"
+      "Empresa_Corta": "SPA_CC"
     },
     {
       "RUT_Sociedad": "Sin dato",
@@ -33925,7 +33925,7 @@
       "Expectativa_de_Vida": 6415,
       "Asignación_Familiar": 13505,
       "Total_Costo": 832800,
-      "Empresa_Corta": "SPA CC"
+      "Empresa_Corta": "SPA_CC"
     },
     {
       "RUT_Sociedad": "Sin dato",
@@ -33946,7 +33946,7 @@
       "Expectativa_de_Vida": 6535,
       "Asignación_Familiar": 13505,
       "Total_Costo": 845299,
-      "Empresa_Corta": "SPA CC"
+      "Empresa_Corta": "SPA_CC"
     },
     {
       "RUT_Sociedad": "Sin dato",
@@ -33967,7 +33967,7 @@
       "Expectativa_de_Vida": 6291,
       "Asignación_Familiar": 13505,
       "Total_Costo": 816379,
-      "Empresa_Corta": "SPA CC"
+      "Empresa_Corta": "SPA_CC"
     },
     {
       "RUT_Sociedad": "Sin dato",
@@ -33988,7 +33988,7 @@
       "Expectativa_de_Vida": 6091,
       "Asignación_Familiar": 27010,
       "Total_Costo": 794302,
-      "Empresa_Corta": "SPA CC"
+      "Empresa_Corta": "SPA_CC"
     },
     {
       "RUT_Sociedad": "Sin dato",
@@ -34009,7 +34009,7 @@
       "Expectativa_de_Vida": 2059,
       "Asignación_Familiar": 0,
       "Total_Costo": 256233,
-      "Empresa_Corta": "SPA CC"
+      "Empresa_Corta": "SPA_CC"
     },
     {
       "RUT_Sociedad": "Sin dato",
@@ -34030,7 +34030,7 @@
       "Expectativa_de_Vida": 5765,
       "Asignación_Familiar": 0,
       "Total_Costo": 717452,
-      "Empresa_Corta": "SPA CC"
+      "Empresa_Corta": "SPA_CC"
     },
     {
       "RUT_Sociedad": "Sin dato",
@@ -34051,7 +34051,7 @@
       "Expectativa_de_Vida": 8393,
       "Asignación_Familiar": 0,
       "Total_Costo": 1263675,
-      "Empresa_Corta": "SPA CC"
+      "Empresa_Corta": "SPA_CC"
     },
     {
       "RUT_Sociedad": "Sin dato",
@@ -34072,7 +34072,7 @@
       "Expectativa_de_Vida": 8325,
       "Asignación_Familiar": 0,
       "Total_Costo": 1255511,
-      "Empresa_Corta": "SPA CC"
+      "Empresa_Corta": "SPA_CC"
     },
     {
       "RUT_Sociedad": "Sin dato",
@@ -34093,7 +34093,7 @@
       "Expectativa_de_Vida": 8325,
       "Asignación_Familiar": 0,
       "Total_Costo": 1255511,
-      "Empresa_Corta": "SPA CC"
+      "Empresa_Corta": "SPA_CC"
     },
     {
       "RUT_Sociedad": "Sin dato",
@@ -34114,7 +34114,7 @@
       "Expectativa_de_Vida": 10751,
       "Asignación_Familiar": 0,
       "Total_Costo": 1548778,
-      "Empresa_Corta": "SPA CC"
+      "Empresa_Corta": "SPA_CC"
     },
     {
       "RUT_Sociedad": "Sin dato",
@@ -34135,7 +34135,7 @@
       "Expectativa_de_Vida": 8833,
       "Asignación_Familiar": 0,
       "Total_Costo": 1317518,
-      "Empresa_Corta": "SPA CC"
+      "Empresa_Corta": "SPA_CC"
     },
     {
       "RUT_Sociedad": "Sin dato",
@@ -34156,7 +34156,7 @@
       "Expectativa_de_Vida": 7189,
       "Asignación_Familiar": 0,
       "Total_Costo": 926005,
-      "Empresa_Corta": "SPA CC"
+      "Empresa_Corta": "SPA_CC"
     },
     {
       "RUT_Sociedad": "Sin dato",
@@ -34177,7 +34177,7 @@
       "Expectativa_de_Vida": 6851,
       "Asignación_Familiar": 0,
       "Total_Costo": 885346,
-      "Empresa_Corta": "SPA CC"
+      "Empresa_Corta": "SPA_CC"
     },
     {
       "RUT_Sociedad": "Sin dato",
@@ -34198,7 +34198,7 @@
       "Expectativa_de_Vida": 6851,
       "Asignación_Familiar": 0,
       "Total_Costo": 885346,
-      "Empresa_Corta": "SPA CC"
+      "Empresa_Corta": "SPA_CC"
     },
     {
       "RUT_Sociedad": "Sin dato",
@@ -34219,7 +34219,7 @@
       "Expectativa_de_Vida": 7160,
       "Asignación_Familiar": 0,
       "Total_Costo": 923193,
-      "Empresa_Corta": "SPA CC"
+      "Empresa_Corta": "SPA_CC"
     },
     {
       "RUT_Sociedad": "Sin dato",
@@ -34240,7 +34240,7 @@
       "Expectativa_de_Vida": 7342,
       "Asignación_Familiar": 0,
       "Total_Costo": 943093,
-      "Empresa_Corta": "SPA CC"
+      "Empresa_Corta": "SPA_CC"
     },
     {
       "RUT_Sociedad": "Sin dato",
@@ -34261,7 +34261,7 @@
       "Expectativa_de_Vida": 412,
       "Asignación_Familiar": 0,
       "Total_Costo": 51212,
-      "Empresa_Corta": "SPA CC"
+      "Empresa_Corta": "SPA_CC"
     },
     {
       "RUT_Sociedad": "Sin dato",
@@ -34282,7 +34282,7 @@
       "Expectativa_de_Vida": 6164,
       "Asignación_Familiar": 0,
       "Total_Costo": 767184,
-      "Empresa_Corta": "SPA CC"
+      "Empresa_Corta": "SPA_CC"
     },
     {
       "RUT_Sociedad": "Sin dato",
@@ -34303,7 +34303,7 @@
       "Expectativa_de_Vida": 6413,
       "Asignación_Familiar": 0,
       "Total_Costo": 797362,
-      "Empresa_Corta": "SPA CC"
+      "Empresa_Corta": "SPA_CC"
     },
     {
       "RUT_Sociedad": "Sin dato",
@@ -34324,7 +34324,7 @@
       "Expectativa_de_Vida": 6405,
       "Asignación_Familiar": 0,
       "Total_Costo": 829633,
-      "Empresa_Corta": "SPA CC"
+      "Empresa_Corta": "SPA_CC"
     },
     {
       "RUT_Sociedad": "Sin dato",
@@ -34345,7 +34345,7 @@
       "Expectativa_de_Vida": 6743,
       "Asignación_Familiar": 0,
       "Total_Costo": 870291,
-      "Empresa_Corta": "SPA CC"
+      "Empresa_Corta": "SPA_CC"
     },
     {
       "RUT_Sociedad": "Sin dato",
@@ -34366,7 +34366,7 @@
       "Expectativa_de_Vida": 6743,
       "Asignación_Familiar": 0,
       "Total_Costo": 870291,
-      "Empresa_Corta": "SPA CC"
+      "Empresa_Corta": "SPA_CC"
     },
     {
       "RUT_Sociedad": "Sin dato",
@@ -34387,7 +34387,7 @@
       "Expectativa_de_Vida": 6475,
       "Asignación_Familiar": 0,
       "Total_Costo": 840584,
-      "Empresa_Corta": "SPA CC"
+      "Empresa_Corta": "SPA_CC"
     },
     {
       "RUT_Sociedad": "Sin dato",
@@ -34408,7 +34408,7 @@
       "Expectativa_de_Vida": 7554,
       "Asignación_Familiar": 0,
       "Total_Costo": 970694,
-      "Empresa_Corta": "SPA CC"
+      "Empresa_Corta": "SPA_CC"
     },
     {
       "RUT_Sociedad": "Sin dato",
@@ -34429,7 +34429,7 @@
       "Expectativa_de_Vida": 6851,
       "Asignación_Familiar": 13505,
       "Total_Costo": 885346,
-      "Empresa_Corta": "SPA CC"
+      "Empresa_Corta": "SPA_CC"
     },
     {
       "RUT_Sociedad": "Sin dato",
@@ -34450,7 +34450,7 @@
       "Expectativa_de_Vida": 6514,
       "Asignación_Familiar": 13505,
       "Total_Costo": 844691,
-      "Empresa_Corta": "SPA CC"
+      "Empresa_Corta": "SPA_CC"
     },
     {
       "RUT_Sociedad": "Sin dato",
@@ -34471,7 +34471,7 @@
       "Expectativa_de_Vida": 7189,
       "Asignación_Familiar": 13505,
       "Total_Costo": 926005,
-      "Empresa_Corta": "SPA CC"
+      "Empresa_Corta": "SPA_CC"
     },
     {
       "RUT_Sociedad": "Sin dato",
@@ -34492,7 +34492,7 @@
       "Expectativa_de_Vida": 7070,
       "Asignación_Familiar": 13505,
       "Total_Costo": 908284,
-      "Empresa_Corta": "SPA CC"
+      "Empresa_Corta": "SPA_CC"
     },
     {
       "RUT_Sociedad": "Sin dato",
@@ -34513,7 +34513,7 @@
       "Expectativa_de_Vida": 9558,
       "Asignación_Familiar": 13505,
       "Total_Costo": 1210283,
-      "Empresa_Corta": "SPA CC"
+      "Empresa_Corta": "SPA_CC"
     },
     {
       "RUT_Sociedad": "Sin dato",
@@ -34534,7 +34534,7 @@
       "Expectativa_de_Vida": 6215,
       "Asignación_Familiar": 0,
       "Total_Costo": 761211,
-      "Empresa_Corta": "SPA CC"
+      "Empresa_Corta": "SPA_CC"
     },
     {
       "RUT_Sociedad": "Sin dato",
@@ -34555,7 +34555,7 @@
       "Expectativa_de_Vida": 6413,
       "Asignación_Familiar": 0,
       "Total_Costo": 784994,
-      "Empresa_Corta": "SPA CC"
+      "Empresa_Corta": "SPA_CC"
     },
     {
       "RUT_Sociedad": "Sin dato",
@@ -34576,7 +34576,7 @@
       "Expectativa_de_Vida": 6413,
       "Asignación_Familiar": 0,
       "Total_Costo": 784994,
-      "Empresa_Corta": "SPA CC"
+      "Empresa_Corta": "SPA_CC"
     },
     {
       "RUT_Sociedad": "Sin dato",
@@ -34597,7 +34597,7 @@
       "Expectativa_de_Vida": 6750,
       "Asignación_Familiar": 0,
       "Total_Costo": 826250,
-      "Empresa_Corta": "SPA CC"
+      "Empresa_Corta": "SPA_CC"
     },
     {
       "RUT_Sociedad": "Sin dato",
@@ -34618,7 +34618,7 @@
       "Expectativa_de_Vida": 6713,
       "Asignación_Familiar": 0,
       "Total_Costo": 821783,
-      "Empresa_Corta": "SPA CC"
+      "Empresa_Corta": "SPA_CC"
     },
     {
       "RUT_Sociedad": "Sin dato",
@@ -34639,7 +34639,7 @@
       "Expectativa_de_Vida": 6314,
       "Asignación_Familiar": 0,
       "Total_Costo": 783603,
-      "Empresa_Corta": "SPA CC"
+      "Empresa_Corta": "SPA_CC"
     },
     {
       "RUT_Sociedad": "Sin dato",
@@ -34660,7 +34660,7 @@
       "Expectativa_de_Vida": 6536,
       "Asignación_Familiar": 0,
       "Total_Costo": 809634,
-      "Empresa_Corta": "SPA CC"
+      "Empresa_Corta": "SPA_CC"
     },
     {
       "RUT_Sociedad": "Sin dato",
@@ -34681,7 +34681,7 @@
       "Expectativa_de_Vida": 6323,
       "Asignación_Familiar": 0,
       "Total_Costo": 783118,
-      "Empresa_Corta": "SPA CC"
+      "Empresa_Corta": "SPA_CC"
     },
     {
       "RUT_Sociedad": "Sin dato",
@@ -34702,7 +34702,7 @@
       "Expectativa_de_Vida": 6420,
       "Asignación_Familiar": 0,
       "Total_Costo": 796211,
-      "Empresa_Corta": "SPA CC"
+      "Empresa_Corta": "SPA_CC"
     },
     {
       "RUT_Sociedad": "Sin dato",
@@ -34723,7 +34723,7 @@
       "Expectativa_de_Vida": 6335,
       "Asignación_Familiar": 0,
       "Total_Costo": 786721,
-      "Empresa_Corta": "SPA CC"
+      "Empresa_Corta": "SPA_CC"
     },
     {
       "RUT_Sociedad": "Sin dato",
@@ -34744,7 +34744,7 @@
       "Expectativa_de_Vida": 3426,
       "Asignación_Familiar": 0,
       "Total_Costo": 419959,
-      "Empresa_Corta": "SPA CC"
+      "Empresa_Corta": "SPA_CC"
     },
     {
       "RUT_Sociedad": "Sin dato",
@@ -34765,7 +34765,7 @@
       "Expectativa_de_Vida": 6941,
       "Asignación_Familiar": 0,
       "Total_Costo": 1006188,
-      "Empresa_Corta": "SPA CC"
+      "Empresa_Corta": "SPA_CC"
     },
     {
       "RUT_Sociedad": "Sin dato",
@@ -34786,7 +34786,7 @@
       "Expectativa_de_Vida": 6941,
       "Asignación_Familiar": 0,
       "Total_Costo": 1006188,
-      "Empresa_Corta": "SPA CC"
+      "Empresa_Corta": "SPA_CC"
     },
     {
       "RUT_Sociedad": "Sin dato",
@@ -34807,7 +34807,7 @@
       "Expectativa_de_Vida": 6941,
       "Asignación_Familiar": 0,
       "Total_Costo": 1006188,
-      "Empresa_Corta": "SPA CC"
+      "Empresa_Corta": "SPA_CC"
     },
     {
       "RUT_Sociedad": "Sin dato",
@@ -34828,7 +34828,7 @@
       "Expectativa_de_Vida": 6941,
       "Asignación_Familiar": 0,
       "Total_Costo": 1006805,
-      "Empresa_Corta": "SPA CC"
+      "Empresa_Corta": "SPA_CC"
     },
     {
       "RUT_Sociedad": "Sin dato",
@@ -34849,7 +34849,7 @@
       "Expectativa_de_Vida": 7702,
       "Asignación_Familiar": 0,
       "Total_Costo": 1098578,
-      "Empresa_Corta": "SPA CC"
+      "Empresa_Corta": "SPA_CC"
     },
     {
       "RUT_Sociedad": "Sin dato",
@@ -34870,7 +34870,7 @@
       "Expectativa_de_Vida": 3294,
       "Asignación_Familiar": 0,
       "Total_Costo": 409972,
-      "Empresa_Corta": "SPA CC"
+      "Empresa_Corta": "SPA_CC"
     },
     {
       "RUT_Sociedad": "Sin dato",
@@ -34891,7 +34891,7 @@
       "Expectativa_de_Vida": 6362,
       "Asignación_Familiar": 0,
       "Total_Costo": 791234,
-      "Empresa_Corta": "SPA CC"
+      "Empresa_Corta": "SPA_CC"
     },
     {
       "RUT_Sociedad": "Sin dato",
@@ -34912,7 +34912,7 @@
       "Expectativa_de_Vida": 5047,
       "Asignación_Familiar": 0,
       "Total_Costo": 82480,
-      "Empresa_Corta": "SPA CC"
+      "Empresa_Corta": "SPA_CC"
     },
     {
       "RUT_Sociedad": "Sin dato",
@@ -34933,7 +34933,7 @@
       "Expectativa_de_Vida": 4761,
       "Asignación_Familiar": 0,
       "Total_Costo": 25763,
-      "Empresa_Corta": "SPA CC"
+      "Empresa_Corta": "SPA_CC"
     },
     {
       "RUT_Sociedad": "Sin dato",
@@ -34954,7 +34954,7 @@
       "Expectativa_de_Vida": 4761,
       "Asignación_Familiar": 0,
       "Total_Costo": 25763,
-      "Empresa_Corta": "SPA CC"
+      "Empresa_Corta": "SPA_CC"
     },
     {
       "RUT_Sociedad": "Sin dato",
@@ -34975,7 +34975,7 @@
       "Expectativa_de_Vida": 7211,
       "Asignación_Familiar": 0,
       "Total_Costo": 39661,
-      "Empresa_Corta": "SPA CC"
+      "Empresa_Corta": "SPA_CC"
     },
     {
       "RUT_Sociedad": "Sin dato",
@@ -34996,7 +34996,7 @@
       "Expectativa_de_Vida": 4851,
       "Asignación_Familiar": 0,
       "Total_Costo": 26681,
-      "Empresa_Corta": "SPA CC"
+      "Empresa_Corta": "SPA_CC"
     },
     {
       "RUT_Sociedad": "Sin dato",
@@ -35017,7 +35017,7 @@
       "Expectativa_de_Vida": 6626,
       "Asignación_Familiar": 0,
       "Total_Costo": 858242,
-      "Empresa_Corta": "SPA CC"
+      "Empresa_Corta": "SPA_CC"
     },
     {
       "RUT_Sociedad": "Sin dato",
@@ -35038,7 +35038,7 @@
       "Expectativa_de_Vida": 6117,
       "Asignación_Familiar": 0,
       "Total_Costo": 307230,
-      "Empresa_Corta": "SPA CC"
+      "Empresa_Corta": "SPA_CC"
     },
     {
       "RUT_Sociedad": "Sin dato",
@@ -35059,7 +35059,7 @@
       "Expectativa_de_Vida": 6514,
       "Asignación_Familiar": 0,
       "Total_Costo": 35247,
-      "Empresa_Corta": "SPA CC"
+      "Empresa_Corta": "SPA_CC"
     },
     {
       "RUT_Sociedad": "Sin dato",
@@ -35080,7 +35080,7 @@
       "Expectativa_de_Vida": 5754,
       "Asignación_Familiar": 0,
       "Total_Costo": 525081,
-      "Empresa_Corta": "SPA CC"
+      "Empresa_Corta": "SPA_CC"
     },
     {
       "RUT_Sociedad": "Sin dato",
@@ -35101,7 +35101,7 @@
       "Expectativa_de_Vida": 6964,
       "Asignación_Familiar": 0,
       "Total_Costo": 899519,
-      "Empresa_Corta": "SPA CC"
+      "Empresa_Corta": "SPA_CC"
     },
     {
       "RUT_Sociedad": "Sin dato",
@@ -35122,7 +35122,7 @@
       "Expectativa_de_Vida": 6851,
       "Asignación_Familiar": 0,
       "Total_Costo": 885346,
-      "Empresa_Corta": "SPA CC"
+      "Empresa_Corta": "SPA_CC"
     },
     {
       "RUT_Sociedad": "Sin dato",
@@ -35143,7 +35143,7 @@
       "Expectativa_de_Vida": 6634,
       "Asignación_Familiar": 0,
       "Total_Costo": 857190,
-      "Empresa_Corta": "SPA CC"
+      "Empresa_Corta": "SPA_CC"
     },
     {
       "RUT_Sociedad": "Sin dato",
@@ -35164,7 +35164,7 @@
       "Expectativa_de_Vida": 6703,
       "Asignación_Familiar": 0,
       "Total_Costo": 867510,
-      "Empresa_Corta": "SPA CC"
+      "Empresa_Corta": "SPA_CC"
     },
     {
       "RUT_Sociedad": "Sin dato",
@@ -35185,7 +35185,7 @@
       "Expectativa_de_Vida": 6080,
       "Asignación_Familiar": 0,
       "Total_Costo": 584919,
-      "Empresa_Corta": "SPA CC"
+      "Empresa_Corta": "SPA_CC"
     },
     {
       "RUT_Sociedad": "Sin dato",
@@ -35206,7 +35206,7 @@
       "Expectativa_de_Vida": 6851,
       "Asignación_Familiar": 0,
       "Total_Costo": 885955,
-      "Empresa_Corta": "SPA CC"
+      "Empresa_Corta": "SPA_CC"
     },
     {
       "RUT_Sociedad": "Sin dato",
@@ -35227,7 +35227,7 @@
       "Expectativa_de_Vida": 5970,
       "Asignación_Familiar": 0,
       "Total_Costo": 728897,
-      "Empresa_Corta": "SPA CC"
+      "Empresa_Corta": "SPA_CC"
     },
     {
       "RUT_Sociedad": "Sin dato",
@@ -35248,7 +35248,7 @@
       "Expectativa_de_Vida": 6110,
       "Asignación_Familiar": 0,
       "Total_Costo": 745773,
-      "Empresa_Corta": "SPA CC"
+      "Empresa_Corta": "SPA_CC"
     },
     {
       "RUT_Sociedad": "Sin dato",
@@ -35269,7 +35269,7 @@
       "Expectativa_de_Vida": 6102,
       "Asignación_Familiar": 0,
       "Total_Costo": 744420,
-      "Empresa_Corta": "SPA CC"
+      "Empresa_Corta": "SPA_CC"
     },
     {
       "RUT_Sociedad": "Sin dato",
@@ -35290,7 +35290,7 @@
       "Expectativa_de_Vida": 1853,
       "Asignación_Familiar": 0,
       "Total_Costo": 226374,
-      "Empresa_Corta": "SPA CC"
+      "Empresa_Corta": "SPA_CC"
     },
     {
       "RUT_Sociedad": "Sin dato",
@@ -35311,7 +35311,7 @@
       "Expectativa_de_Vida": 1029,
       "Asignación_Familiar": 0,
       "Total_Costo": 128024,
-      "Empresa_Corta": "SPA CC"
+      "Empresa_Corta": "SPA_CC"
     },
     {
       "RUT_Sociedad": "Sin dato",
@@ -35332,7 +35332,7 @@
       "Expectativa_de_Vida": 6614,
       "Asignación_Familiar": 13505,
       "Total_Costo": 866583,
-      "Empresa_Corta": "SPA CC"
+      "Empresa_Corta": "SPA_CC"
     },
     {
       "RUT_Sociedad": "Sin dato",
@@ -35353,7 +35353,7 @@
       "Expectativa_de_Vida": 4761,
       "Asignación_Familiar": 13505,
       "Total_Costo": 25763,
-      "Empresa_Corta": "SPA CC"
+      "Empresa_Corta": "SPA_CC"
     },
     {
       "RUT_Sociedad": "Sin dato",
@@ -35374,7 +35374,7 @@
       "Expectativa_de_Vida": 6192,
       "Asignación_Familiar": 13505,
       "Total_Costo": 530708,
-      "Empresa_Corta": "SPA CC"
+      "Empresa_Corta": "SPA_CC"
     },
     {
       "RUT_Sociedad": "Sin dato",
@@ -35395,7 +35395,7 @@
       "Expectativa_de_Vida": 6388,
       "Asignación_Familiar": 13505,
       "Total_Costo": 880077,
-      "Empresa_Corta": "SPA CC"
+      "Empresa_Corta": "SPA_CC"
     },
     {
       "RUT_Sociedad": "Sin dato",
@@ -35416,7 +35416,7 @@
       "Expectativa_de_Vida": 6657,
       "Asignación_Familiar": 13505,
       "Total_Costo": 912524,
-      "Empresa_Corta": "SPA CC"
+      "Empresa_Corta": "SPA_CC"
     },
     {
       "RUT_Sociedad": "Sin dato",
@@ -35437,7 +35437,7 @@
       "Expectativa_de_Vida": 4761,
       "Asignación_Familiar": 0,
       "Total_Costo": 25763,
-      "Empresa_Corta": "SPA CC"
+      "Empresa_Corta": "SPA_CC"
     },
     {
       "RUT_Sociedad": "Sin dato",
@@ -35458,7 +35458,7 @@
       "Expectativa_de_Vida": 4761,
       "Asignación_Familiar": 0,
       "Total_Costo": 25763,
-      "Empresa_Corta": "SPA CC"
+      "Empresa_Corta": "SPA_CC"
     },
     {
       "RUT_Sociedad": "Sin dato",
@@ -35479,7 +35479,7 @@
       "Expectativa_de_Vida": 2428,
       "Asignación_Familiar": 0,
       "Total_Costo": 37157,
-      "Empresa_Corta": "SPA CC"
+      "Empresa_Corta": "SPA_CC"
     },
     {
       "RUT_Sociedad": "Sin dato",
@@ -35500,7 +35500,7 @@
       "Expectativa_de_Vida": 0,
       "Asignación_Familiar": 0,
       "Total_Costo": 0,
-      "Empresa_Corta": "SPA CC"
+      "Empresa_Corta": "SPA_CC"
     },
     {
       "RUT_Sociedad": "Sin dato",
@@ -35521,7 +35521,7 @@
       "Expectativa_de_Vida": 1647,
       "Asignación_Familiar": 0,
       "Total_Costo": 204987,
-      "Empresa_Corta": "SPA CC"
+      "Empresa_Corta": "SPA_CC"
     },
     {
       "RUT_Sociedad": "Sin dato",
@@ -35542,7 +35542,7 @@
       "Expectativa_de_Vida": 6514,
       "Asignación_Familiar": 0,
       "Total_Costo": 809034,
-      "Empresa_Corta": "SPA CC"
+      "Empresa_Corta": "SPA_CC"
     },
     {
       "RUT_Sociedad": "Sin dato",
@@ -35563,7 +35563,7 @@
       "Expectativa_de_Vida": 6626,
       "Asignación_Familiar": 0,
       "Total_Costo": 822660,
-      "Empresa_Corta": "SPA CC"
+      "Empresa_Corta": "SPA_CC"
     },
     {
       "RUT_Sociedad": "Sin dato",
@@ -35584,7 +35584,7 @@
       "Expectativa_de_Vida": 6176,
       "Asignación_Familiar": 0,
       "Total_Costo": 768150,
-      "Empresa_Corta": "SPA CC"
+      "Empresa_Corta": "SPA_CC"
     },
     {
       "RUT_Sociedad": "Sin dato",
@@ -35605,7 +35605,7 @@
       "Expectativa_de_Vida": 6851,
       "Asignación_Familiar": 0,
       "Total_Costo": 850523,
-      "Empresa_Corta": "SPA CC"
+      "Empresa_Corta": "SPA_CC"
     },
     {
       "RUT_Sociedad": "Sin dato",
@@ -35626,7 +35626,7 @@
       "Expectativa_de_Vida": 6891,
       "Asignación_Familiar": 0,
       "Total_Costo": 855316,
-      "Empresa_Corta": "SPA CC"
+      "Empresa_Corta": "SPA_CC"
     },
     {
       "RUT_Sociedad": "Sin dato",
@@ -35647,7 +35647,7 @@
       "Expectativa_de_Vida": 5800,
       "Asignación_Familiar": 22007,
       "Total_Costo": 413992,
-      "Empresa_Corta": "SPA CC"
+      "Empresa_Corta": "SPA_CC"
     },
     {
       "RUT_Sociedad": "Sin dato",
@@ -35668,7 +35668,7 @@
       "Expectativa_de_Vida": 4761,
       "Asignación_Familiar": 22007,
       "Total_Costo": 25763,
-      "Empresa_Corta": "SPA CC"
+      "Empresa_Corta": "SPA_CC"
     },
     {
       "RUT_Sociedad": "Sin dato",
@@ -35689,7 +35689,7 @@
       "Expectativa_de_Vida": 4761,
       "Asignación_Familiar": 22007,
       "Total_Costo": 25763,
-      "Empresa_Corta": "SPA CC"
+      "Empresa_Corta": "SPA_CC"
     },
     {
       "RUT_Sociedad": "Sin dato",
@@ -35710,7 +35710,7 @@
       "Expectativa_de_Vida": 4851,
       "Asignación_Familiar": 22007,
       "Total_Costo": 26681,
-      "Empresa_Corta": "SPA CC"
+      "Empresa_Corta": "SPA_CC"
     },
     {
       "RUT_Sociedad": "Sin dato",
@@ -35731,7 +35731,7 @@
       "Expectativa_de_Vida": 6010,
       "Asignación_Familiar": 22007,
       "Total_Costo": 548723,
-      "Empresa_Corta": "SPA CC"
+      "Empresa_Corta": "SPA_CC"
     },
     {
       "RUT_Sociedad": "Sin dato",
@@ -35752,7 +35752,7 @@
       "Expectativa_de_Vida": 10952,
       "Asignación_Familiar": 0,
       "Total_Costo": 1576467,
-      "Empresa_Corta": "SPA CC"
+      "Empresa_Corta": "SPA_CC"
     },
     {
       "RUT_Sociedad": "Sin dato",
@@ -35773,7 +35773,7 @@
       "Expectativa_de_Vida": 3014,
       "Asignación_Familiar": 0,
       "Total_Costo": 373747,
-      "Empresa_Corta": "SPA CC"
+      "Empresa_Corta": "SPA_CC"
     },
     {
       "RUT_Sociedad": "Sin dato",
@@ -35794,7 +35794,7 @@
       "Expectativa_de_Vida": 6176,
       "Asignación_Familiar": 0,
       "Total_Costo": 768150,
-      "Empresa_Corta": "SPA CC"
+      "Empresa_Corta": "SPA_CC"
     },
     {
       "RUT_Sociedad": "Sin dato",
@@ -35815,7 +35815,7 @@
       "Expectativa_de_Vida": 618,
       "Asignación_Familiar": 0,
       "Total_Costo": 76816,
-      "Empresa_Corta": "SPA CC"
+      "Empresa_Corta": "SPA_CC"
     },
     {
       "RUT_Sociedad": "Sin dato",
@@ -35836,7 +35836,7 @@
       "Expectativa_de_Vida": 6514,
       "Asignación_Familiar": 0,
       "Total_Costo": 809034,
-      "Empresa_Corta": "SPA CC"
+      "Empresa_Corta": "SPA_CC"
     },
     {
       "RUT_Sociedad": "Sin dato",
@@ -35857,7 +35857,7 @@
       "Expectativa_de_Vida": 6510,
       "Asignación_Familiar": 0,
       "Total_Costo": 809213,
-      "Empresa_Corta": "SPA CC"
+      "Empresa_Corta": "SPA_CC"
     },
     {
       "RUT_Sociedad": "Sin dato",
@@ -35878,7 +35878,7 @@
       "Expectativa_de_Vida": 6851,
       "Asignación_Familiar": 0,
       "Total_Costo": 850523,
-      "Empresa_Corta": "SPA CC"
+      "Empresa_Corta": "SPA_CC"
     },
     {
       "RUT_Sociedad": "Sin dato",
@@ -35899,7 +35899,7 @@
       "Expectativa_de_Vida": 12254,
       "Asignación_Familiar": 0,
       "Total_Costo": 1596458,
-      "Empresa_Corta": "SPA MC"
+      "Empresa_Corta": "SPA_MC"
     },
     {
       "RUT_Sociedad": "Sin dato",
@@ -35920,7 +35920,7 @@
       "Expectativa_de_Vida": 9231,
       "Asignación_Familiar": 0,
       "Total_Costo": 1240839,
-      "Empresa_Corta": "SPA MC"
+      "Empresa_Corta": "SPA_MC"
     },
     {
       "RUT_Sociedad": "Sin dato",
@@ -35941,7 +35941,7 @@
       "Expectativa_de_Vida": 9700,
       "Asignación_Familiar": 0,
       "Total_Costo": 1296038,
-      "Empresa_Corta": "SPA MC"
+      "Empresa_Corta": "SPA_MC"
     },
     {
       "RUT_Sociedad": "Sin dato",
@@ -35962,7 +35962,7 @@
       "Expectativa_de_Vida": 11657,
       "Asignación_Familiar": 0,
       "Total_Costo": 1527262,
-      "Empresa_Corta": "SPA MC"
+      "Empresa_Corta": "SPA_MC"
     },
     {
       "RUT_Sociedad": "Sin dato",
@@ -35983,7 +35983,7 @@
       "Expectativa_de_Vida": 8879,
       "Asignación_Familiar": 0,
       "Total_Costo": 1200235,
-      "Empresa_Corta": "SPA MC"
+      "Empresa_Corta": "SPA_MC"
     },
     {
       "RUT_Sociedad": "Sin dato",
@@ -36004,7 +36004,7 @@
       "Expectativa_de_Vida": 13444,
       "Asignación_Familiar": 4267,
       "Total_Costo": 1736418,
-      "Empresa_Corta": "SPA MC"
+      "Empresa_Corta": "SPA_MC"
     },
     {
       "RUT_Sociedad": "Sin dato",
@@ -36025,7 +36025,7 @@
       "Expectativa_de_Vida": 8397,
       "Asignación_Familiar": 4267,
       "Total_Costo": 1142771,
-      "Empresa_Corta": "SPA MC"
+      "Empresa_Corta": "SPA_MC"
     },
     {
       "RUT_Sociedad": "Sin dato",
@@ -36046,7 +36046,7 @@
       "Expectativa_de_Vida": 8508,
       "Asignación_Familiar": 4267,
       "Total_Costo": 1155836,
-      "Empresa_Corta": "SPA MC"
+      "Empresa_Corta": "SPA_MC"
     },
     {
       "RUT_Sociedad": "Sin dato",
@@ -36067,7 +36067,7 @@
       "Expectativa_de_Vida": 13175,
       "Asignación_Familiar": 4267,
       "Total_Costo": 1705973,
-      "Empresa_Corta": "SPA MC"
+      "Empresa_Corta": "SPA_MC"
     },
     {
       "RUT_Sociedad": "Sin dato",
@@ -36088,7 +36088,7 @@
       "Expectativa_de_Vida": 8846,
       "Asignación_Familiar": 4267,
       "Total_Costo": 1196353,
-      "Empresa_Corta": "SPA MC"
+      "Empresa_Corta": "SPA_MC"
     },
     {
       "RUT_Sociedad": "Sin dato",
@@ -36109,7 +36109,7 @@
       "Expectativa_de_Vida": 12287,
       "Asignación_Familiar": 0,
       "Total_Costo": 1600390,
-      "Empresa_Corta": "SPA MC"
+      "Empresa_Corta": "SPA_MC"
     },
     {
       "RUT_Sociedad": "Sin dato",
@@ -36130,7 +36130,7 @@
       "Expectativa_de_Vida": 8912,
       "Asignación_Familiar": 0,
       "Total_Costo": 1203377,
-      "Empresa_Corta": "SPA MC"
+      "Empresa_Corta": "SPA_MC"
     },
     {
       "RUT_Sociedad": "Sin dato",
@@ -36151,7 +36151,7 @@
       "Expectativa_de_Vida": 8912,
       "Asignación_Familiar": 0,
       "Total_Costo": 1203377,
-      "Empresa_Corta": "SPA MC"
+      "Empresa_Corta": "SPA_MC"
     },
     {
       "RUT_Sociedad": "Sin dato",
@@ -36172,7 +36172,7 @@
       "Expectativa_de_Vida": 12287,
       "Asignación_Familiar": 0,
       "Total_Costo": 1601482,
-      "Empresa_Corta": "SPA MC"
+      "Empresa_Corta": "SPA_MC"
     },
     {
       "RUT_Sociedad": "Sin dato",
@@ -36193,7 +36193,7 @@
       "Expectativa_de_Vida": 9664,
       "Asignación_Familiar": 0,
       "Total_Costo": 1292711,
-      "Empresa_Corta": "SPA MC"
+      "Empresa_Corta": "SPA_MC"
     },
     {
       "RUT_Sociedad": "Sin dato",
@@ -36214,7 +36214,7 @@
       "Expectativa_de_Vida": 8089,
       "Asignación_Familiar": 0,
       "Total_Costo": 1111900,
-      "Empresa_Corta": "SPA MC"
+      "Empresa_Corta": "SPA_MC"
     },
     {
       "RUT_Sociedad": "Sin dato",
@@ -36235,7 +36235,7 @@
       "Expectativa_de_Vida": 9655,
       "Asignación_Familiar": 0,
       "Total_Costo": 1298078,
-      "Empresa_Corta": "SPA MC"
+      "Empresa_Corta": "SPA_MC"
     },
     {
       "RUT_Sociedad": "Sin dato",
@@ -36256,7 +36256,7 @@
       "Expectativa_de_Vida": 8879,
       "Asignación_Familiar": 0,
       "Total_Costo": 1200235,
-      "Empresa_Corta": "SPA MC"
+      "Empresa_Corta": "SPA_MC"
     },
     {
       "RUT_Sociedad": "Sin dato",
@@ -36277,7 +36277,7 @@
       "Expectativa_de_Vida": 15149,
       "Asignación_Familiar": 0,
       "Total_Costo": 2071972,
-      "Empresa_Corta": "SPA MC"
+      "Empresa_Corta": "SPA_MC"
     },
     {
       "RUT_Sociedad": "Sin dato",
@@ -36298,7 +36298,7 @@
       "Expectativa_de_Vida": 14429,
       "Asignación_Familiar": 0,
       "Total_Costo": 1987276,
-      "Empresa_Corta": "SPA MC"
+      "Empresa_Corta": "SPA_MC"
     },
     {
       "RUT_Sociedad": "Sin dato",
@@ -36319,7 +36319,7 @@
       "Expectativa_de_Vida": 13889,
       "Asignación_Familiar": 0,
       "Total_Costo": 1923754,
-      "Empresa_Corta": "SPA MC"
+      "Empresa_Corta": "SPA_MC"
     },
     {
       "RUT_Sociedad": "Sin dato",
@@ -36340,7 +36340,7 @@
       "Expectativa_de_Vida": 13889,
       "Asignación_Familiar": 0,
       "Total_Costo": 1924988,
-      "Empresa_Corta": "SPA MC"
+      "Empresa_Corta": "SPA_MC"
     },
     {
       "RUT_Sociedad": "Sin dato",
@@ -36361,7 +36361,7 @@
       "Expectativa_de_Vida": 13529,
       "Asignación_Familiar": 0,
       "Total_Costo": 1882608,
-      "Empresa_Corta": "SPA MC"
+      "Empresa_Corta": "SPA_MC"
     },
     {
       "RUT_Sociedad": "Sin dato",
@@ -36382,7 +36382,7 @@
       "Expectativa_de_Vida": 18536,
       "Asignación_Familiar": 0,
       "Total_Costo": 2335477,
-      "Empresa_Corta": "SPA MC"
+      "Empresa_Corta": "SPA_MC"
     },
     {
       "RUT_Sociedad": "Sin dato",
@@ -36403,7 +36403,7 @@
       "Expectativa_de_Vida": 10817,
       "Asignación_Familiar": 0,
       "Total_Costo": 1427445,
-      "Empresa_Corta": "SPA MC"
+      "Empresa_Corta": "SPA_MC"
     },
     {
       "RUT_Sociedad": "Sin dato",
@@ -36424,7 +36424,7 @@
       "Expectativa_de_Vida": 10817,
       "Asignación_Familiar": 0,
       "Total_Costo": 1427445,
-      "Empresa_Corta": "SPA MC"
+      "Empresa_Corta": "SPA_MC"
     },
     {
       "RUT_Sociedad": "Sin dato",
@@ -36445,7 +36445,7 @@
       "Expectativa_de_Vida": 14192,
       "Asignación_Familiar": 0,
       "Total_Costo": 1825719,
-      "Empresa_Corta": "SPA MC"
+      "Empresa_Corta": "SPA_MC"
     },
     {
       "RUT_Sociedad": "Sin dato",
@@ -36466,7 +36466,7 @@
       "Expectativa_de_Vida": 10277,
       "Asignación_Familiar": 0,
       "Total_Costo": 1364837,
-      "Empresa_Corta": "SPA MC"
+      "Empresa_Corta": "SPA_MC"
     }
   ]
 }

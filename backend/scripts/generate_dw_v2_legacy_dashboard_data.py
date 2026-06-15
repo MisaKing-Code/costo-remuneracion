@@ -51,6 +51,7 @@ DATASET_FILES = {
     "dim_cargo": DIMENSIONS_DIR / "dim_cargo.csv",
     "dim_contrato": DIMENSIONS_DIR / "dim_contrato.csv",
     "dim_estado_laboral": DIMENSIONS_DIR / "dim_estado_laboral.csv",
+    "dim_company": DIMENSIONS_DIR / "dim_company.csv",
 }
 
 REQUIRED_COLUMNS = {
@@ -81,6 +82,18 @@ REQUIRED_COLUMNS = {
     "dim_cargo": ["cargo_id", "cargo"],
     "dim_contrato": ["contrato_id", "tipo_contratacion"],
     "dim_estado_laboral": ["estado_laboral_id", "tipo_trabajador"],
+    "dim_company": [
+        "company_id",
+        "sociedad_id",
+        "source_sociedad_code",
+        "rut_sociedad",
+        "legal_name",
+        "display_name",
+        "short_name",
+        "business_group",
+        "is_active",
+        "homologation_status",
+    ],
 }
 
 MONEY_FIELD_MAP = {
@@ -197,6 +210,7 @@ def merge_sources(datasets, warnings, errors):
     merged = merged.merge(datasets["dim_cargo"], how="left", on="cargo_id")
     merged = merged.merge(datasets["dim_contrato"], how="left", on="contrato_id")
     merged = merged.merge(datasets["dim_estado_laboral"], how="left", on="estado_laboral_id")
+    merged = merged.merge(datasets["dim_company"], how="left", on="sociedad_id")
 
     return merged
 
@@ -204,9 +218,12 @@ def merge_sources(datasets, warnings, errors):
 def build_legacy_records(merged, warnings):
     output = pd.DataFrame(index=merged.index)
     source_sociedad = merged["sociedad_dimension"].where(merged["sociedad_dimension"].notna(), merged["sociedad"])
+    source_company_code = merged["source_sociedad_code"].where(merged["source_sociedad_code"].notna(), source_sociedad)
+    company_display = merged["display_name"].where(merged["display_name"].notna(), source_company_code)
+    company_short = merged["short_name"].where(merged["short_name"].notna(), company_display)
 
-    output["RUT_Sociedad"] = "Sin dato"
-    output["Nombre_Sociedad"] = source_sociedad.map(lambda value: normalize_text(value))
+    output["RUT_Sociedad"] = merged["rut_sociedad"].map(lambda value: normalize_text(value))
+    output["Nombre_Sociedad"] = company_display.map(lambda value: normalize_text(value))
     output["RUT_Trabajador"] = merged["rut_trabajador"].where(merged["rut_trabajador"].notna(), merged["rut"]).map(
         lambda value: normalize_text(value)
     )
@@ -220,22 +237,24 @@ def build_legacy_records(merged, warnings):
     for legacy_field, source_field in MONEY_FIELD_MAP.items():
         output[legacy_field] = coerce_money(merged[source_field])
 
-    output["Empresa_Corta"] = output["Nombre_Sociedad"].map(lambda value: normalize_text(value).replace("_", " "))
+    output["Empresa_Corta"] = company_short.map(lambda value: normalize_text(value))
 
     fallback_counts = {
-        "RUT_Sociedad": int(len(output)),
-        "Nombre_Sociedad": int(len(output)),
-        "Empresa_Corta": int(len(output)),
+        "RUT_Sociedad": int((output["RUT_Sociedad"] == "Sin dato").sum()),
+        "Nombre_Sociedad": int((merged["display_name"].isna() | merged["display_name"].astype(str).str.strip().eq("")).sum()),
+        "Empresa_Corta": int((merged["short_name"].isna() | merged["short_name"].astype(str).str.strip().eq("")).sum()),
         "Cargo": int((output["Cargo"] == "Sin dato").sum()),
         "Tipo_Trabajador": int((output["Tipo_Trabajador"] == "Sin dato").sum()),
         "Contrato_Trabajador": int((output["Contrato_Trabajador"] == "Sin dato").sum()),
     }
+    mapped_companies = int(merged["company_id"].notna().sum())
+    unmapped_company_rows = int(merged["company_id"].isna().sum())
 
     if fallback_counts["RUT_Sociedad"]:
         warnings.append(f"Fallback RUT_Sociedad='Sin dato' aplicado a {fallback_counts['RUT_Sociedad']} registros.")
     if fallback_counts["Nombre_Sociedad"]:
         warnings.append(
-            "Fallback Nombre_Sociedad usando codigo de sociedad DW V2 aplicado a "
+            "Fallback Nombre_Sociedad usando source_sociedad_code aplicado a "
             f"{fallback_counts['Nombre_Sociedad']} registros."
         )
     if fallback_counts["Empresa_Corta"]:
@@ -243,13 +262,21 @@ def build_legacy_records(merged, warnings):
             "Fallback Empresa_Corta derivado desde Nombre_Sociedad aplicado a "
             f"{fallback_counts['Empresa_Corta']} registros."
         )
+    if unmapped_company_rows:
+        warnings.append(f"{unmapped_company_rows} registros no tuvieron match en dim_company.")
 
     output = output[LEGACY_COLUMNS].sort_values(
         ["Nombre_Sociedad", "Centro_de_Negocio", "Nombre_Trabajador", "RUT_Trabajador"],
         kind="mergesort",
     )
 
-    return output, fallback_counts
+    company_mapping = {
+        "mapped_rows": mapped_companies,
+        "unmapped_rows": unmapped_company_rows,
+        "companies": sorted(output["Nombre_Sociedad"].dropna().astype(str).unique().tolist()),
+    }
+
+    return output, fallback_counts, company_mapping
 
 
 def validate_output(output):
@@ -302,7 +329,7 @@ def write_json(output, metadata):
     logging.info("JSON generado: %s", OUTPUT_PATH)
 
 
-def write_report(metadata, fallback_counts, warnings, errors):
+def write_report(metadata, fallback_counts, company_mapping, warnings, errors):
     QUALITY_DIR.mkdir(parents=True, exist_ok=True)
     lines = [
         "Reporte adapter DW V2 -> contrato legacy dashboard",
@@ -328,6 +355,11 @@ def write_report(metadata, fallback_counts, warnings, errors):
             "",
             "Campos generados:",
             "- " + ", ".join(LEGACY_COLUMNS),
+            "",
+            "Sociedades mapeadas:",
+            f"- Registros con match en dim_company: {company_mapping['mapped_rows']}",
+            f"- Registros sin match en dim_company: {company_mapping['unmapped_rows']}",
+            "- Sociedades: " + ", ".join(company_mapping["companies"]),
             "",
             "Fallbacks aplicados:",
         ]
@@ -358,20 +390,21 @@ def generate():
     errors = []
     datasets = load_datasets()
     merged = merge_sources(datasets, warnings, errors)
-    output, fallback_counts = build_legacy_records(merged, warnings)
+    output, fallback_counts, company_mapping = build_legacy_records(merged, warnings)
     output.attrs["periods"] = sorted(datasets["fact_remuneraciones"]["periodo"].dropna().astype(str).unique().tolist())
     validate_output(output)
     metadata = build_metadata(output)
     write_json(output, metadata)
-    write_report(metadata, fallback_counts, warnings, errors)
-    return metadata, fallback_counts, warnings, errors
+    write_report(metadata, fallback_counts, company_mapping, warnings, errors)
+    return metadata, fallback_counts, company_mapping, warnings, errors
 
 
 def main():
     configure_logging()
     logging.info("Iniciando generacion de JSON legacy desde DW V2")
-    metadata, fallback_counts, warnings, errors = generate()
+    metadata, fallback_counts, company_mapping, warnings, errors = generate()
     logging.info("Registros generados: %s", metadata["recordCount"])
+    logging.info("Sociedades mapeadas: %s", ", ".join(company_mapping["companies"]))
     logging.info("Fallbacks aplicados: %s", fallback_counts)
     if warnings:
         logging.warning("Advertencias: %s", " | ".join(warnings))
