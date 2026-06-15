@@ -1,0 +1,79 @@
+Auditoria comparativa dashboard legacy vs DW V2
+Generado: 2026-06-15T14:15:15
+
+Archivos comparados:
+- Legacy: frontend\src\data\legacy\maintenanceCostData.json
+- DW V2: frontend\src\data\generated\maintenanceCostData.dw_v2.json
+
+=== Resumen comparativo ===
+Metrica | Legacy | DW V2 | Diferencia DW V2 - Legacy
+--- | ---: | ---: | ---:
+Cantidad de registros | 31 | 1735 | 1704
+Trabajadores unicos | 31 | 398 | 367
+Empresas unicas | 3 | 5 | 2
+Centros de negocio unicos | 1 | 56 | 55
+Total haberes | 54442062 | 2500573479 | 2446131417
+Total costo | 57106410 | 2620369575 | 2563263165
+
+Periodos:
+- Legacy minimo: Período vigente
+- Legacy maximo: Período vigente
+- Legacy fuente periodo: metadata.period
+- DW V2 minimo: 2026-01 a 2026-05
+- DW V2 maximo: 2026-01 a 2026-05
+- DW V2 fuente periodo: metadata.period
+
+=== Campos ===
+Campos presentes en ambos (18): AFC_Empresa, Asignación_Familiar, Cargo, Centro_de_Negocio, Contrato_Trabajador, Empresa_Corta, Expectativa_de_Vida, Haberes_Imponibles, Mutual, Nombre_Sociedad, Nombre_Trabajador, RUT_Sociedad, RUT_Trabajador, SIS, Seguro_Social, Tipo_Trabajador, Total_Costo, Total_Haberes
+Campos solo en legacy (0): Ninguno
+Campos solo en DW V2 (0): Ninguno
+
+=== Nulos por campos criticos ===
+Campo | Legacy | DW V2
+--- | ---: | ---:
+Nombre_Sociedad | 0 | 0
+Centro_de_Negocio | 0 | 0
+Tipo_Trabajador | 0 | 0
+Contrato_Trabajador | 0 | 0
+RUT_Trabajador | 0 | 0
+Nombre_Trabajador | 0 | 0
+Cargo | 0 | 0
+Total_Haberes | 0 | 0
+Haberes_Imponibles | 0 | 0
+AFC_Empresa | 0 | 0
+Mutual | 0 | 0
+SIS | 0 | 0
+Seguro_Social | 0 | 0
+Expectativa_de_Vida | 0 | 0
+Asignación_Familiar | 0 | 0
+Total_Costo | 0 | 0
+Empresa_Corta | 0 | 0
+
+=== Tipos de datos de campos criticos ===
+Campo | Legacy | DW V2
+--- | --- | ---
+Nombre_Sociedad | text | text
+Centro_de_Negocio | text | text
+Tipo_Trabajador | text | text
+Contrato_Trabajador | text | text
+RUT_Trabajador | text | text
+Nombre_Trabajador | text | text
+Cargo | text | text
+Total_Haberes | int64 | int64
+Haberes_Imponibles | int64 | int64
+AFC_Empresa | int64 | int64
+Mutual | int64 | int64
+SIS | int64 | int64
+Seguro_Social | int64 | int64
+Expectativa_de_Vida | int64 | int64
+Asignación_Familiar | int64 | int64
+Total_Costo | int64 | int64
+Empresa_Corta | text | text
+
+=== Diferencias criticas ===
+- Diferencia de universo: legacy tiene 31 registros y DW V2 tiene 1735.
+- Diferencia de centros de negocio unicos: legacy=1 vs DW V2=56.
+- Diferencia de Total_Costo: legacy=57106410 vs DW V2=2620369575.
+
+=== Recomendacion ===
+APTO CON OBSERVACIONES solo si el cambio de universo legacy -> DW V2 esta aprobado por negocio.
