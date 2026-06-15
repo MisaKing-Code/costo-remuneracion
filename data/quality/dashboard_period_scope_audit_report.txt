@@ -1,0 +1,31 @@
+Auditoria de alcance inicial por Periodo
+Generado: 2026-06-15T19:01:06
+
+Dataset:
+- frontend\src\data\generated\maintenanceCostData.dw_v2.json
+
+Periodos disponibles:
+- 2026-01, 2026-02, 2026-03, 2026-04, 2026-05
+Ultimo periodo detectado: 2026-05
+
+=== Comparacion total vs ultimo periodo ===
+Metrica | Total acumulado | Ultimo periodo | Participacion ultimo periodo
+--- | ---: | ---: | ---:
+Registros | 1735 | 343 | 19.8%
+Trabajadores unicos | 398 | 343 | 86.2%
+Total costo | 2620369575 | 522714867 | 19.9%
+Centros de negocio | 56 | 51 | 91.1%
+Empresas | 5 | 5 | 100.0%
+
+=== Validaciones ===
+OK: todos los registros tienen Periodo.
+OK: el ultimo periodo existe.
+OK: el ultimo periodo tiene registros.
+OK: el ultimo periodo no supera el total acumulado.
+OK: el formato de Periodo es YYYY-MM.
+
+=== Advertencias ===
+- Sin advertencias.
+
+=== Recomendacion ===
+APTO: el filtro inicial por ultimo periodo reduce el universo frente al acumulado completo.
