@@ -1,0 +1,117 @@
+{
+  "schema_version": "2.0",
+  "generated_at": "2026-06-15T13:08:29",
+  "source_layer": "data/processed",
+  "output_layer": "data/datawarehouse/v2",
+  "datasets": {
+    "dim_periodo": {
+      "rows": 5,
+      "columns": [
+        "periodo_id",
+        "periodo",
+        "ano",
+        "mes",
+        "nombre_mes",
+        "trimestre",
+        "semestre"
+      ]
+    },
+    "dim_trabajador": {
+      "rows": 399,
+      "columns": [
+        "trabajador_id",
+        "rut",
+        "nombre",
+        "apellido_paterno",
+        "apellido_materno"
+      ]
+    },
+    "dim_sociedad": {
+      "rows": 5,
+      "columns": [
+        "sociedad_id",
+        "sociedad"
+      ]
+    },
+    "dim_centro_negocio": {
+      "rows": 56,
+      "columns": [
+        "centro_negocio_id",
+        "centro_negocio"
+      ]
+    },
+    "dim_cargo": {
+      "rows": 66,
+      "columns": [
+        "cargo_id",
+        "cargo"
+      ]
+    },
+    "dim_contrato": {
+      "rows": 2,
+      "columns": [
+        "contrato_id",
+        "tipo_contratacion"
+      ]
+    },
+    "dim_estado_laboral": {
+      "rows": 3,
+      "columns": [
+        "estado_laboral_id",
+        "tipo_trabajador"
+      ]
+    },
+    "fact_remuneraciones_mensual": {
+      "rows": 1735,
+      "columns": [
+        "fact_remuneracion_id",
+        "periodo_id",
+        "trabajador_id",
+        "sociedad_id",
+        "centro_negocio_id",
+        "periodo",
+        "rut",
+        "sociedad",
+        "ano",
+        "mes",
+        "total_haberes",
+        "haberes_imponibles",
+        "afc_empresa",
+        "mutual",
+        "sis",
+        "trabajo_pesado",
+        "cobertura_suspension",
+        "seguro_social",
+        "cotizacion_expectativa_de_vida",
+        "total_asignacion_familiar",
+        "total_costo",
+        "source_file"
+      ]
+    },
+    "fact_dotacion_mensual": {
+      "rows": 1739,
+      "columns": [
+        "fact_dotacion_id",
+        "periodo_id",
+        "trabajador_id",
+        "sociedad_id",
+        "centro_negocio_id",
+        "cargo_id",
+        "contrato_id",
+        "estado_laboral_id",
+        "periodo",
+        "rut",
+        "sociedad",
+        "fecha_inicio_contrato",
+        "antiguedad_meses",
+        "headcount",
+        "source_file"
+      ]
+    }
+  },
+  "technical_rules": {
+    "stable_keys": "Deterministic IDs derived from natural keys and normalized text hashes.",
+    "fact_dotacion_mensual.headcount": 1,
+    "antiguedad_meses": "Calculated from fecha_inicio_contrato to first day of periodo."
+  }
+}
