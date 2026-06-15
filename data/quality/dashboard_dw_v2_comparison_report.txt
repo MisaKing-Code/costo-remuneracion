@@ -1,5 +1,5 @@
 Auditoria comparativa dashboard legacy vs DW V2
-Generado: 2026-06-15T14:15:15
+Generado: 2026-06-15T14:39:40
 
 Archivos comparados:
 - Legacy: frontend\src\data\legacy\maintenanceCostData.json
