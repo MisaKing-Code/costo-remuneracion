@@ -1,4 +1,4 @@
-import dataset from "../data/maintenanceCostData.json";
+import dataset from "../../data/legacy/maintenanceCostData.json";
 
 function invalidDataset(datasetError) {
   return {

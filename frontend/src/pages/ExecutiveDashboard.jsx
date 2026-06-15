@@ -1,4 +1,4 @@
-import { BriefcaseBusiness } from "lucide-react";
+import { Network } from "lucide-react";
 import CompanyDonut from "../components/CompanyDonut";
 import CostBreakdown from "../components/CostBreakdown";
 import FilterBar from "../components/FilterBar";
@@ -41,7 +41,7 @@ export default function ExecutiveDashboard({ onLogout }) {
       </section>
 
       <section className="grid gap-4 xl:grid-cols-[1.15fr_0.85fr]">
-        <RankingBars title="Top 10 Cargos por Costo Acumulado" icon={BriefcaseBusiness} data={analytics.roleCosts} />
+        <RankingBars title="Top 10 Centros de Negocio por Costo" icon={Network} data={analytics.businessCenterCosts} />
         <CostBreakdown data={analytics.breakdown} totalCost={analytics.stats.totalCost} />
       </section>
 

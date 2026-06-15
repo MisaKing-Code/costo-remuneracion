@@ -7,10 +7,10 @@ export default function Header({ stats, metadata, onLogout }) {
         <div>
           <div className="mb-2 inline-flex items-center gap-2 rounded-full border border-flame-400/30 bg-flame-500/[0.12] px-2.5 py-1 text-[10px] font-black uppercase tracking-[0.1em] text-flame-300">
             <span className="h-1.5 w-1.5 rounded-full bg-flame-400 shadow-[0_0_16px_rgba(255,123,85,.95)]" />
-            Mantención
+            Corporativo
           </div>
           <h1 className="max-w-3xl text-2xl font-black leading-tight tracking-normal text-stone-50 sm:text-3xl">
-            Dashboard de Costo del Área de Mantención
+            Dashboard Corporativo de Remuneraciones
           </h1>
           <div className="mt-3 flex flex-wrap items-center gap-2 text-xs font-semibold text-stone-400">
             <span className="inline-flex items-center gap-1.5 rounded-full bg-white/[0.06] px-2.5 py-1">

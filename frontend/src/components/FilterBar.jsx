@@ -25,7 +25,7 @@ export default function FilterBar({ filters, setFilters, options }) {
   const reset = () =>
     setFilters({
       company: "Todas",
-      role: "Todos",
+      businessCenter: "Todos",
       workerType: "Todos",
       contract: "Todos",
     });
@@ -46,10 +46,10 @@ export default function FilterBar({ filters, setFilters, options }) {
             allLabel="Todas"
           />
           <FilterSelect
-            label="Cargo"
-            value={filters.role}
-            onChange={(value) => update("role", value)}
-            options={options.roles}
+            label="Centro de Negocio"
+            value={filters.businessCenter}
+            onChange={(value) => update("businessCenter", value)}
+            options={options.businessCenters}
             allLabel="Todos"
           />
           <FilterSelect
@@ -60,7 +60,7 @@ export default function FilterBar({ filters, setFilters, options }) {
             allLabel="Todos"
           />
           <FilterSelect
-            label="Contrato"
+            label="Tipo Contrato"
             value={filters.contract}
             onChange={(value) => update("contract", value)}
             options={options.contracts}

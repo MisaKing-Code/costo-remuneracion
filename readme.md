@@ -1,81 +1,247 @@
-# Dashboard Ejecutivo de Costo de Mantencion
+# Pullman Costo Remuneraciones Corporativo
 
-Dashboard ejecutivo para visualizar costos del area de mantencion de Pullman San Luis.
+Plataforma corporativa de Business Intelligence y analítica de personas para Pullman San Luis.
 
-La version oficial actual del proyecto es la app React/Vite ubicada en `frontend/`. La version antigua en Streamlit fue retirada del repositorio principal para reducir ruido tecnico y evitar confusion sobre cual es la aplicacion vigente. Existe un respaldo externo de esa version historica, pero ya no forma parte del arbol principal.
+Este proyecto corresponde a la evolución del sistema **Pullman Control Mantención**, ampliando su alcance hacia una plataforma integral de análisis de costos laborales y gestión de personas.
 
-## Stack oficial
+La solución busca convertirse en la **fuente oficial de información corporativa** para supervisores, jefaturas, gerencia y dirección.
 
-- React
-- Vite
-- Tailwind CSS
-- Recharts
-- Python para procesamiento de datos
+---
 
-## Flujo de datos
+# Objetivos del Sistema
+
+La plataforma permite analizar:
+
+* Costos laborales
+* Remuneraciones
+* Dotación
+* Horas extras
+* Ausentismo
+* Centros de costo
+* Centros de negocio
+* Empresas del grupo
+* Indicadores de gestión de personas
+
+---
+
+# Estado del Proyecto
+
+## Fase Actual
+
+✅ Migración desde Pullman Control Mantención
+✅ Arquitectura corporativa definida
+✅ Dashboard Ejecutivo React V1
+✅ Data Warehouse inicial
+✅ Auditoría de arquitectura V1
+🚧 ETL Corporativo V1
+🚧 Gobierno y calidad de datos
+🚧 Indicadores de personas
+
+---
+
+# Arquitectura Tecnológica
+
+## Frontend
+
+* React
+* Vite
+* Tailwind CSS
+* Recharts
+
+## Backend y Procesamiento
+
+* Python
+* pandas
+* openpyxl
+
+## Versionamiento y Deployment
+
+* Git
+* GitHub
+* Vercel
+
+---
+
+# Flujo de Datos
 
 ```text
-Excel -> backend/scripts/export_maintenance_cost_data.py -> frontend/src/data/maintenanceCostData.json -> React
+Archivos Excel (Defontana)
+            ↓
+      ETL Python
+            ↓
+      Data Warehouse
+            ↓
+       JSON / API
+            ↓
+     Dashboard React
+            ↓
+   Usuarios de Negocio
 ```
 
-El archivo Excel oficial es `data/Base_Maestra_Mantencion.xlsx` y no debe modificarse manualmente desde la app. El JSON usado por React debe regenerarse desde el script Python cuando cambie la fuente de datos.
+---
 
-## Estructura principal
+# Principios del Proyecto
+
+* Escalabilidad
+* Simplicidad
+* Reutilización
+* Calidad de datos
+* Automatización
+* Auditoría
+* Trazabilidad completa
+
+---
+
+# Estructura del Proyecto
 
 ```text
-Costo_Mantencion/
+Costo_Remuneraciones_Corporativo/
+│
 ├── backend/
-│   └── scripts/
-│       └── export_maintenance_cost_data.py
+│   ├── scripts/
+│   ├── logs/
+│   └── services/
+│
 ├── data/
-│   └── Base_Maestra_Mantencion.xlsx
+│   ├── raw/
+│   ├── processed/
+│   ├── quality/
+│   └── warehouse/
+│
 ├── docs/
-│   ├── audit/
+│   ├── architecture/
 │   ├── decisions/
 │   ├── roadmap/
-│   ├── architecture/
+│   ├── audit/
 │   └── deployment/
+│
 ├── frontend/
 │   ├── public/
 │   └── src/
+│
 ├── references/
-├── agents.md
-├── handoff.md
-├── readme.md
-└── requirements.txt
+│
+├── requirements.txt
+├── README.md
+└── .gitignore
 ```
 
-## Frontend React
+---
 
-Instalar dependencias:
+# Ejecución Local
+
+## Instalar dependencias Frontend
 
 ```bash
 cd frontend
 npm install
 ```
 
-Ejecutar en desarrollo:
+## Ejecutar aplicación en desarrollo
 
 ```bash
-cd frontend
-npm.cmd run dev
+npm run dev
 ```
 
-Generar build:
+## Generar build de producción
 
 ```bash
-cd frontend
-npm.cmd run build
+npm run build
 ```
 
-## Procesamiento de datos
+---
 
-Regenerar el JSON desde el Excel:
+# Procesamiento de Datos
+
+## Construcción del Data Warehouse
 
 ```bash
-python backend/scripts/export_maintenance_cost_data.py
+python -m backend.scripts.build_datawarehouse
 ```
 
-## Nota historica
+## Auditoría de Calidad
 
-La app Streamlit antigua fue retirada del repositorio principal. Si fuera necesario recuperarla, debe hacerse desde el respaldo externo del proyecto o desde el historial Git anterior a la decision documentada en `docs/decisions/ADR-001-retirar-streamlit-app.md`.
+```bash
+python -m backend.scripts.audit_datawarehouse
+```
+
+---
+
+# Calidad de Datos
+
+El proyecto considera controles automáticos para:
+
+* Validación de columnas obligatorias
+* Detección de valores nulos
+* Validación de tipos de datos
+* Consistencia de RUT
+* Auditoría de cargas
+* Historial de procesamiento
+* Trazabilidad ETL
+
+---
+
+# Roadmap
+
+## Sprint 01 — ETL Corporativo V1
+
+* [x] Diseño inicial
+* [x] Arquitectura base
+* [x] Auditoría V1
+* [x] Data Warehouse inicial
+
+## Sprint 02 — Dashboard Ejecutivo V1
+
+* [x] KPIs corporativos
+* [x] Dashboard React
+* [x] Filtros organizacionales
+* [x] Visualización ejecutiva
+
+## Sprint 03 — People Analytics V1
+
+* [ ] Ausentismo
+* [ ] Horas extras
+* [ ] Rotación
+* [ ] Antigüedad laboral
+
+## Sprint 04 — Gobierno de Datos
+
+* [ ] Validaciones automáticas
+* [ ] Historial de cargas
+* [ ] Auditoría ETL
+* [ ] Monitoreo de calidad
+
+---
+
+# Estrategia de Desarrollo
+
+## ChatGPT
+
+Utilizado para:
+
+* Arquitectura
+* Diseño funcional
+* Diseño técnico
+* Documentación
+* Roadmaps
+* Auditorías funcionales
+* Auditorías de arquitectura
+* Definición de KPIs
+
+## Codex
+
+Utilizado únicamente para:
+
+* Implementación
+* Refactorización
+* Corrección de bugs
+* Cambios estructurales
+* Auditorías complejas de código
+
+---
+
+# Licencia
+
+Proyecto interno de Pullman San Luis.
+
+Uso corporativo exclusivo.
