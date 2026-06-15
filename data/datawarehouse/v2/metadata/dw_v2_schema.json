@@ -1,6 +1,6 @@
 {
   "schema_version": "2.0",
-  "generated_at": "2026-06-15T13:08:29",
+  "generated_at": "2026-06-15T13:19:40",
   "source_layer": "data/processed",
   "output_layer": "data/datawarehouse/v2",
   "datasets": {
