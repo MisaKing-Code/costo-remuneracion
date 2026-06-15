@@ -1,4 +1,4 @@
-import { Activity, Banknote, CircleDollarSign, TrendingUp, UsersRound } from "lucide-react";
+import { Activity, Banknote, Building2, CircleDollarSign, TrendingUp, UsersRound } from "lucide-react";
 import { formatCompactCurrency, formatCurrency } from "../utils/formatters";
 
 const indicatorClass = "mt-3 h-1.5 overflow-hidden rounded-full bg-white/[0.07]";
@@ -27,25 +27,26 @@ function KpiCard({ icon: Icon, label, value, secondary, indicator = 70 }) {
 
 export default function KpiGrid({ stats }) {
   return (
-    <section className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
+    <section className="grid gap-3 sm:grid-cols-2 xl:grid-cols-5">
       <KpiCard
         icon={CircleDollarSign}
         label="Costo Total"
         value={formatCompactCurrency(stats.totalCost)}
-        secondary="Total área mantención"
+        secondary="Costo laboral corporativo"
         indicator={96}
       />
-      <KpiCard icon={UsersRound} label="Trabajadores" value={stats.workers} secondary="Dotación filtrada" indicator={78} />
+      <KpiCard icon={UsersRound} label="Dotación" value={stats.workers} secondary="Trabajadores filtrados" indicator={78} />
+      <KpiCard icon={Building2} label="Empresas" value={stats.companies} secondary="Sociedades filtradas" indicator={70} />
       <KpiCard
         icon={Banknote}
-        label="Costo Promedio"
+        label="Costo Promedio por Trabajador"
         value={formatCompactCurrency(stats.averageCost)}
         secondary="Por trabajador"
         indicator={62}
       />
       <KpiCard
         icon={TrendingUp}
-        label="Costo Máximo"
+        label="Costo Máximo Individual"
         value={formatCompactCurrency(stats.maxCost)}
         secondary={formatCurrency(stats.maxCost)}
         indicator={86}
