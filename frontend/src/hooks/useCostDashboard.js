@@ -13,6 +13,18 @@ function defaultFilters(period = "Todos") {
   };
 }
 
+function normalizeSearchText(value) {
+  return String(value || "")
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .toLowerCase()
+    .trim();
+}
+
+function normalizeRut(value) {
+  return normalizeSearchText(value).replace(/[^0-9k]/g, "");
+}
+
 export function useCostDashboard() {
   const dataset = getMaintenanceCostDataset();
   const {
@@ -42,9 +54,8 @@ export function useCostDashboard() {
   );
 
   const filteredRecords = useMemo(() => {
-    const searchTerm = String(filters.searchTerm || "")
-      .trim()
-      .toLowerCase();
+    const searchTerm = normalizeSearchText(filters.searchTerm);
+    const searchRut = normalizeRut(filters.searchTerm);
 
     return records.filter((item) => {
       const byPeriod = filters.period === "Todos" || item.Periodo === filters.period;
@@ -54,11 +65,9 @@ export function useCostDashboard() {
       const byContract = filters.contract === "Todos" || item.Contrato_Trabajador === filters.contract;
       const bySearch =
         !searchTerm ||
-        [item.Nombre_Trabajador, item.RUT_Trabajador, item.Cargo].some((value) =>
-          String(value || "")
-            .toLowerCase()
-            .includes(searchTerm),
-        );
+        normalizeSearchText(item.Nombre_Trabajador).includes(searchTerm) ||
+        normalizeSearchText(item.Cargo).includes(searchTerm) ||
+        (searchRut && normalizeRut(item.RUT_Trabajador).includes(searchRut));
 
       return byPeriod && byCompany && byBusinessCenter && byType && byContract && bySearch;
     });
