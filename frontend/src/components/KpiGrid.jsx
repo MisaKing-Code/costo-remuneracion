@@ -1,5 +1,5 @@
-import { Activity, Banknote, Building2, CircleDollarSign, TrendingUp, UsersRound } from "lucide-react";
-import { formatCompactCurrency, formatCurrency } from "../utils/formatters";
+import { Activity, Banknote, Building2, CircleDollarSign, Landmark, MapPinned, UsersRound } from "lucide-react";
+import { formatCompactCurrency } from "../utils/formatters";
 
 const indicatorClass = "mt-3 h-1.5 overflow-hidden rounded-full bg-white/[0.07]";
 
@@ -27,30 +27,31 @@ function KpiCard({ icon: Icon, label, value, secondary, indicator = 70 }) {
 
 export default function KpiGrid({ stats }) {
   return (
-    <section className="grid gap-3 sm:grid-cols-2 xl:grid-cols-5">
+    <section className="grid gap-3 sm:grid-cols-2 xl:grid-cols-6">
       <KpiCard
         icon={CircleDollarSign}
-        label="Costo Total"
+        label="Costo Remuneracional"
         value={formatCompactCurrency(stats.totalCost)}
-        secondary="Costo laboral corporativo"
+        secondary="Costo total filtrado"
         indicator={96}
       />
-      <KpiCard icon={UsersRound} label="Dotación" value={stats.workers} secondary="Trabajadores filtrados" indicator={78} />
-      <KpiCard icon={Building2} label="Empresas" value={stats.companies} secondary="Sociedades filtradas" indicator={70} />
       <KpiCard
         icon={Banknote}
-        label="Costo Promedio por Trabajador"
-        value={formatCompactCurrency(stats.averageCost)}
-        secondary="Por trabajador"
-        indicator={62}
+        label="Total Haberes"
+        value={formatCompactCurrency(stats.totalHaberes)}
+        secondary="Haberes filtrados"
+        indicator={84}
       />
       <KpiCard
-        icon={TrendingUp}
-        label="Costo Máximo Individual"
-        value={formatCompactCurrency(stats.maxCost)}
-        secondary={formatCurrency(stats.maxCost)}
-        indicator={86}
+        icon={Landmark}
+        label="Aportes Empresa"
+        value={formatCompactCurrency(stats.employerContributions)}
+        secondary="Leyes sociales y aportes"
+        indicator={68}
       />
+      <KpiCard icon={UsersRound} label="Trabajadores" value={stats.workers} secondary="Unicos filtrados" indicator={78} />
+      <KpiCard icon={Building2} label="Empresas" value={stats.companies} secondary="Sociedades filtradas" indicator={70} />
+      <KpiCard icon={MapPinned} label="Centros" value={stats.businessCenters} secondary="Centros filtrados" indicator={62} />
     </section>
   );
 }

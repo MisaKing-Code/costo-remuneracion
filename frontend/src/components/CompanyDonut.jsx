@@ -7,7 +7,7 @@ const colors = ["#ff7b55", "#ff9a6d", "#f2c078", "#d85d42", "#c4503c"];
 
 export default function CompanyDonut({ data }) {
   return (
-    <SectionCard title="Distribución Empresas" icon={PieIcon}>
+    <SectionCard title="Distribucion por Empresa" icon={PieIcon}>
       <div className="grid min-h-[210px] grid-cols-1 items-center gap-2 sm:grid-cols-[1fr_150px]">
         <div className="h-[205px]">
           <ResponsiveContainer width="100%" height="100%">

@@ -64,7 +64,7 @@ export default function Header({ stats, metadata, scope, onLogout }) {
             className="inline-flex min-h-[64px] items-center justify-center gap-2 rounded-lg border border-white/10 bg-white/[0.05] px-4 text-xs font-black uppercase tracking-[0.08em] text-stone-200 transition hover:border-flame-400/35 hover:bg-flame-500/10 hover:text-flame-200"
           >
             <LogOut size={15} />
-            Cerrar sesión
+            Cerrar sesion
           </button>
         </div>
       </div>

@@ -34,9 +34,9 @@ export default function ExecutiveDashboard({ onLogout }) {
       <DashboardShell>
         <section className="panel p-5">
           <p className="tiny-label text-flame-300">Error de datos</p>
-          <h1 className="mt-2 text-2xl font-black text-stone-50">El dataset no cumple los requisitos mínimos.</h1>
+          <h1 className="mt-2 text-2xl font-black text-stone-50">El dataset no cumple los requisitos minimos.</h1>
           <p className="mt-3 max-w-2xl text-sm font-semibold leading-6 text-stone-300">
-            El dashboard no puede procesar la información porque el archivo JSON generado no tiene una estructura válida.
+            El dashboard no puede procesar la informacion porque el archivo JSON generado no tiene una estructura valida.
           </p>
           <div className="mt-4 rounded-lg border border-red-300/20 bg-red-500/10 p-3 text-sm font-bold text-red-100">
             Detalle: {datasetError || "Error de dataset no especificado."}
@@ -57,7 +57,7 @@ export default function ExecutiveDashboard({ onLogout }) {
           <KpiGrid stats={analytics.stats} />
 
           <section className="grid gap-4 xl:grid-cols-[1.1fr_0.9fr]">
-            <RankingBars title="Costo Total por Empresa" data={analytics.companyCosts} compactCompany />
+            <RankingBars title="Costo Remuneracional por Empresa" data={analytics.companyCosts} compactCompany />
             <CompanyDonut data={analytics.companyCosts} />
           </section>
 

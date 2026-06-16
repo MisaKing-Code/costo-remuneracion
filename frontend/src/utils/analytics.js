@@ -8,6 +8,8 @@ const moneyFields = [
   "Asignación_Familiar",
 ];
 
+const employerContributionFields = moneyFields.filter((field) => field !== "Total_Haberes");
+
 export function uniqueValues(records, field) {
   return [...new Set(records.map((item) => item[field]).filter(Boolean))].sort((a, b) =>
     String(a).localeCompare(String(b), "es"),
@@ -54,14 +56,20 @@ export function costBreakdown(records) {
 
 export function getDashboardStats(records) {
   const totalCost = sumBy(records, "Total_Costo");
+  const totalHaberes = sumBy(records, "Total_Haberes");
+  const employerContributions = employerContributionFields.reduce((total, field) => total + sumBy(records, field), 0);
   const workers = new Set(records.map((item) => item.RUT_Trabajador)).size;
   const companies = new Set(records.map((item) => item.Nombre_Sociedad)).size;
+  const businessCenters = new Set(records.map((item) => item.Centro_de_Negocio).filter(Boolean)).size;
   const maxCost = Math.max(...records.map((item) => Number(item.Total_Costo || 0)), 0);
 
   return {
     totalCost,
+    totalHaberes,
+    employerContributions,
     workers,
     companies,
+    businessCenters,
     averageCost: workers ? totalCost / workers : 0,
     maxCost,
   };
