@@ -20,9 +20,27 @@ function FilterSelect({ label, value, onChange, options = [], allLabel }) {
   );
 }
 
+function ActiveFilterChip({ label, value }) {
+  return (
+    <span className="inline-flex max-w-full items-center gap-1 rounded-full border border-flame-400/25 bg-flame-500/[0.10] px-2.5 py-1 text-[11px] font-bold text-stone-200">
+      <span className="shrink-0 text-flame-300">{label}:</span>
+      <span className="truncate">{value}</span>
+    </span>
+  );
+}
+
 export default function FilterBar({ filters, setFilters, options }) {
   const update = (key, value) => setFilters((current) => ({ ...current, [key]: value }));
   const defaultPeriod = options.periods?.[0] || "Todos";
+  const searchTerm = String(filters.searchTerm || "").trim();
+  const activeChips = [
+    filters.period !== "Todos" ? { label: "Periodo", value: filters.period } : null,
+    filters.company !== "Todas" ? { label: "Empresa", value: filters.company } : null,
+    filters.businessCenter !== "Todos" ? { label: "Centro", value: filters.businessCenter } : null,
+    filters.workerType !== "Todos" ? { label: "Tipo trabajador", value: filters.workerType } : null,
+    filters.contract !== "Todos" ? { label: "Contrato", value: filters.contract } : null,
+    searchTerm ? { label: "Buscar", value: `"${searchTerm}"` } : null,
+  ].filter(Boolean);
   const reset = () =>
     setFilters({
       period: defaultPeriod,
@@ -98,6 +116,13 @@ export default function FilterBar({ filters, setFilters, options }) {
           <RotateCcw size={14} />
           Restablecer
         </button>
+        {activeChips.length ? (
+          <div className="flex min-w-0 flex-wrap gap-2 lg:col-start-2">
+            {activeChips.map((chip) => (
+              <ActiveFilterChip key={`${chip.label}-${chip.value}`} label={chip.label} value={chip.value} />
+            ))}
+          </div>
+        ) : null}
       </div>
     </section>
   );
