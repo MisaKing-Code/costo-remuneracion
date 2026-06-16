@@ -1,0 +1,29 @@
+Reporte sincronizacion homologacion de companias
+Generado: 2026-06-16T11:12:32
+Modo: dry-run
+
+Archivos:
+- Template: data\governance\company_homologation_template.csv
+- dim_company: data\datawarehouse\v2\dimensions\dim_company.csv
+
+Resumen:
+- Registros template: 5
+- Registros dim_company: 5
+- Cambios detectados: 0
+- Cambios aplicados: no
+
+Cambios detectados:
+- Sin cambios.
+
+Errores:
+- Sin errores.
+
+Advertencias:
+- COMP_001: pending con campos incompletos: rut_sociedad, legal_name
+- COMP_002: pending con campos incompletos: rut_sociedad, legal_name
+- COMP_003: pending con campos incompletos: rut_sociedad, legal_name
+- COMP_004: pending con campos incompletos: rut_sociedad, legal_name
+- COMP_005: pending con campos incompletos: rut_sociedad, legal_name
+
+Resultado:
+OK: sincronizacion validada.

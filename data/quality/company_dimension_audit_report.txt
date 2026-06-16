@@ -1,5 +1,5 @@
 Auditoria dim_company
-Generado: 2026-06-15T19:16:49
+Generado: 2026-06-16T11:12:39
 
 Archivos analizados:
 - data\datawarehouse\v2\dimensions\dim_company.csv
