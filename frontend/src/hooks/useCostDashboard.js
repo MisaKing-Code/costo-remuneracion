@@ -1,6 +1,13 @@
 import { useMemo, useState } from "react";
 import { getMaintenanceCostDataset } from "../services/legacy/maintenanceCostService";
-import { costBreakdown, getDashboardStats, groupByCost, monthlyCostTrend, uniqueValues } from "../utils/analytics";
+import {
+  costBreakdown,
+  getDashboardStats,
+  getTopWorkersByCost,
+  groupByCost,
+  monthlyCostTrend,
+  uniqueValues,
+} from "../utils/analytics";
 
 function defaultFilters(period = "Todos") {
   return {
@@ -84,6 +91,8 @@ export function useCostDashboard(activeCompany = "Todas") {
     const companyCosts = groupByCost(filteredRecords, "Nombre_Sociedad");
     const businessCenterCosts = groupByCost(filteredRecords, "Centro_de_Negocio").slice(0, 10);
     const contractCosts = groupByCost(filteredRecords, "Contrato_Trabajador");
+    const isAllPeriods = filters.period === "Todos";
+    const tableRows = getTopWorkersByCost(filteredRecords, { consolidateByWorker: isAllPeriods });
 
     return {
       stats: getDashboardStats(filteredRecords),
@@ -92,9 +101,10 @@ export function useCostDashboard(activeCompany = "Todas") {
       contractCosts,
       breakdown: costBreakdown(filteredRecords),
       monthlyTrend: monthlyCostTrend(filteredRecords),
-      tableRows: [...filteredRecords].sort((a, b) => b.Total_Costo - a.Total_Costo),
+      tableRows,
+      isWorkerTableConsolidated: isAllPeriods,
     };
-  }, [filteredRecords]);
+  }, [filteredRecords, filters.period]);
 
   const scope = useMemo(
     () => ({

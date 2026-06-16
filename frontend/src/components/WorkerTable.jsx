@@ -28,12 +28,23 @@ function ContractBadge({ value }) {
   );
 }
 
-export default function WorkerTable({ rows }) {
+export default function WorkerTable({ rows, consolidated = false }) {
   return (
     <SectionCard
       title="Detalle por Trabajador - Top 15 por Costo"
       icon={Table2}
-      action={<span className="text-[11px] font-bold text-stone-500">{rows.length} registros</span>}
+      action={
+        <div className="flex items-center gap-2">
+          {consolidated ? (
+            <span className="rounded-full border border-flame-400/25 bg-flame-500/[0.10] px-2 py-0.5 text-[10px] font-black uppercase tracking-[0.08em] text-flame-300">
+              Consolidado por trabajador
+            </span>
+          ) : null}
+          <span className="text-[11px] font-bold text-stone-500">
+            {rows.length} {consolidated ? "trabajadores" : "registros"}
+          </span>
+        </div>
+      }
     >
       <div className="scrollbar-dark max-h-[520px] overflow-auto rounded-lg border border-white/10">
         <table className="w-full min-w-[980px] border-collapse bg-ink-900 text-left">

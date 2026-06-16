@@ -9,6 +9,7 @@ const moneyFields = [
 ];
 
 const employerContributionFields = moneyFields.filter((field) => field !== "Total_Haberes");
+const workerTableMoneyFields = [...moneyFields, "Haberes_Imponibles", "Total_Costo"];
 
 export function uniqueValues(records, field) {
   return [...new Set(records.map((item) => item[field]).filter(Boolean))].sort((a, b) =>
@@ -78,6 +79,43 @@ export function costBreakdown(records) {
     })
     .filter((item) => item.value > 0)
     .sort((a, b) => b.value - a.value);
+}
+
+function comparePeriods(a, b) {
+  return String(a.Periodo || "").localeCompare(String(b.Periodo || ""), "es");
+}
+
+export function getTopWorkersByCost(records, { consolidateByWorker = false } = {}) {
+  if (!consolidateByWorker) {
+    return [...records].sort((a, b) => Number(b.Total_Costo || 0) - Number(a.Total_Costo || 0));
+  }
+
+  const grouped = records.reduce((acc, item) => {
+    const key = item.RUT_Trabajador || item.Nombre_Trabajador || "Sin trabajador";
+    const current = acc[key];
+
+    if (!current) {
+      acc[key] = { ...item };
+    } else {
+      workerTableMoneyFields.forEach((field) => {
+        current[field] = Number(current[field] || 0) + Number(item[field] || 0);
+      });
+
+      if (comparePeriods(item, current) >= 0) {
+        current.Nombre_Sociedad = item.Nombre_Sociedad;
+        current.Empresa_Corta = item.Empresa_Corta;
+        current.Centro_de_Negocio = item.Centro_de_Negocio;
+        current.Cargo = item.Cargo;
+        current.Tipo_Trabajador = item.Tipo_Trabajador;
+        current.Contrato_Trabajador = item.Contrato_Trabajador;
+        current.Periodo = item.Periodo;
+      }
+    }
+
+    return acc;
+  }, {});
+
+  return Object.values(grouped).sort((a, b) => Number(b.Total_Costo || 0) - Number(a.Total_Costo || 0));
 }
 
 export function getDashboardStats(records) {
