@@ -1,10 +1,13 @@
 import { Network, SearchX } from "lucide-react";
+import { useState } from "react";
 import CompanyDonut from "../components/CompanyDonut";
 import CostBreakdown from "../components/CostBreakdown";
 import FilterBar from "../components/FilterBar";
 import Header from "../components/Header";
 import KpiGrid from "../components/KpiGrid";
 import RankingBars from "../components/RankingBars";
+import Sidebar from "../components/Sidebar";
+import TrendChart from "../components/TrendChart";
 import WorkerTable from "../components/WorkerTable";
 import DashboardShell from "../layouts/DashboardShell";
 import { useCostDashboard } from "../hooks/useCostDashboard";
@@ -26,8 +29,23 @@ function EmptyResultsState() {
 }
 
 export default function ExecutiveDashboard({ onLogout }) {
-  const { isDatasetValid, datasetError, metadata, filters, setFilters, options, analytics, scope } = useCostDashboard();
+  const [activeCompany, setActiveCompany] = useState("Todas");
+  const { isDatasetValid, datasetError, metadata, filters, setFilters, options, analytics, scope, societies } =
+    useCostDashboard(activeCompany);
   const hasNoResults = scope.filteredRecords === 0;
+  const isCorporate = activeCompany === "Todas";
+
+  const handleSelectCompany = (company) => {
+    setActiveCompany(company);
+    setFilters((current) => ({
+      ...current,
+      company,
+      businessCenter: "Todos",
+      workerType: "Todos",
+      contract: "Todos",
+      searchTerm: "",
+    }));
+  };
 
   if (!isDatasetValid) {
     return (
@@ -47,24 +65,46 @@ export default function ExecutiveDashboard({ onLogout }) {
   }
 
   return (
-    <DashboardShell>
-      <Header stats={analytics.stats} metadata={metadata} scope={scope} onLogout={onLogout} />
-      <FilterBar filters={filters} setFilters={setFilters} options={options} />
+    <DashboardShell
+      sidebar={
+        <Sidebar
+          activeCompany={activeCompany}
+          societies={societies}
+          onSelectCompany={handleSelectCompany}
+          onLogout={onLogout}
+        />
+      }
+    >
+      <Header stats={analytics.stats} metadata={metadata} scope={scope} activeCompany={activeCompany} />
+      <FilterBar filters={filters} setFilters={setFilters} options={options} lockedCompany={activeCompany} />
       {hasNoResults ? (
         <EmptyResultsState />
       ) : (
         <>
           <KpiGrid stats={analytics.stats} />
 
-          <section className="grid gap-4 xl:grid-cols-[1.1fr_0.9fr]">
-            <RankingBars title="Costo Remuneracional por Empresa" data={analytics.companyCosts} compactCompany />
-            <CompanyDonut data={analytics.companyCosts} />
-          </section>
-
-          <section className="grid gap-4 xl:grid-cols-[1.15fr_0.85fr]">
-            <RankingBars title="Top 10 Centros de Negocio por Costo" icon={Network} data={analytics.businessCenterCosts} />
+          <section className="grid gap-4 xl:grid-cols-[1.25fr_0.75fr]">
+            <TrendChart data={analytics.monthlyTrend} />
             <CostBreakdown data={analytics.breakdown} totalCost={analytics.stats.totalCost} />
           </section>
+
+          <section className="grid gap-4 xl:grid-cols-[1.1fr_0.9fr]">
+            {isCorporate ? (
+              <>
+                <RankingBars title="Costo Remuneracional por Sociedad" data={analytics.companyCosts} compactCompany />
+                <CompanyDonut data={analytics.companyCosts} />
+              </>
+            ) : (
+              <>
+                <RankingBars title="Top Centros de Negocio de la Sociedad" icon={Network} data={analytics.businessCenterCosts} />
+                <RankingBars title="Costo por Tipo de Contrato" data={analytics.contractCosts} />
+              </>
+            )}
+          </section>
+
+          {isCorporate ? (
+            <RankingBars title="Top 10 Centros de Negocio por Costo" icon={Network} data={analytics.businessCenterCosts} />
+          ) : null}
 
           <WorkerTable rows={analytics.tableRows} />
         </>

@@ -1,14 +1,16 @@
 import { Filter, RotateCcw, Search } from "lucide-react";
 
-function FilterSelect({ label, value, onChange, options = [], allLabel }) {
+function FilterSelect({ label, value, onChange, options = [], allLabel, disabled = false }) {
   return (
     <label className="flex min-w-0 flex-col gap-1">
       <span className="tiny-label">{label}</span>
       <select
         value={value}
         onChange={(event) => onChange(event.target.value)}
-        className="h-9 min-w-0 rounded-lg border border-white/10 bg-ink-800 px-3 text-xs font-semibold text-stone-100 outline-none transition hover:border-flame-400/45 focus:border-flame-400"
+        disabled={disabled}
+        className="h-9 min-w-0 rounded-lg border border-white/10 bg-ink-800 px-3 text-xs font-semibold text-stone-100 outline-none transition hover:border-flame-400/45 focus:border-flame-400 disabled:cursor-not-allowed disabled:border-flame-400/20 disabled:bg-flame-500/[0.08] disabled:text-flame-200"
       >
+        {disabled && value !== allLabel ? <option value={value}>{value}</option> : null}
         <option value={allLabel}>{allLabel}</option>
         {options.map((option) => (
           <option key={option} value={option}>
@@ -29,13 +31,18 @@ function ActiveFilterChip({ label, value }) {
   );
 }
 
-export default function FilterBar({ filters, setFilters, options }) {
+export default function FilterBar({ filters, setFilters, options, lockedCompany = "Todas" }) {
   const update = (key, value) => setFilters((current) => ({ ...current, [key]: value }));
   const defaultPeriod = options.periods?.[0] || "Todos";
+  const isCompanyLocked = lockedCompany !== "Todas";
   const searchTerm = String(filters.searchTerm || "").trim();
   const activeChips = [
     filters.period !== "Todos" ? { label: "Periodo", value: filters.period } : null,
-    filters.company !== "Todas" ? { label: "Empresa", value: filters.company } : null,
+    isCompanyLocked
+      ? { label: "Sociedad", value: lockedCompany }
+      : filters.company !== "Todas"
+        ? { label: "Empresa", value: filters.company }
+        : null,
     filters.businessCenter !== "Todos" ? { label: "Centro", value: filters.businessCenter } : null,
     filters.workerType !== "Todos" ? { label: "Tipo trabajador", value: filters.workerType } : null,
     filters.contract !== "Todos" ? { label: "Contrato", value: filters.contract } : null,
@@ -44,7 +51,7 @@ export default function FilterBar({ filters, setFilters, options }) {
   const reset = () =>
     setFilters({
       period: defaultPeriod,
-      company: "Todas",
+      company: isCompanyLocked ? lockedCompany : "Todas",
       businessCenter: "Todos",
       workerType: "Todos",
       contract: "Todos",
@@ -67,11 +74,12 @@ export default function FilterBar({ filters, setFilters, options }) {
             allLabel="Todos"
           />
           <FilterSelect
-            label="Empresa"
-            value={filters.company}
+            label={isCompanyLocked ? "Sociedad seleccionada" : "Empresa"}
+            value={isCompanyLocked ? lockedCompany : filters.company}
             onChange={(value) => update("company", value)}
-            options={options.companies}
+            options={isCompanyLocked ? [] : options.companies}
             allLabel="Todas"
+            disabled={isCompanyLocked}
           />
           <FilterSelect
             label="Centro de Negocio"

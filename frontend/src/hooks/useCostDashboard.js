@@ -1,6 +1,6 @@
 import { useMemo, useState } from "react";
 import { getMaintenanceCostDataset } from "../services/legacy/maintenanceCostService";
-import { costBreakdown, getDashboardStats, groupByCost, uniqueValues } from "../utils/analytics";
+import { costBreakdown, getDashboardStats, groupByCost, monthlyCostTrend, uniqueValues } from "../utils/analytics";
 
 function defaultFilters(period = "Todos") {
   return {
@@ -25,7 +25,7 @@ function normalizeRut(value) {
   return normalizeSearchText(value).replace(/[^0-9k]/g, "");
 }
 
-export function useCostDashboard() {
+export function useCostDashboard(activeCompany = "Todas") {
   const dataset = getMaintenanceCostDataset();
   const {
     isDatasetValid = false,
@@ -36,9 +36,13 @@ export function useCostDashboard() {
   const records = Array.isArray(datasetRecords) ? datasetRecords : [];
   const metadata = datasetMetadata && typeof datasetMetadata === "object" && !Array.isArray(datasetMetadata) ? datasetMetadata : {};
 
+  const scopeRecords = useMemo(
+    () => (activeCompany === "Todas" ? records : records.filter((item) => item.Nombre_Sociedad === activeCompany)),
+    [activeCompany, records],
+  );
   const periodOptions = useMemo(
-    () => uniqueValues(records, "Periodo").sort((a, b) => String(b).localeCompare(String(a), "es")),
-    [records],
+    () => uniqueValues(scopeRecords, "Periodo").sort((a, b) => String(b).localeCompare(String(a), "es")),
+    [scopeRecords],
   );
   const [filters, setFilters] = useState(() => defaultFilters(periodOptions[0] || "Todos"));
 
@@ -46,20 +50,23 @@ export function useCostDashboard() {
     () => ({
       periods: periodOptions,
       companies: uniqueValues(records, "Nombre_Sociedad"),
-      businessCenters: uniqueValues(records, "Centro_de_Negocio"),
-      workerTypes: uniqueValues(records, "Tipo_Trabajador"),
-      contracts: uniqueValues(records, "Contrato_Trabajador"),
+      businessCenters: uniqueValues(scopeRecords, "Centro_de_Negocio"),
+      workerTypes: uniqueValues(scopeRecords, "Tipo_Trabajador"),
+      contracts: uniqueValues(scopeRecords, "Contrato_Trabajador"),
     }),
-    [periodOptions, records],
+    [periodOptions, records, scopeRecords],
   );
+
+  const societies = useMemo(() => groupByCost(records, "Nombre_Sociedad"), [records]);
 
   const filteredRecords = useMemo(() => {
     const searchTerm = normalizeSearchText(filters.searchTerm);
     const searchRut = normalizeRut(filters.searchTerm);
+    const companyFilter = activeCompany === "Todas" ? filters.company : activeCompany;
 
-    return records.filter((item) => {
+    return scopeRecords.filter((item) => {
       const byPeriod = filters.period === "Todos" || item.Periodo === filters.period;
-      const byCompany = filters.company === "Todas" || item.Nombre_Sociedad === filters.company;
+      const byCompany = companyFilter === "Todas" || item.Nombre_Sociedad === companyFilter;
       const byBusinessCenter = filters.businessCenter === "Todos" || item.Centro_de_Negocio === filters.businessCenter;
       const byType = filters.workerType === "Todos" || item.Tipo_Trabajador === filters.workerType;
       const byContract = filters.contract === "Todos" || item.Contrato_Trabajador === filters.contract;
@@ -71,7 +78,7 @@ export function useCostDashboard() {
 
       return byPeriod && byCompany && byBusinessCenter && byType && byContract && bySearch;
     });
-  }, [filters, records]);
+  }, [activeCompany, filters, scopeRecords]);
 
   const analytics = useMemo(() => {
     const companyCosts = groupByCost(filteredRecords, "Nombre_Sociedad");
@@ -84,6 +91,7 @@ export function useCostDashboard() {
       businessCenterCosts,
       contractCosts,
       breakdown: costBreakdown(filteredRecords),
+      monthlyTrend: monthlyCostTrend(filteredRecords),
       tableRows: [...filteredRecords].sort((a, b) => b.Total_Costo - a.Total_Costo),
     };
   }, [filteredRecords]);
@@ -93,12 +101,12 @@ export function useCostDashboard() {
       activePeriod: filters.period,
       availablePeriodRange: metadata.period || "Sin rango disponible",
       filteredRecords: filteredRecords.length,
-      totalRecords: records.length,
+      totalRecords: scopeRecords.length,
       workers: new Set(filteredRecords.map((item) => item.RUT_Trabajador).filter(Boolean)).size,
       companies: new Set(filteredRecords.map((item) => item.Nombre_Sociedad).filter(Boolean)).size,
       businessCenters: new Set(filteredRecords.map((item) => item.Centro_de_Negocio).filter(Boolean)).size,
     }),
-    [filteredRecords, filters.period, metadata.period, records.length],
+    [filteredRecords, filters.period, metadata.period, scopeRecords.length],
   );
 
   return {
@@ -106,6 +114,8 @@ export function useCostDashboard() {
     datasetError,
     records,
     metadata,
+    activeCompany,
+    societies,
     filters,
     setFilters,
     options,

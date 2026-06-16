@@ -37,6 +37,32 @@ export function groupByCost(records, field) {
     .sort((a, b) => b.value - a.value);
 }
 
+export function monthlyCostTrend(records) {
+  const grouped = records.reduce((acc, item) => {
+    const period = item.Periodo || "Sin periodo";
+
+    if (!acc[period]) {
+      acc[period] = {
+        period,
+        totalCost: 0,
+        totalHaberes: 0,
+        employerContributions: 0,
+      };
+    }
+
+    acc[period].totalCost += Number(item.Total_Costo || 0);
+    acc[period].totalHaberes += Number(item.Total_Haberes || 0);
+    acc[period].employerContributions += employerContributionFields.reduce(
+      (total, field) => total + Number(item[field] || 0),
+      0,
+    );
+
+    return acc;
+  }, {});
+
+  return Object.values(grouped).sort((a, b) => String(a.period).localeCompare(String(b.period), "es"));
+}
+
 export function costBreakdown(records) {
   const total = sumBy(records, "Total_Costo");
 
