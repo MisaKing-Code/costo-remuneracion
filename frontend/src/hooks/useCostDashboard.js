@@ -9,6 +9,7 @@ function defaultFilters(period = "Todos") {
     businessCenter: "Todos",
     workerType: "Todos",
     contract: "Todos",
+    searchTerm: "",
   };
 }
 
@@ -41,13 +42,25 @@ export function useCostDashboard() {
   );
 
   const filteredRecords = useMemo(() => {
+    const searchTerm = String(filters.searchTerm || "")
+      .trim()
+      .toLowerCase();
+
     return records.filter((item) => {
       const byPeriod = filters.period === "Todos" || item.Periodo === filters.period;
       const byCompany = filters.company === "Todas" || item.Nombre_Sociedad === filters.company;
       const byBusinessCenter = filters.businessCenter === "Todos" || item.Centro_de_Negocio === filters.businessCenter;
       const byType = filters.workerType === "Todos" || item.Tipo_Trabajador === filters.workerType;
       const byContract = filters.contract === "Todos" || item.Contrato_Trabajador === filters.contract;
-      return byPeriod && byCompany && byBusinessCenter && byType && byContract;
+      const bySearch =
+        !searchTerm ||
+        [item.Nombre_Trabajador, item.RUT_Trabajador, item.Cargo].some((value) =>
+          String(value || "")
+            .toLowerCase()
+            .includes(searchTerm),
+        );
+
+      return byPeriod && byCompany && byBusinessCenter && byType && byContract && bySearch;
     });
   }, [filters, records]);
 

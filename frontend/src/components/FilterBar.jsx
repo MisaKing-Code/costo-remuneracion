@@ -1,4 +1,4 @@
-import { Filter, RotateCcw } from "lucide-react";
+import { Filter, RotateCcw, Search } from "lucide-react";
 
 function FilterSelect({ label, value, onChange, options = [], allLabel }) {
   return (
@@ -30,6 +30,7 @@ export default function FilterBar({ filters, setFilters, options }) {
       businessCenter: "Todos",
       workerType: "Todos",
       contract: "Todos",
+      searchTerm: "",
     });
 
   return (
@@ -76,6 +77,19 @@ export default function FilterBar({ filters, setFilters, options }) {
             allLabel="Todos"
           />
         </div>
+        <label className="flex min-w-0 flex-col gap-1 lg:col-start-2">
+          <span className="tiny-label">Buscar trabajador</span>
+          <span className="flex h-9 min-w-0 items-center gap-2 rounded-lg border border-white/10 bg-ink-800 px-3 transition hover:border-flame-400/45 focus-within:border-flame-400">
+            <Search size={14} className="shrink-0 text-flame-400" />
+            <input
+              type="search"
+              value={filters.searchTerm || ""}
+              onChange={(event) => update("searchTerm", event.target.value)}
+              placeholder="Nombre, RUT o cargo"
+              className="h-full min-w-0 flex-1 bg-transparent text-xs font-semibold text-stone-100 outline-none placeholder:text-stone-500"
+            />
+          </span>
+        </label>
         <button
           type="button"
           onClick={reset}
