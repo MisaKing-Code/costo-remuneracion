@@ -66,6 +66,19 @@ export function useCostDashboard() {
     };
   }, [filteredRecords]);
 
+  const scope = useMemo(
+    () => ({
+      activePeriod: filters.period,
+      availablePeriodRange: metadata.period || "Sin rango disponible",
+      filteredRecords: filteredRecords.length,
+      totalRecords: records.length,
+      workers: new Set(filteredRecords.map((item) => item.RUT_Trabajador).filter(Boolean)).size,
+      companies: new Set(filteredRecords.map((item) => item.Nombre_Sociedad).filter(Boolean)).size,
+      businessCenters: new Set(filteredRecords.map((item) => item.Centro_de_Negocio).filter(Boolean)).size,
+    }),
+    [filteredRecords, filters.period, metadata.period, records.length],
+  );
+
   return {
     isDatasetValid,
     datasetError,
@@ -76,5 +89,6 @@ export function useCostDashboard() {
     options,
     filteredRecords,
     analytics,
+    scope,
   };
 }

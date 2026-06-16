@@ -10,7 +10,7 @@ import DashboardShell from "../layouts/DashboardShell";
 import { useCostDashboard } from "../hooks/useCostDashboard";
 
 export default function ExecutiveDashboard({ onLogout }) {
-  const { isDatasetValid, datasetError, metadata, filters, setFilters, options, analytics } = useCostDashboard();
+  const { isDatasetValid, datasetError, metadata, filters, setFilters, options, analytics, scope } = useCostDashboard();
 
   if (!isDatasetValid) {
     return (
@@ -31,7 +31,7 @@ export default function ExecutiveDashboard({ onLogout }) {
 
   return (
     <DashboardShell>
-      <Header stats={analytics.stats} metadata={metadata} onLogout={onLogout} />
+      <Header stats={analytics.stats} metadata={metadata} scope={scope} onLogout={onLogout} />
       <FilterBar filters={filters} setFilters={setFilters} options={options} />
       <KpiGrid stats={analytics.stats} />
 

@@ -82,7 +82,7 @@ export default function FilterBar({ filters, setFilters, options }) {
           className="inline-flex h-9 items-center justify-center gap-2 rounded-lg border border-white/10 bg-white/[0.05] px-3 text-xs font-bold text-stone-200 transition hover:border-flame-400/40 hover:bg-flame-500/10"
         >
           <RotateCcw size={14} />
-          Reset
+          Restablecer
         </button>
       </div>
     </section>
