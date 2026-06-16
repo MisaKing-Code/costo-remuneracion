@@ -1,0 +1,6 @@
+"company_id","sociedad_id","source_sociedad_code","rut_sociedad","legal_name","display_name","short_name","business_group","is_active","homologation_status","created_at","updated_at"
+"COMP_001","SOC_LCM","LCM","","","LCM","LCM","Pullman","True","pending","2026-06-15T19:09:52","2026-06-15T19:09:52"
+"COMP_002","SOC_LTDA","LTDA","","","LTDA","LTDA","Pullman","True","pending","2026-06-15T19:09:52","2026-06-15T19:09:52"
+"COMP_003","SOC_SPA","SPA","","","SPA","SPA","Pullman","True","pending","2026-06-15T19:09:52","2026-06-15T19:09:52"
+"COMP_004","SOC_SPA_CC","SPA_CC","","","SPA_CC","SPA_CC","Pullman","True","pending","2026-06-15T19:09:52","2026-06-15T19:09:52"
+"COMP_005","SOC_SPA_MC","SPA_MC","","","SPA_MC","SPA_MC","Pullman","True","pending","2026-06-15T19:09:52","2026-06-15T19:09:52"

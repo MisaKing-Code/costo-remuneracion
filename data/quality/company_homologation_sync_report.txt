@@ -1,6 +1,6 @@
 Reporte sincronizacion homologacion de companias
-Generado: 2026-06-16T11:12:32
-Modo: dry-run
+Generado: 2026-06-16T12:30:00
+Modo: apply
 
 Archivos:
 - Template: data\governance\company_homologation_template.csv
@@ -9,21 +9,41 @@ Archivos:
 Resumen:
 - Registros template: 5
 - Registros dim_company: 5
-- Cambios detectados: 0
-- Cambios aplicados: no
+- Cambios detectados: 24
+- Cambios aplicados: si
+- Snapshot: data\datawarehouse\v2\snapshots\dim_company_20260616_123000.csv
 
 Cambios detectados:
-- Sin cambios.
+- COMP_001 rut_sociedad: '' -> '7.959.425-3'
+- COMP_001 legal_name: '' -> 'Luis Cordero Martini'
+- COMP_001 display_name: 'LCM' -> 'Luis Cordero Martini'
+- COMP_001 homologation_status: 'pending' -> 'approved'
+- COMP_002 rut_sociedad: '' -> '77.702.160-5'
+- COMP_002 legal_name: '' -> 'Empresa de Transporte Pullman San Luis LTDA.'
+- COMP_002 display_name: 'LTDA' -> 'Empresa de Transporte Pullman San Luis LTDA.'
+- COMP_002 short_name: 'LTDA' -> 'Pullman San Luis LTDA.'
+- COMP_002 homologation_status: 'pending' -> 'approved'
+- COMP_003 rut_sociedad: '' -> '76.922.263-4'
+- COMP_003 legal_name: '' -> 'Sociedad de Transporte San Luis SPA.'
+- COMP_003 display_name: 'SPA' -> 'Sociedad de Transporte San Luis SPA.'
+- COMP_003 short_name: 'SPA' -> 'Transporte San Luis SPA.'
+- COMP_003 homologation_status: 'pending' -> 'approved'
+- COMP_004 rut_sociedad: '' -> '77.229.512-K'
+- COMP_004 legal_name: '' -> 'Servicios de Transporte San Luis SPA.'
+- COMP_004 display_name: 'SPA_CC' -> 'Servicios de Transporte San Luis SPA.'
+- COMP_004 short_name: 'SPA_CC' -> 'Servicios Transporte SPA.'
+- COMP_004 homologation_status: 'pending' -> 'approved'
+- COMP_005 rut_sociedad: '' -> '77.420.253-6'
+- COMP_005 legal_name: '' -> 'Sociedad de Servicios San Luis SPA.'
+- COMP_005 display_name: 'SPA_MC' -> 'Sociedad de Servicios San Luis SPA.'
+- COMP_005 short_name: 'SPA_MC' -> 'Servicios San Luis SPA.'
+- COMP_005 homologation_status: 'pending' -> 'approved'
 
 Errores:
 - Sin errores.
 
 Advertencias:
-- COMP_001: pending con campos incompletos: rut_sociedad, legal_name
-- COMP_002: pending con campos incompletos: rut_sociedad, legal_name
-- COMP_003: pending con campos incompletos: rut_sociedad, legal_name
-- COMP_004: pending con campos incompletos: rut_sociedad, legal_name
-- COMP_005: pending con campos incompletos: rut_sociedad, legal_name
+- Sin advertencias.
 
 Resultado:
 OK: sincronizacion validada.

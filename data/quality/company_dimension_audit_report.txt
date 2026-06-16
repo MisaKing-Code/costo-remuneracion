@@ -1,5 +1,5 @@
 Auditoria dim_company
-Generado: 2026-06-16T12:05:11
+Generado: 2026-06-16T12:30:09
 
 Archivos analizados:
 - data\datawarehouse\v2\dimensions\dim_company.csv
@@ -22,12 +22,7 @@ Errores criticos:
 - Sin errores criticos.
 
 Advertencias:
-- rut_sociedad pendiente en 5 registros.
-- legal_name pendiente en 5 registros.
-- homologation_status pending en 5 registros.
+- Sin advertencias.
 
 Recomendaciones:
 - dim_company es apta tecnicamente como fuente de etiquetas actuales del dashboard.
-- Completar rut_sociedad con fuente corporativa oficial.
-- Completar legal_name antes de aprobar la homologacion.
-- Cambiar homologation_status a approved solo tras validacion de negocio.

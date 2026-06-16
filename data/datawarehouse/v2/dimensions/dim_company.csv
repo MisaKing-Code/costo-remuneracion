@@ -1,6 +1,6 @@
-﻿"company_id","sociedad_id","source_sociedad_code","rut_sociedad","legal_name","display_name","short_name","business_group","is_active","homologation_status","created_at","updated_at"
-"COMP_001","SOC_LCM","LCM","","","LCM","LCM","Pullman","True","pending","2026-06-15T19:09:52","2026-06-15T19:09:52"
-"COMP_002","SOC_LTDA","LTDA","","","LTDA","LTDA","Pullman","True","pending","2026-06-15T19:09:52","2026-06-15T19:09:52"
-"COMP_003","SOC_SPA","SPA","","","SPA","SPA","Pullman","True","pending","2026-06-15T19:09:52","2026-06-15T19:09:52"
-"COMP_004","SOC_SPA_CC","SPA_CC","","","SPA_CC","SPA_CC","Pullman","True","pending","2026-06-15T19:09:52","2026-06-15T19:09:52"
-"COMP_005","SOC_SPA_MC","SPA_MC","","","SPA_MC","SPA_MC","Pullman","True","pending","2026-06-15T19:09:52","2026-06-15T19:09:52"
+company_id,sociedad_id,source_sociedad_code,rut_sociedad,legal_name,display_name,short_name,business_group,is_active,homologation_status,created_at,updated_at
+COMP_001,SOC_LCM,LCM,7.959.425-3,Luis Cordero Martini,Luis Cordero Martini,LCM,Pullman,True,approved,2026-06-15T19:09:52,2026-06-16T12:30:00
+COMP_002,SOC_LTDA,LTDA,77.702.160-5,Empresa de Transporte Pullman San Luis LTDA.,Empresa de Transporte Pullman San Luis LTDA.,Pullman San Luis LTDA.,Pullman,True,approved,2026-06-15T19:09:52,2026-06-16T12:30:00
+COMP_003,SOC_SPA,SPA,76.922.263-4,Sociedad de Transporte San Luis SPA.,Sociedad de Transporte San Luis SPA.,Transporte San Luis SPA.,Pullman,True,approved,2026-06-15T19:09:52,2026-06-16T12:30:00
+COMP_004,SOC_SPA_CC,SPA_CC,77.229.512-K,Servicios de Transporte San Luis SPA.,Servicios de Transporte San Luis SPA.,Servicios Transporte SPA.,Pullman,True,approved,2026-06-15T19:09:52,2026-06-16T12:30:00
+COMP_005,SOC_SPA_MC,SPA_MC,77.420.253-6,Sociedad de Servicios San Luis SPA.,Sociedad de Servicios San Luis SPA.,Servicios San Luis SPA.,Pullman,True,approved,2026-06-15T19:09:52,2026-06-16T12:30:00

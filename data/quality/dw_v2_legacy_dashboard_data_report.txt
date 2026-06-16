@@ -1,5 +1,5 @@
 Reporte adapter DW V2 -> contrato legacy dashboard
-Generado: 2026-06-16T12:05:03
+Generado: 2026-06-16T12:30:10
 
 Archivos de entrada:
 - fact_remuneraciones: data\datawarehouse\v2\facts\fact_remuneraciones_mensual.csv
@@ -28,10 +28,10 @@ Campos generados:
 Sociedades mapeadas:
 - Registros con match en dim_company: 1735
 - Registros sin match en dim_company: 0
-- Sociedades: LCM, LTDA, SPA, SPA_CC, SPA_MC
+- Sociedades: Empresa de Transporte Pullman San Luis LTDA., Luis Cordero Martini, Servicios de Transporte San Luis SPA., Sociedad de Servicios San Luis SPA., Sociedad de Transporte San Luis SPA.
 
 Fallbacks aplicados:
-- RUT_Sociedad: 1735
+- RUT_Sociedad: 0
 - Nombre_Sociedad: 0
 - Empresa_Corta: 0
 - Cargo: 0
@@ -40,7 +40,6 @@ Fallbacks aplicados:
 
 Advertencias:
 - 4 filas de dotacion no tienen remuneracion equivalente.
-- Fallback RUT_Sociedad='Sin dato' aplicado a 1735 registros.
 
 Errores:
 - Sin errores.
