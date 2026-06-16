@@ -1,0 +1,6 @@
+﻿"company_id","sociedad_id","source_sociedad_code","rut_sociedad","legal_name","display_name","short_name","business_group","homologation_status","approval_owner","approval_date","notes"
+"COMP_001","SOC_LCM","LCM","","","LCM","LCM","Pullman","pending","","",""
+"COMP_002","SOC_LTDA","LTDA","","","LTDA","LTDA","Pullman","pending","","",""
+"COMP_003","SOC_SPA","SPA","","","SPA","SPA","Pullman","pending","","",""
+"COMP_004","SOC_SPA_CC","SPA_CC","","","SPA_CC","SPA_CC","Pullman","pending","","",""
+"COMP_005","SOC_SPA_MC","SPA_MC","","","SPA_MC","SPA_MC","Pullman","pending","","",""
