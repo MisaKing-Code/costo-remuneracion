@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { getMaintenanceCostDataset } from "../services/legacy/maintenanceCostService";
 import {
   costBreakdown,
@@ -52,16 +52,47 @@ export function useCostDashboard(activeCompany = "Todas") {
     [scopeRecords],
   );
   const [filters, setFilters] = useState(() => defaultFilters(periodOptions[0] || "Todos"));
+  const effectiveCompany = activeCompany === "Todas" ? filters.company : activeCompany;
+
+  const businessCenterOptions = useMemo(() => {
+    const recordsForCenterOptions = scopeRecords.filter((item) => {
+      const byPeriod = filters.period === "Todos" || item.Periodo === filters.period;
+      const byCompany = effectiveCompany === "Todas" || item.Nombre_Sociedad === effectiveCompany;
+      const byType = filters.workerType === "Todos" || item.Tipo_Trabajador === filters.workerType;
+      const byContract = filters.contract === "Todos" || item.Contrato_Trabajador === filters.contract;
+
+      return byPeriod && byCompany && byType && byContract;
+    });
+
+    return uniqueValues(recordsForCenterOptions, "Centro_de_Negocio");
+  }, [effectiveCompany, filters.contract, filters.period, filters.workerType, scopeRecords]);
+
+  useEffect(() => {
+    if (filters.businessCenter === "Todos" || businessCenterOptions.includes(filters.businessCenter)) {
+      return;
+    }
+
+    setFilters((current) => {
+      if (current.businessCenter === "Todos" || businessCenterOptions.includes(current.businessCenter)) {
+        return current;
+      }
+
+      return {
+        ...current,
+        businessCenter: "Todos",
+      };
+    });
+  }, [businessCenterOptions, filters.businessCenter]);
 
   const options = useMemo(
     () => ({
       periods: periodOptions,
       companies: uniqueValues(records, "Nombre_Sociedad"),
-      businessCenters: uniqueValues(scopeRecords, "Centro_de_Negocio"),
+      businessCenters: businessCenterOptions,
       workerTypes: uniqueValues(scopeRecords, "Tipo_Trabajador"),
       contracts: uniqueValues(scopeRecords, "Contrato_Trabajador"),
     }),
-    [periodOptions, records, scopeRecords],
+    [businessCenterOptions, periodOptions, records, scopeRecords],
   );
 
   const societies = useMemo(() => groupByCost(records, "Nombre_Sociedad"), [records]);
@@ -69,11 +100,10 @@ export function useCostDashboard(activeCompany = "Todas") {
   const filteredRecords = useMemo(() => {
     const searchTerm = normalizeSearchText(filters.searchTerm);
     const searchRut = normalizeRut(filters.searchTerm);
-    const companyFilter = activeCompany === "Todas" ? filters.company : activeCompany;
 
     return scopeRecords.filter((item) => {
       const byPeriod = filters.period === "Todos" || item.Periodo === filters.period;
-      const byCompany = companyFilter === "Todas" || item.Nombre_Sociedad === companyFilter;
+      const byCompany = effectiveCompany === "Todas" || item.Nombre_Sociedad === effectiveCompany;
       const byBusinessCenter = filters.businessCenter === "Todos" || item.Centro_de_Negocio === filters.businessCenter;
       const byType = filters.workerType === "Todos" || item.Tipo_Trabajador === filters.workerType;
       const byContract = filters.contract === "Todos" || item.Contrato_Trabajador === filters.contract;
@@ -85,7 +115,7 @@ export function useCostDashboard(activeCompany = "Todas") {
 
       return byPeriod && byCompany && byBusinessCenter && byType && byContract && bySearch;
     });
-  }, [activeCompany, filters, scopeRecords]);
+  }, [effectiveCompany, filters, scopeRecords]);
 
   const analytics = useMemo(() => {
     const companyCosts = groupByCost(filteredRecords, "Nombre_Sociedad");
