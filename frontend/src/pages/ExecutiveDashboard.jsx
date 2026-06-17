@@ -5,6 +5,7 @@ import CostBreakdown from "../components/CostBreakdown";
 import FilterBar from "../components/FilterBar";
 import Header from "../components/Header";
 import KpiGrid from "../components/KpiGrid";
+import MobileExecutiveDashboard from "../components/MobileExecutiveDashboard";
 import PeriodComparisonPanel from "../components/PeriodComparisonPanel";
 import RankingBars from "../components/RankingBars";
 import Sidebar from "../components/Sidebar";
@@ -78,44 +79,68 @@ export default function ExecutiveDashboard({ onLogout }) {
         />
       }
     >
-      <Header stats={analytics.stats} metadata={metadata} scope={scope} activeCompany={activeCompany} />
-      <FilterBar filters={filters} setFilters={setFilters} options={options} lockedCompany={activeCompany} />
-      {hasNoResults ? (
-        <EmptyResultsState />
-      ) : (
-        <>
-          <KpiGrid stats={analytics.stats} />
+      <div className="md:hidden">
+        {hasNoResults ? (
+          <div className="px-3 py-3">
+            <EmptyResultsState />
+          </div>
+        ) : (
+          <MobileExecutiveDashboard
+            activeCompany={activeCompany}
+            sidebarPeriodLabel={sidebarPeriodLabel}
+            societies={societies}
+            filters={filters}
+            setFilters={setFilters}
+            options={options}
+            analytics={analytics}
+            scope={scope}
+            isCorporate={isCorporate}
+            isAllPeriods={isAllPeriods}
+            onSelectCompany={handleSelectCompany}
+          />
+        )}
+      </div>
 
-          <section className="grid gap-4 xl:grid-cols-[1.25fr_0.75fr]">
-            {isAllPeriods ? (
-              <TrendChart data={analytics.monthlyTrend} />
-            ) : (
-              <PeriodComparisonPanel data={analytics.periodComparison} selectedPeriod={filters.period} />
-            )}
-            <CostBreakdown data={analytics.breakdown} totalCost={analytics.stats.totalCost} />
-          </section>
+      <div className="hidden min-w-0 flex-col gap-4 md:flex">
+        <Header stats={analytics.stats} metadata={metadata} scope={scope} activeCompany={activeCompany} />
+        <FilterBar filters={filters} setFilters={setFilters} options={options} lockedCompany={activeCompany} />
+        {hasNoResults ? (
+          <EmptyResultsState />
+        ) : (
+          <>
+            <KpiGrid stats={analytics.stats} />
 
-          <section className="grid gap-4 xl:grid-cols-[1.1fr_0.9fr]">
+            <section className="grid gap-4 xl:grid-cols-[1.25fr_0.75fr]">
+              {isAllPeriods ? (
+                <TrendChart data={analytics.monthlyTrend} />
+              ) : (
+                <PeriodComparisonPanel data={analytics.periodComparison} selectedPeriod={filters.period} />
+              )}
+              <CostBreakdown data={analytics.breakdown} totalCost={analytics.stats.totalCost} />
+            </section>
+
+            <section className="grid gap-4 xl:grid-cols-[1.1fr_0.9fr]">
+              {isCorporate ? (
+                <>
+                  <RankingBars title="Costo Remuneracional por Sociedad" data={analytics.companyCosts} compactCompany />
+                  <CompanyDonut data={analytics.companyCosts} />
+                </>
+              ) : (
+                <>
+                  <RankingBars title="Top Centros de Negocio de la Sociedad" icon={Network} data={analytics.businessCenterCosts} />
+                  <RankingBars title="Costo por Tipo de Contrato" data={analytics.contractCosts} />
+                </>
+              )}
+            </section>
+
             {isCorporate ? (
-              <>
-                <RankingBars title="Costo Remuneracional por Sociedad" data={analytics.companyCosts} compactCompany />
-                <CompanyDonut data={analytics.companyCosts} />
-              </>
-            ) : (
-              <>
-                <RankingBars title="Top Centros de Negocio de la Sociedad" icon={Network} data={analytics.businessCenterCosts} />
-                <RankingBars title="Costo por Tipo de Contrato" data={analytics.contractCosts} />
-              </>
-            )}
-          </section>
+              <RankingBars title="Top 10 Centros de Negocio por Costo" icon={Network} data={analytics.businessCenterCosts} />
+            ) : null}
 
-          {isCorporate ? (
-            <RankingBars title="Top 10 Centros de Negocio por Costo" icon={Network} data={analytics.businessCenterCosts} />
-          ) : null}
-
-          <WorkerTable rows={analytics.tableRows} consolidated={analytics.isWorkerTableConsolidated} />
-        </>
-      )}
+            <WorkerTable rows={analytics.tableRows} consolidated={analytics.isWorkerTableConsolidated} />
+          </>
+        )}
+      </div>
     </DashboardShell>
   );
 }
