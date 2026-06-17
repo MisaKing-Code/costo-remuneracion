@@ -67,41 +67,45 @@ export default function ExecutiveDashboard({ onLogout }) {
     );
   }
 
+  const desktopSidebar = (
+    <Sidebar
+      activeCompany={activeCompany}
+      activePeriodLabel={sidebarPeriodLabel}
+      societies={societies}
+      onSelectCompany={handleSelectCompany}
+      onLogout={onLogout}
+    />
+  );
+
+  const mobileDashboard = hasNoResults ? (
+    <div className="px-3 py-3">
+      <EmptyResultsState />
+    </div>
+  ) : (
+    <MobileExecutiveDashboard
+      activeCompany={activeCompany}
+      sidebarPeriodLabel={sidebarPeriodLabel}
+      societies={societies}
+      filters={filters}
+      setFilters={setFilters}
+      options={options}
+      analytics={analytics}
+      scope={scope}
+      isCorporate={isCorporate}
+      isAllPeriods={isAllPeriods}
+      onSelectCompany={handleSelectCompany}
+    />
+  );
+
   return (
-    <DashboardShell
-      sidebar={
-        <Sidebar
-          activeCompany={activeCompany}
-          activePeriodLabel={sidebarPeriodLabel}
-          societies={societies}
-          onSelectCompany={handleSelectCompany}
-          onLogout={onLogout}
-        />
-      }
-    >
-      <div className="md:hidden">
-        {hasNoResults ? (
-          <div className="px-3 py-3">
-            <EmptyResultsState />
-          </div>
-        ) : (
-          <MobileExecutiveDashboard
-            activeCompany={activeCompany}
-            sidebarPeriodLabel={sidebarPeriodLabel}
-            societies={societies}
-            filters={filters}
-            setFilters={setFilters}
-            options={options}
-            analytics={analytics}
-            scope={scope}
-            isCorporate={isCorporate}
-            isAllPeriods={isAllPeriods}
-            onSelectCompany={handleSelectCompany}
-          />
-        )}
+    <>
+      <div className="block md:hidden">
+        <DashboardShell>{mobileDashboard}</DashboardShell>
       </div>
 
-      <div className="hidden min-w-0 flex-col gap-4 md:flex">
+      <div className="hidden md:block">
+        <DashboardShell sidebar={desktopSidebar}>
+          <div className="flex min-w-0 flex-col gap-4">
         <Header stats={analytics.stats} metadata={metadata} scope={scope} activeCompany={activeCompany} />
         <FilterBar filters={filters} setFilters={setFilters} options={options} lockedCompany={activeCompany} />
         {hasNoResults ? (
@@ -141,6 +145,8 @@ export default function ExecutiveDashboard({ onLogout }) {
           </>
         )}
       </div>
-    </DashboardShell>
+        </DashboardShell>
+      </div>
+    </>
   );
 }
