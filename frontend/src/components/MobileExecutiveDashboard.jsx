@@ -2,27 +2,39 @@ import {
   BarChart3,
   BriefcaseBusiness,
   Building2,
+  ChevronDown,
   ChevronRight,
   CircleDollarSign,
   Filter,
   Home,
   LineChart as LineChartIcon,
+  MapPinned,
   Search,
+  Sparkles,
   Table2,
   UsersRound,
   X,
 } from "lucide-react";
 import { Area, AreaChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { formatCompactCurrency, formatCurrency, formatPercent, shortName } from "../utils/formatters";
 
 const tabs = [
   { id: "home", label: "Inicio", icon: Home },
   { id: "societies", label: "Sociedades", icon: Building2 },
   { id: "trend", label: "Tendencia", icon: LineChartIcon },
-  { id: "ranking", label: "Ranking", icon: BarChart3 },
+  { id: "ranking", label: "Brief", icon: Sparkles },
   { id: "people", label: "Personas", icon: UsersRound },
 ];
+
+function safeNumber(value) {
+  const parsed = Number(value || 0);
+  return Number.isFinite(parsed) ? parsed : 0;
+}
+
+function formatSafePercent(value) {
+  return formatPercent(Number.isFinite(value) ? value : 0);
+}
 
 function MobileSelect({ label, value, onChange, options = [], allLabel, disabled = false }) {
   return (
@@ -69,7 +81,7 @@ function MobileTopBar({ activeCompany, periodLabel, activeChips, onOpenFilters }
         <button
           type="button"
           onClick={onOpenFilters}
-          className="grid h-11 w-11 shrink-0 place-items-center rounded-xl border border-flame-400/30 bg-flame-500/12 text-flame-200 shadow-[0_0_18px_rgba(255,123,85,.13)]"
+          className="grid h-11 w-11 shrink-0 place-items-center rounded-xl border border-flame-400/30 bg-flame-500/12 text-flame-200 shadow-[0_0_18px_rgba(255,123,85,.13)] transition-all duration-200 active:scale-[0.96] active:bg-flame-500/20"
           aria-label="Abrir filtros"
         >
           <Filter size={18} strokeWidth={2.4} />
@@ -88,7 +100,7 @@ function MobileTopBar({ activeCompany, periodLabel, activeChips, onOpenFilters }
 
 function MobileKpiCard({ icon: Icon, label, value, detail }) {
   return (
-    <article className="rounded-xl border border-white/10 bg-ink-900/95 p-3 shadow-[0_12px_28px_rgba(0,0,0,.24)]">
+    <article className="rounded-xl border border-white/10 bg-ink-900/95 p-3 shadow-[0_12px_28px_rgba(0,0,0,.24)] transition-all duration-200 active:scale-[0.98]">
       <div className="flex items-start justify-between gap-2">
         <div className="grid h-8 w-8 place-items-center rounded-lg border border-flame-400/20 bg-flame-500/12 text-flame-300">
           <Icon size={16} strokeWidth={2.4} />
@@ -98,6 +110,36 @@ function MobileKpiCard({ icon: Icon, label, value, detail }) {
       <p className="mt-1 text-[21px] font-black leading-none text-stone-50">{value}</p>
       <p className="mt-1 min-h-[28px] text-[11px] font-semibold leading-4 text-stone-400">{detail}</p>
     </article>
+  );
+}
+
+function SkeletonBlock({ className = "" }) {
+  return <div className={`animate-pulse rounded-lg bg-white/[0.07] ${className}`} />;
+}
+
+function MobileSkeletonDashboard() {
+  return (
+    <main className="space-y-4 px-3 pb-24 pt-3">
+      <section className="grid grid-cols-2 gap-3">
+        {[0, 1, 2, 3].map((item) => (
+          <article key={item} className="rounded-xl border border-white/10 bg-ink-900/95 p-3">
+            <SkeletonBlock className="h-8 w-8" />
+            <SkeletonBlock className="mt-4 h-3 w-20" />
+            <SkeletonBlock className="mt-3 h-6 w-24" />
+            <SkeletonBlock className="mt-3 h-3 w-full" />
+          </article>
+        ))}
+      </section>
+      <section className="rounded-xl border border-white/10 bg-ink-900/95 p-3">
+        <SkeletonBlock className="h-4 w-32" />
+        <SkeletonBlock className="mt-4 h-[210px] w-full" />
+      </section>
+      <section className="space-y-3">
+        {[0, 1, 2].map((item) => (
+          <SkeletonBlock key={item} className="h-20 w-full" />
+        ))}
+      </section>
+    </main>
   );
 }
 
@@ -181,6 +223,122 @@ function MobileRankingList({ title, data = [], compactCompany = false }) {
   );
 }
 
+function SocietyQuickChips({ societies = [], activeCompany, onSelectCompany }) {
+  return (
+    <section className="scrollbar-dark -mx-3 flex gap-2 overflow-x-auto px-3 pb-1">
+      <button
+        type="button"
+        onClick={() => onSelectCompany("Todas")}
+        aria-pressed={activeCompany === "Todas"}
+        className={`min-h-11 shrink-0 rounded-xl border px-3 text-left transition-all duration-200 active:scale-[0.98] ${
+          activeCompany === "Todas"
+            ? "border-flame-400/45 bg-flame-500/14 text-flame-100 shadow-[0_0_18px_rgba(255,123,85,.14)]"
+            : "border-white/10 bg-ink-900/95 text-stone-300"
+        }`}
+      >
+        <span className="block text-xs font-black">Todas</span>
+        <span className="mt-0.5 block text-[10px] font-bold text-stone-500">Vista general</span>
+      </button>
+      {societies.map((society) => {
+        const active = activeCompany === society.name;
+        return (
+          <button
+            key={society.name}
+            type="button"
+            onClick={() => onSelectCompany(society.name)}
+            aria-pressed={active}
+            className={`min-h-11 w-[148px] shrink-0 rounded-xl border px-3 text-left transition-all duration-200 active:scale-[0.98] ${
+              active
+                ? "border-flame-400/45 bg-flame-500/14 text-flame-100 shadow-[0_0_18px_rgba(255,123,85,.14)]"
+                : "border-white/10 bg-ink-900/95 text-stone-300"
+            }`}
+          >
+            <span className="block truncate text-xs font-black">{shortName(society.name)}</span>
+            <span className="mt-0.5 block text-[10px] font-bold text-stone-500">{formatSafePercent(society.percent)}</span>
+          </button>
+        );
+      })}
+    </section>
+  );
+}
+
+function ExecutiveBrief({ analytics, societies = [], activeCompany, isCorporate, delta }) {
+  const leader = societies[0];
+  const mainCenter = analytics.businessCenterCosts?.[0];
+  const hasCost = safeNumber(analytics.stats?.totalCost) > 0;
+  const leaderText = isCorporate
+    ? leader
+      ? `${shortName(leader.name)} concentra ${formatSafePercent(leader.percent)}`
+      : "Sin sociedad lider disponible"
+    : mainCenter
+      ? `${mainCenter.name} lidera los centros de costo`
+      : "Sin centro principal disponible";
+  const variationText =
+    delta.direction === "up"
+      ? `Aumento ${delta.label} ${delta.detail}`
+      : delta.direction === "down"
+        ? `Disminucion ${delta.label} ${delta.detail}`
+        : "Sin comparacion disponible";
+  const insight =
+    !isCorporate
+      ? `La vista actual corresponde a ${shortName(activeCompany)}; el analisis se enfoca en centros, contratos y trabajadores de esa sociedad.`
+      : leader && leader.percent > 50
+        ? `La sociedad lider concentra el ${formatSafePercent(leader.percent)} del costo total del periodo.`
+        : leader
+          ? `La distribucion corporativa no presenta una concentracion dominante sobre 50%.`
+          : "No hay ranking disponible para generar una lectura de concentracion.";
+  const movement =
+    delta.direction === "up"
+      ? "El costo remuneracional muestra un aumento respecto al periodo anterior."
+      : delta.direction === "down"
+        ? "El costo remuneracional muestra una disminucion respecto al periodo anterior."
+        : "La lectura actual es descriptiva porque no hay comparacion disponible.";
+  const items = [
+    { icon: CircleDollarSign, label: "Costo del periodo", value: hasCost ? formatCompactCurrency(analytics.stats.totalCost) : "Sin datos" },
+    { icon: Building2, label: isCorporate ? "Sociedad lider" : "Centro principal", value: leaderText },
+    { icon: UsersRound, label: "Dotacion analizada", value: `${safeNumber(analytics.stats?.workers)} trabajadores` },
+    { icon: BriefcaseBusiness, label: "Promedio trabajador", value: formatCompactCurrency(analytics.stats?.averageCost) },
+    { icon: MapPinned, label: "Senal del periodo", value: variationText },
+  ];
+
+  return (
+    <section className="space-y-3">
+      <div className="rounded-xl border border-flame-400/20 bg-flame-500/[0.08] p-3 shadow-[0_14px_34px_rgba(0,0,0,.24)]">
+        <div className="flex items-center gap-2">
+          <div className="grid h-9 w-9 place-items-center rounded-xl border border-flame-300/25 bg-flame-500/12 text-flame-200">
+            <Sparkles size={17} strokeWidth={2.4} />
+          </div>
+          <div>
+            <p className="tiny-label text-flame-300">Insight ejecutivo</p>
+            <h2 className="text-lg font-black text-stone-50">Resumen Ejecutivo</h2>
+          </div>
+        </div>
+        <p className="mt-3 text-sm font-bold leading-6 text-stone-200">{insight}</p>
+        <p className="mt-2 text-xs font-semibold leading-5 text-stone-400">{movement}</p>
+      </div>
+
+      <div className="grid gap-3">
+        {items.map((item) => {
+          const Icon = item.icon;
+          return (
+            <article key={item.label} className="rounded-xl border border-white/10 bg-ink-900/95 p-3 transition-all duration-200 active:scale-[0.98]">
+              <div className="flex items-start gap-3">
+                <div className="grid h-8 w-8 shrink-0 place-items-center rounded-lg border border-flame-400/20 bg-flame-500/12 text-flame-300">
+                  <Icon size={15} strokeWidth={2.4} />
+                </div>
+                <div className="min-w-0">
+                  <p className="tiny-label text-stone-500">{item.label}</p>
+                  <p className="mt-1 text-sm font-black leading-5 text-stone-100">{item.value}</p>
+                </div>
+              </div>
+            </article>
+          );
+        })}
+      </div>
+    </section>
+  );
+}
+
 function MobileSocietyList({ societies = [], activeCompany, onSelectCompany }) {
   return (
     <section className="space-y-3">
@@ -192,7 +350,7 @@ function MobileSocietyList({ societies = [], activeCompany, onSelectCompany }) {
             type="button"
             onClick={() => onSelectCompany(society.name)}
             aria-pressed={active}
-            className={`relative w-full overflow-hidden rounded-xl border p-3 text-left transition ${
+            className={`relative w-full overflow-hidden rounded-xl border p-3 text-left transition-all duration-200 active:scale-[0.98] ${
               active
                 ? "border-flame-400/45 bg-white/[0.075] shadow-[0_0_22px_rgba(255,123,85,.16)]"
                 : "border-white/10 bg-ink-900/95"
@@ -220,25 +378,88 @@ function MobileSocietyList({ societies = [], activeCompany, onSelectCompany }) {
   );
 }
 
-function MobileWorkerCards({ rows = [] }) {
+function MobileWorkerCards({ rows = [], totalCost = 0 }) {
+  const [expanded, setExpanded] = useState(null);
+
   return (
     <section className="space-y-3">
-      {rows.slice(0, 12).map((row) => (
-        <article key={`${row.RUT_Trabajador}-${row.Periodo}`} className="rounded-xl border border-white/10 bg-ink-900/95 p-3 shadow-[0_12px_28px_rgba(0,0,0,.22)]">
-          <div className="flex items-start justify-between gap-3">
-            <div className="min-w-0">
-              <p className="truncate text-sm font-black text-stone-100">{row.Nombre_Trabajador}</p>
-              <p className="mt-1 truncate text-[11px] font-bold text-stone-500">{shortName(row.Nombre_Sociedad)} · {row.Periodo}</p>
-            </div>
-            <p className="shrink-0 text-sm font-black text-flame-300">{formatCurrency(row.Total_Costo)}</p>
-          </div>
-          <p className="mt-2 line-clamp-2 text-xs font-bold leading-5 text-stone-300">{row.Cargo}</p>
-          <div className="mt-3 flex flex-wrap gap-2">
-            <span className="rounded-full border border-white/10 px-2 py-1 text-[10px] font-bold text-stone-300">{row.Tipo_Trabajador}</span>
-            <span className="rounded-full border border-flame-400/25 px-2 py-1 text-[10px] font-bold text-flame-300">{row.Contrato_Trabajador}</span>
-          </div>
-        </article>
-      ))}
+      {rows.slice(0, 12).map((row) => {
+        const key = `${row.RUT_Trabajador || row.Nombre_Trabajador}-${row.Periodo || "periodo"}`;
+        const isOpen = expanded === key;
+        const share = totalCost ? (safeNumber(row.Total_Costo) / totalCost) * 100 : null;
+
+        return (
+          <article
+            key={key}
+            className="rounded-xl border border-white/10 bg-ink-900/95 p-3 shadow-[0_12px_28px_rgba(0,0,0,.22)] transition-all duration-200 active:scale-[0.98]"
+          >
+            <button type="button" onClick={() => setExpanded(isOpen ? null : key)} className="w-full text-left">
+              <div className="flex items-start justify-between gap-3">
+                <div className="min-w-0">
+                  <p className="truncate text-sm font-black text-stone-100">{row.Nombre_Trabajador}</p>
+                  <p className="mt-1 truncate text-[11px] font-bold text-stone-500">
+                    {shortName(row.Nombre_Sociedad)} · {row.Periodo || "Sin periodo"}
+                  </p>
+                </div>
+                <p className="shrink-0 text-sm font-black text-flame-300">{formatCurrency(row.Total_Costo)}</p>
+              </div>
+              <p className="mt-2 line-clamp-2 text-xs font-bold leading-5 text-stone-300">{row.Cargo}</p>
+              <div className="mt-3 flex flex-wrap gap-2">
+                {row.Tipo_Trabajador ? (
+                  <span className="rounded-full border border-white/10 px-2 py-1 text-[10px] font-bold text-stone-300">
+                    {row.Tipo_Trabajador}
+                  </span>
+                ) : null}
+                {row.Contrato_Trabajador ? (
+                  <span className="rounded-full border border-flame-400/25 px-2 py-1 text-[10px] font-bold text-flame-300">
+                    {row.Contrato_Trabajador}
+                  </span>
+                ) : null}
+                <span className="inline-flex items-center gap-1 rounded-full border border-white/10 px-2 py-1 text-[10px] font-bold text-stone-400">
+                  Ver detalle
+                  <ChevronDown size={12} className={`transition-transform duration-200 ${isOpen ? "rotate-180" : ""}`} />
+                </span>
+              </div>
+            </button>
+            {isOpen ? (
+              <div className="mt-3 grid gap-2 rounded-lg border border-white/[0.07] bg-black/20 p-3 text-[11px] font-bold text-stone-300">
+                {row.Centro_de_Negocio ? (
+                  <div className="flex justify-between gap-3">
+                    <span className="text-stone-500">Centro</span>
+                    <span className="text-right text-stone-100">{row.Centro_de_Negocio}</span>
+                  </div>
+                ) : null}
+                {row.Contrato_Trabajador ? (
+                  <div className="flex justify-between gap-3">
+                    <span className="text-stone-500">Contrato</span>
+                    <span className="text-right text-stone-100">{row.Contrato_Trabajador}</span>
+                  </div>
+                ) : null}
+                <div className="flex justify-between gap-3">
+                  <span className="text-stone-500">Total haberes</span>
+                  <span className="text-right text-stone-100">{formatCurrency(row.Total_Haberes)}</span>
+                </div>
+                <div className="flex justify-between gap-3">
+                  <span className="text-stone-500">Costo remuneracional</span>
+                  <span className="text-right text-flame-300">{formatCurrency(row.Total_Costo)}</span>
+                </div>
+                {share !== null ? (
+                  <div className="flex justify-between gap-3">
+                    <span className="text-stone-500">Participacion</span>
+                    <span className="text-right text-stone-100">{formatSafePercent(share)}</span>
+                  </div>
+                ) : null}
+                {row.RUT_Trabajador ? (
+                  <div className="flex justify-between gap-3">
+                    <span className="text-stone-500">RUT</span>
+                    <span className="text-right text-stone-100">{row.RUT_Trabajador}</span>
+                  </div>
+                ) : null}
+              </div>
+            ) : null}
+          </article>
+        );
+      })}
     </section>
   );
 }
@@ -302,10 +523,10 @@ function MobileFilterSheet({ open, onClose, filters, setFilters, options, locked
           </label>
         </div>
         <div className="mt-4 grid grid-cols-2 gap-3">
-          <button type="button" onClick={reset} className="h-11 rounded-xl border border-white/10 bg-white/[0.05] text-xs font-black uppercase tracking-[0.08em] text-stone-200">
+          <button type="button" onClick={reset} className="h-11 rounded-xl border border-white/10 bg-white/[0.05] text-xs font-black uppercase tracking-[0.08em] text-stone-200 transition-all duration-200 active:scale-[0.98]">
             Restablecer
           </button>
-          <button type="button" onClick={onClose} className="h-11 rounded-xl border border-flame-400/35 bg-flame-500/15 text-xs font-black uppercase tracking-[0.08em] text-flame-200">
+          <button type="button" onClick={onClose} className="h-11 rounded-xl border border-flame-400/35 bg-flame-500/15 text-xs font-black uppercase tracking-[0.08em] text-flame-200 transition-all duration-200 active:scale-[0.98]">
             Aplicar
           </button>
         </div>
@@ -326,8 +547,8 @@ function MobileBottomNav({ activeTab, onChange }) {
               key={tab.id}
               type="button"
               onClick={() => onChange(tab.id)}
-              className={`flex h-12 flex-col items-center justify-center gap-1 rounded-xl text-[10px] font-black transition ${
-                active ? "bg-flame-500/14 text-flame-200" : "text-stone-500"
+              className={`flex h-12 flex-col items-center justify-center gap-1 rounded-xl text-[10px] font-black transition-all duration-200 active:scale-[0.94] ${
+                active ? "bg-flame-500/16 text-flame-200 shadow-[0_0_14px_rgba(255,123,85,.12)]" : "text-stone-500"
               }`}
             >
               <Icon size={17} strokeWidth={2.4} />
@@ -355,7 +576,14 @@ export default function MobileExecutiveDashboard({
 }) {
   const [filtersOpen, setFiltersOpen] = useState(false);
   const [activeTab, setActiveTab] = useState("home");
+  const [isHydrating, setIsHydrating] = useState(true);
   const searchTerm = String(filters.searchTerm || "").trim();
+
+  useEffect(() => {
+    const timer = window.setTimeout(() => setIsHydrating(false), 320);
+
+    return () => window.clearTimeout(timer);
+  }, []);
   const activeChips = [
     filters.period !== "Todos" ? { label: "Periodo", value: filters.period } : null,
     activeCompany !== "Todas" ? { label: "Sociedad", value: shortName(activeCompany) } : filters.company !== "Todas" ? { label: "Empresa", value: shortName(filters.company) } : null,
@@ -386,7 +614,7 @@ export default function MobileExecutiveDashboard({
           : null;
 
     if (!current?.previousCost) {
-      return { label: "N/D", detail: "Sin periodo anterior" };
+      return { label: "N/D", detail: "Sin periodo anterior", direction: "neutral", value: 0, percent: null };
     }
 
     const value = current.totalCost - current.previousCost;
@@ -394,6 +622,9 @@ export default function MobileExecutiveDashboard({
     return {
       label: `${value > 0 ? "+" : ""}${formatPercent(percent)}`,
       detail: `vs ${current.previousPeriod}`,
+      direction: value > 0 ? "up" : value < 0 ? "down" : "flat",
+      value,
+      percent,
     };
   }, [analytics.periodComparison, isAllPeriods, trendData]);
 
@@ -409,9 +640,13 @@ export default function MobileExecutiveDashboard({
         onOpenFilters={() => setFiltersOpen(true)}
       />
 
+      {isHydrating ? (
+        <MobileSkeletonDashboard />
+      ) : (
       <main className="space-y-4 px-3 pb-24 pt-3">
         {activeTab === "home" ? (
           <>
+            <SocietyQuickChips societies={societies} activeCompany={activeCompany} onSelectCompany={onSelectCompany} />
             <MobileKpiGrid stats={analytics.stats} delta={delta} />
             <section className="rounded-xl border border-white/10 bg-white/[0.035] p-3">
               <p className="tiny-label text-flame-300">Resumen ejecutivo</p>
@@ -437,6 +672,7 @@ export default function MobileExecutiveDashboard({
 
         {activeTab === "societies" ? (
           <>
+            <SocietyQuickChips societies={societies} activeCompany={activeCompany} onSelectCompany={onSelectCompany} />
             <MobileSocietyList societies={societies} activeCompany={activeCompany} onSelectCompany={onSelectCompany} />
           </>
         ) : null}
@@ -447,7 +683,15 @@ export default function MobileExecutiveDashboard({
           </>
         ) : null}
 
-        {activeTab === "ranking" ? <MobileRankingList title={rankingTitle} data={rankingData} compactCompany={isCorporate} /> : null}
+        {activeTab === "ranking" ? (
+          <ExecutiveBrief
+            analytics={analytics}
+            societies={societies}
+            activeCompany={activeCompany}
+            isCorporate={isCorporate}
+            delta={delta}
+          />
+        ) : null}
 
         {activeTab === "people" ? (
           <>
@@ -458,10 +702,11 @@ export default function MobileExecutiveDashboard({
               </div>
               <Table2 size={18} className="text-flame-400" />
             </div>
-            <MobileWorkerCards rows={analytics.tableRows} />
+            <MobileWorkerCards rows={analytics.tableRows} totalCost={analytics.stats.totalCost} />
           </>
         ) : null}
       </main>
+      )}
 
       <MobileFilterSheet
         open={filtersOpen}
