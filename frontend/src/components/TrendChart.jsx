@@ -5,10 +5,10 @@ import { formatCompactCurrency } from "../utils/formatters";
 
 export default function TrendChart({ data = [] }) {
   return (
-    <SectionCard title="Tendencia Mensual del Costo" icon={TrendingUp} className="min-h-[320px]">
-      <div className="h-[260px]">
+    <SectionCard title="Tendencia Mensual del Costo" icon={TrendingUp} className="flex min-h-[320px] flex-col">
+      <div className="min-h-[284px] flex-1">
         <ResponsiveContainer width="100%" height="100%">
-          <AreaChart data={data} margin={{ top: 8, right: 10, left: 0, bottom: 0 }}>
+          <AreaChart data={data} margin={{ top: 16, right: 10, left: 0, bottom: 6 }}>
             <defs>
               <linearGradient id="costTrend" x1="0" x2="0" y1="0" y2="1">
                 <stop offset="5%" stopColor="#ff7b55" stopOpacity={0.45} />

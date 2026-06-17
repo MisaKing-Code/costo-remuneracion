@@ -31,7 +31,11 @@ function MetricTile({ label, value, detail, emphasis = false }) {
   return (
     <div className="panel-soft min-h-[104px] p-3">
       <p className="tiny-label text-stone-500">{label}</p>
-      <p className={emphasis ? "mt-3 text-3xl font-black leading-none text-stone-50" : "mt-3 text-2xl font-black text-stone-50"}>
+      <p
+        className={
+          emphasis ? "mt-3 text-3xl font-black leading-none text-stone-50" : "mt-3 text-[22px] font-black leading-none text-stone-50"
+        }
+      >
         {value}
       </p>
       {detail ? <p className="mt-2 text-[11px] font-bold leading-5 text-stone-400">{detail}</p> : null}
@@ -44,7 +48,12 @@ export default function PeriodComparisonPanel({ data, selectedPeriod }) {
 
   if (!data || !hasMonthlyContext || !data.selectedCost) {
     return (
-      <SectionCard title={`Comparativo del Periodo - ${selectedPeriod}`} icon={CalendarRange} className="min-h-[320px]">
+      <SectionCard
+        title={`Comparativo del Periodo · ${selectedPeriod}`}
+        subtitle="Lectura del periodo frente al historial filtrado"
+        icon={CalendarRange}
+        className="min-h-[320px]"
+      >
         <div className="flex h-[260px] flex-col justify-center rounded-lg border border-white/10 bg-white/[0.03] px-5">
           <p className="tiny-label text-flame-300">Historial insuficiente</p>
           <h3 className="mt-2 text-2xl font-black text-stone-50">No hay historial suficiente para comparar este periodo.</h3>
@@ -63,33 +72,35 @@ export default function PeriodComparisonPanel({ data, selectedPeriod }) {
     data.deltaVsAverage,
   )})`;
   const rankDetail = data.rank ? `${data.rank} de ${data.totalPeriods} meses por costo` : "Sin ranking disponible";
+  const selectedDetail = `Periodo seleccionado: ${formatCompactCurrency(data.selectedCost)}`;
 
   return (
-    <SectionCard title={`Comparativo del Periodo - ${data.selectedPeriod}`} icon={CalendarRange} className="min-h-[320px]">
-      <div className="grid gap-3 lg:grid-cols-[0.95fr_1.05fr]">
-        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
-          <MetricTile label="Costo del periodo" value={formatCompactCurrency(data.selectedCost)} detail={rankDetail} emphasis />
-          <MetricTile
-            label="Promedio mensual"
-            value={formatCompactCurrency(data.averageCost)}
-            detail={`${data.totalPeriods} meses comparables`}
-          />
-          <MetricTile label="Variacion vs mes anterior" value={formatSignedCurrency(data.deltaVsPrevious)} detail={previousDetail} />
-          <MetricTile label="Variacion vs promedio" value={formatSignedCurrency(data.deltaVsAverage)} detail={averageDetail} />
+    <SectionCard
+      title={`Comparativo del Periodo · ${data.selectedPeriod}`}
+      subtitle="Lectura del periodo frente al historial filtrado"
+      icon={CalendarRange}
+      className="min-h-[360px]"
+    >
+      <div className="flex min-h-[292px] flex-col gap-3">
+        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 xl:grid-cols-4">
+          <MetricTile label="Promedio mensual" value={formatCompactCurrency(data.averageCost)} detail={`${data.totalPeriods} meses comparables`} />
+          <MetricTile label="Vs mes anterior" value={formatSignedCurrency(data.deltaVsPrevious)} detail={previousDetail} />
+          <MetricTile label="Vs promedio" value={formatSignedCurrency(data.deltaVsAverage)} detail={averageDetail} />
+          <MetricTile label="Ranking del mes" value={data.rank ? String(data.rank) : "N/D"} detail={rankDetail} emphasis />
         </div>
 
-        <div className="panel-soft min-h-[248px] p-3">
-          <div className="mb-2 flex items-start justify-between gap-3">
+        <div className="panel-soft flex flex-1 flex-col p-3">
+          <div className="mb-3 flex flex-col gap-2 sm:flex-row sm:items-start sm:justify-between">
             <div>
               <p className="tiny-label text-stone-500">Serie mensual contextual</p>
-              <p className="mt-1 text-xs font-bold text-stone-400">Mes seleccionado resaltado en flame.</p>
+              <p className="mt-1 text-xs font-bold text-stone-400">{selectedDetail}</p>
             </div>
-            <div className="text-right text-[11px] font-bold text-stone-400">
+            <div className="text-left text-[11px] font-bold text-stone-400 sm:text-right">
               <p>Max {data.maxPeriod}: {formatCompactCurrency(data.maxCost)}</p>
               <p>Min {data.minPeriod}: {formatCompactCurrency(data.minCost)}</p>
             </div>
           </div>
-          <div className="h-[190px]">
+          <div className="h-[220px]">
             <ResponsiveContainer width="100%" height="100%">
               <BarChart data={data.monthlySeries} margin={{ top: 12, right: 4, left: 0, bottom: 0 }}>
                 <XAxis dataKey="period" tick={{ fill: "#a8a29e", fontSize: 10, fontWeight: 800 }} tickLine={false} axisLine={false} />
