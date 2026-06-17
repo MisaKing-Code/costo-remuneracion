@@ -3,6 +3,7 @@ import { getMaintenanceCostDataset } from "../services/legacy/maintenanceCostSer
 import {
   costBreakdown,
   getDashboardStats,
+  getPeriodComparison,
   getTopWorkersByCost,
   groupByCost,
   monthlyCostTrend,
@@ -117,6 +118,25 @@ export function useCostDashboard(activeCompany = "Todas") {
     });
   }, [effectiveCompany, filters, scopeRecords]);
 
+  const comparisonRecords = useMemo(() => {
+    const searchTerm = normalizeSearchText(filters.searchTerm);
+    const searchRut = normalizeRut(filters.searchTerm);
+
+    return scopeRecords.filter((item) => {
+      const byCompany = effectiveCompany === "Todas" || item.Nombre_Sociedad === effectiveCompany;
+      const byBusinessCenter = filters.businessCenter === "Todos" || item.Centro_de_Negocio === filters.businessCenter;
+      const byType = filters.workerType === "Todos" || item.Tipo_Trabajador === filters.workerType;
+      const byContract = filters.contract === "Todos" || item.Contrato_Trabajador === filters.contract;
+      const bySearch =
+        !searchTerm ||
+        normalizeSearchText(item.Nombre_Trabajador).includes(searchTerm) ||
+        normalizeSearchText(item.Cargo).includes(searchTerm) ||
+        (searchRut && normalizeRut(item.RUT_Trabajador).includes(searchRut));
+
+      return byCompany && byBusinessCenter && byType && byContract && bySearch;
+    });
+  }, [effectiveCompany, filters, scopeRecords]);
+
   const analytics = useMemo(() => {
     const companyCosts = groupByCost(filteredRecords, "Nombre_Sociedad");
     const businessCenterCosts = groupByCost(filteredRecords, "Centro_de_Negocio").slice(0, 10);
@@ -131,10 +151,11 @@ export function useCostDashboard(activeCompany = "Todas") {
       contractCosts,
       breakdown: costBreakdown(filteredRecords),
       monthlyTrend: monthlyCostTrend(filteredRecords),
+      periodComparison: getPeriodComparison(comparisonRecords, filters.period),
       tableRows,
       isWorkerTableConsolidated: isAllPeriods,
     };
-  }, [filteredRecords, filters.period]);
+  }, [comparisonRecords, filteredRecords, filters.period]);
 
   const scope = useMemo(
     () => ({

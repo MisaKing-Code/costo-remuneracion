@@ -5,6 +5,7 @@ import CostBreakdown from "../components/CostBreakdown";
 import FilterBar from "../components/FilterBar";
 import Header from "../components/Header";
 import KpiGrid from "../components/KpiGrid";
+import PeriodComparisonPanel from "../components/PeriodComparisonPanel";
 import RankingBars from "../components/RankingBars";
 import Sidebar from "../components/Sidebar";
 import TrendChart from "../components/TrendChart";
@@ -34,6 +35,7 @@ export default function ExecutiveDashboard({ onLogout }) {
     useCostDashboard(activeCompany);
   const hasNoResults = scope.filteredRecords === 0;
   const isCorporate = activeCompany === "Todas";
+  const isAllPeriods = filters.period === "Todos";
 
   const handleSelectCompany = (company) => {
     setActiveCompany(company);
@@ -84,7 +86,11 @@ export default function ExecutiveDashboard({ onLogout }) {
           <KpiGrid stats={analytics.stats} />
 
           <section className="grid gap-4 xl:grid-cols-[1.25fr_0.75fr]">
-            <TrendChart data={analytics.monthlyTrend} />
+            {isAllPeriods ? (
+              <TrendChart data={analytics.monthlyTrend} />
+            ) : (
+              <PeriodComparisonPanel data={analytics.periodComparison} selectedPeriod={filters.period} />
+            )}
             <CostBreakdown data={analytics.breakdown} totalCost={analytics.stats.totalCost} />
           </section>
 

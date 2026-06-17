@@ -64,6 +64,67 @@ export function monthlyCostTrend(records) {
   return Object.values(grouped).sort((a, b) => String(a.period).localeCompare(String(b.period), "es"));
 }
 
+export function getPeriodComparison(records, selectedPeriod) {
+  if (!selectedPeriod || selectedPeriod === "Todos") {
+    return null;
+  }
+
+  const monthlySeries = monthlyCostTrend(records);
+  const selectedIndex = monthlySeries.findIndex((item) => item.period === selectedPeriod);
+
+  if (selectedIndex === -1) {
+    return {
+      selectedPeriod,
+      selectedCost: 0,
+      previousPeriod: null,
+      previousCost: 0,
+      averageCost: 0,
+      deltaVsPrevious: 0,
+      deltaVsPreviousPct: null,
+      deltaVsAverage: 0,
+      deltaVsAveragePct: null,
+      maxPeriod: null,
+      maxCost: 0,
+      minPeriod: null,
+      minCost: 0,
+      rank: null,
+      totalPeriods: monthlySeries.length,
+      monthlySeries,
+    };
+  }
+
+  const selected = monthlySeries[selectedIndex];
+  const selectedCost = selected.totalCost;
+  const previous = selectedIndex > 0 ? monthlySeries[selectedIndex - 1] : null;
+  const totalCost = monthlySeries.reduce((total, item) => total + item.totalCost, 0);
+  const averageCost = monthlySeries.length ? totalCost / monthlySeries.length : 0;
+  const sortedByCost = [...monthlySeries].sort((a, b) => b.totalCost - a.totalCost);
+  const max = sortedByCost[0] || null;
+  const min = sortedByCost[sortedByCost.length - 1] || null;
+  const rank = sortedByCost.findIndex((item) => item.period === selectedPeriod) + 1;
+  const deltaVsPrevious = previous ? selectedCost - previous.totalCost : 0;
+  const deltaVsAverage = selectedCost - averageCost;
+
+  return {
+    selectedPeriod,
+    selectedCost,
+    previousPeriod: previous?.period || null,
+    previousCost: previous?.totalCost || 0,
+    averageCost,
+    deltaVsPrevious,
+    deltaVsPreviousPct: previous && previous.totalCost ? (deltaVsPrevious / previous.totalCost) * 100 : null,
+    deltaVsAverage,
+    deltaVsAveragePct: averageCost ? (deltaVsAverage / averageCost) * 100 : null,
+    maxPeriod: max?.period || null,
+    maxCost: max?.totalCost || 0,
+    minPeriod: min?.period || null,
+    minCost: min?.totalCost || 0,
+    rank: rank || null,
+    totalPeriods: monthlySeries.length,
+    monthlySeries,
+  };
+}
+
 export function costBreakdown(records) {
   const total = sumBy(records, "Total_Costo");
 
