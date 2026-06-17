@@ -38,6 +38,52 @@ export function groupByCost(records, field) {
     .sort((a, b) => b.value - a.value);
 }
 
+export function getSocietyMetrics(records) {
+  const total = sumBy(records, "Total_Costo");
+  const grouped = records.reduce((acc, item) => {
+    const name = item.Nombre_Sociedad || "Sin sociedad";
+
+    if (!acc[name]) {
+      acc[name] = {
+        name,
+        value: 0,
+        workers: new Set(),
+        businessCenters: new Set(),
+        records: [],
+      };
+    }
+
+    acc[name].value += Number(item.Total_Costo || 0);
+    acc[name].records.push(item);
+
+    if (item.RUT_Trabajador) {
+      acc[name].workers.add(item.RUT_Trabajador);
+    }
+
+    if (item.Centro_de_Negocio) {
+      acc[name].businessCenters.add(item.Centro_de_Negocio);
+    }
+
+    return acc;
+  }, {});
+
+  const metrics = Object.values(grouped)
+    .map((item) => ({
+      name: item.name,
+      value: item.value,
+      workers: item.workers.size,
+      businessCenters: item.businessCenters.size,
+      percent: total ? (item.value / total) * 100 : 0,
+      trend: monthlyCostTrend(item.records),
+    }))
+    .sort((a, b) => b.value - a.value);
+
+  return metrics.map((item, index) => ({
+    ...item,
+    badge: index === 0 ? "Mayor costo" : item.percent > 0 && item.percent < 3 ? "Baja participacion" : null,
+  }));
+}
+
 export function monthlyCostTrend(records) {
   const grouped = records.reduce((acc, item) => {
     const period = item.Periodo || "Sin periodo";

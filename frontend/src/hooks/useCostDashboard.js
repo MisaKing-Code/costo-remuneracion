@@ -4,6 +4,7 @@ import {
   costBreakdown,
   getDashboardStats,
   getPeriodComparison,
+  getSocietyMetrics,
   getTopWorkersByCost,
   groupByCost,
   monthlyCostTrend,
@@ -96,8 +97,6 @@ export function useCostDashboard(activeCompany = "Todas") {
     [businessCenterOptions, periodOptions, records, scopeRecords],
   );
 
-  const societies = useMemo(() => groupByCost(records, "Nombre_Sociedad"), [records]);
-
   const filteredRecords = useMemo(() => {
     const searchTerm = normalizeSearchText(filters.searchTerm);
     const searchRut = normalizeRut(filters.searchTerm);
@@ -117,6 +116,27 @@ export function useCostDashboard(activeCompany = "Todas") {
       return byPeriod && byCompany && byBusinessCenter && byType && byContract && bySearch;
     });
   }, [effectiveCompany, filters, scopeRecords]);
+
+  const sidebarRecords = useMemo(() => {
+    const searchTerm = normalizeSearchText(filters.searchTerm);
+    const searchRut = normalizeRut(filters.searchTerm);
+
+    return records.filter((item) => {
+      const byPeriod = filters.period === "Todos" || item.Periodo === filters.period;
+      const byBusinessCenter = filters.businessCenter === "Todos" || item.Centro_de_Negocio === filters.businessCenter;
+      const byType = filters.workerType === "Todos" || item.Tipo_Trabajador === filters.workerType;
+      const byContract = filters.contract === "Todos" || item.Contrato_Trabajador === filters.contract;
+      const bySearch =
+        !searchTerm ||
+        normalizeSearchText(item.Nombre_Trabajador).includes(searchTerm) ||
+        normalizeSearchText(item.Cargo).includes(searchTerm) ||
+        (searchRut && normalizeRut(item.RUT_Trabajador).includes(searchRut));
+
+      return byPeriod && byBusinessCenter && byType && byContract && bySearch;
+    });
+  }, [filters, records]);
+
+  const societies = useMemo(() => getSocietyMetrics(sidebarRecords), [sidebarRecords]);
 
   const comparisonRecords = useMemo(() => {
     const searchTerm = normalizeSearchText(filters.searchTerm);
@@ -177,6 +197,7 @@ export function useCostDashboard(activeCompany = "Todas") {
     metadata,
     activeCompany,
     societies,
+    sidebarPeriodLabel: filters.period === "Todos" ? metadata.period || "Todos" : filters.period,
     filters,
     setFilters,
     options,
