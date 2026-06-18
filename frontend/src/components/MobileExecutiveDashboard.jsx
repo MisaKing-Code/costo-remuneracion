@@ -28,6 +28,13 @@ const tabs = [
   { id: "people", label: "Personas", icon: UsersRound },
 ];
 
+const societyCriteria = [
+  { id: "cost", label: "Mayor costo", detail: "Concentracion" },
+  { id: "variation", label: "Mayor variacion", detail: "Vs periodo anterior" },
+  { id: "workers", label: "Mayor dotacion", detail: "Trabajadores" },
+  { id: "costPerWorker", label: "Mayor costo/trab.", detail: "Promedio" },
+];
+
 function safeNumber(value) {
   const parsed = Number(value || 0);
   return Number.isFinite(parsed) ? parsed : 0;
@@ -438,6 +445,154 @@ function SocietyQuickChips({ societies = [], activeCompany, onSelectCompany }) {
   );
 }
 
+function getSocietyVariation(society, selectedPeriod) {
+  const trend = Array.isArray(society.trend) ? society.trend.filter((item) => item?.period) : [];
+
+  if (trend.length < 2) {
+    return { hasComparison: false, label: "Sin comparacion", percent: null, value: 0, detail: "Sin periodo anterior" };
+  }
+
+  const currentIndex =
+    selectedPeriod && selectedPeriod !== "Todos"
+      ? trend.findIndex((item) => item.period === selectedPeriod)
+      : trend.length - 1;
+
+  if (currentIndex <= 0) {
+    return { hasComparison: false, label: "Sin comparacion", percent: null, value: 0, detail: "Sin periodo anterior" };
+  }
+
+  const current = trend[currentIndex];
+  const previous = trend[currentIndex - 1];
+  const currentCost = safeNumber(current.totalCost);
+  const previousCost = safeNumber(previous.totalCost);
+
+  if (!previousCost) {
+    return { hasComparison: false, label: "Sin comparacion", percent: null, value: 0, detail: "Sin periodo anterior" };
+  }
+
+  const value = currentCost - previousCost;
+  const percent = (value / previousCost) * 100;
+
+  return {
+    hasComparison: true,
+    label: `${value > 0 ? "+" : ""}${formatPercent(percent)}`,
+    percent,
+    value,
+    detail: `vs ${previous.period}`,
+  };
+}
+
+function getSocietyAnalytics(societies = [], selectedPeriod, comparisonSocieties = []) {
+  const comparisonByName = new Map(comparisonSocieties.map((society) => [society.name, society]));
+
+  return societies.map((society) => {
+    const comparisonSociety = comparisonByName.get(society.name) || society;
+    const workers = safeNumber(society.workers);
+    const costPerWorker = workers ? safeNumber(society.value) / workers : 0;
+    const variation = getSocietyVariation(comparisonSociety, selectedPeriod);
+
+    return {
+      ...society,
+      workers,
+      costPerWorker,
+      variation,
+    };
+  });
+}
+
+function sortSocietiesByCriterion(societies, criterion) {
+  const ordered = [...societies];
+
+  if (criterion === "variation") {
+    return ordered.sort((a, b) => {
+      if (a.variation.hasComparison !== b.variation.hasComparison) {
+        return a.variation.hasComparison ? -1 : 1;
+      }
+
+      return safeNumber(b.variation.percent) - safeNumber(a.variation.percent);
+    });
+  }
+
+  if (criterion === "workers") {
+    return ordered.sort((a, b) => b.workers - a.workers);
+  }
+
+  if (criterion === "costPerWorker") {
+    return ordered.sort((a, b) => {
+      if (Boolean(a.workers) !== Boolean(b.workers)) {
+        return a.workers ? -1 : 1;
+      }
+
+      return b.costPerWorker - a.costPerWorker;
+    });
+  }
+
+  return ordered.sort((a, b) => safeNumber(b.value) - safeNumber(a.value));
+}
+
+function SocietyCriteriaChips({ activeCriterion, onChange }) {
+  return (
+    <section className="scrollbar-dark -mx-3 flex gap-2 overflow-x-auto px-3 pb-1">
+      {societyCriteria.map((criterion) => {
+        const active = activeCriterion === criterion.id;
+
+        return (
+          <button
+            key={criterion.id}
+            type="button"
+            onClick={() => onChange(criterion.id)}
+            aria-pressed={active}
+            className={`min-h-12 w-[142px] shrink-0 rounded-xl border px-3 text-left transition-all duration-200 active:scale-[0.98] ${
+              active
+                ? "border-flame-400/45 bg-flame-500/14 text-flame-100 shadow-[0_0_18px_rgba(255,123,85,.14)]"
+                : "border-white/10 bg-ink-900/95 text-stone-300"
+            }`}
+          >
+            <span className="block truncate text-xs font-black">{criterion.label}</span>
+            <span className="mt-0.5 block truncate text-[10px] font-bold text-stone-500">{criterion.detail}</span>
+          </button>
+        );
+      })}
+    </section>
+  );
+}
+
+function SocietyExecutiveInsight({ societies = [], criterion }) {
+  const leader = societies[0];
+  let text = "No hay datos suficientes para calcular esta lectura.";
+
+  if (leader) {
+    if (criterion === "variation") {
+      text = leader.variation.hasComparison
+        ? `La mayor alza del periodo se concentra en ${shortName(leader.name)}, con ${leader.variation.label} ${leader.variation.detail}.`
+        : "No hay datos suficientes para calcular esta lectura.";
+    } else if (criterion === "workers") {
+      text = `La mayor dotacion esta en ${shortName(leader.name)}, con ${leader.workers} trabajadores.`;
+    } else if (criterion === "costPerWorker") {
+      text = leader.workers
+        ? `El mayor costo promedio por trabajador esta en ${shortName(leader.name)}, con ${formatCompactCurrency(leader.costPerWorker)} por trabajador.`
+        : "No hay datos suficientes para calcular esta lectura.";
+    } else {
+      text = `La mayor concentracion del costo esta en ${shortName(leader.name)}, con ${formatSafePercent(leader.percent)} del total filtrado.`;
+    }
+  }
+
+  return (
+    <section className="rounded-xl border border-flame-400/20 bg-flame-500/[0.08] p-3 shadow-[0_14px_34px_rgba(0,0,0,.24)]">
+      <div className="flex items-center gap-2">
+        <div className="grid h-8 w-8 place-items-center rounded-lg border border-flame-400/20 bg-flame-500/12 text-flame-300">
+          <Sparkles size={15} strokeWidth={2.4} />
+        </div>
+        <div>
+          <p className="tiny-label text-flame-300">Lectura Ejecutiva</p>
+          <h2 className="text-base font-black text-stone-50">Sociedades</h2>
+        </div>
+      </div>
+      <p className="mt-3 text-sm font-bold leading-6 text-stone-200">{text}</p>
+    </section>
+  );
+}
+
 function ExecutiveBrief({ analytics, societies = [], activeCompany, isCorporate, delta }) {
   const leader = societies[0];
   const mainCenter = analytics.businessCenterCosts?.[0];
@@ -522,6 +677,15 @@ function MobileSocietyList({ societies = [], activeCompany, onSelectCompany }) {
     <section className="space-y-3">
       {societies.map((society) => {
         const active = activeCompany === society.name;
+        const hasWorkers = society.workers > 0;
+        const variationTone = society.variation.hasComparison
+          ? society.variation.value > 0
+            ? "text-flame-300"
+            : society.variation.value < 0
+              ? "text-emerald-300"
+              : "text-stone-300"
+          : "text-stone-500";
+
         return (
           <button
             key={society.name}
@@ -539,12 +703,29 @@ function MobileSocietyList({ societies = [], activeCompany, onSelectCompany }) {
               <div className="min-w-0">
                 <p className="truncate text-sm font-black text-stone-100">{shortName(society.name)}</p>
                 <p className="mt-1 text-lg font-black text-flame-300">{formatCompactCurrency(society.value)}</p>
-                <p className="mt-1 text-[11px] font-bold text-stone-400">{society.workers} trabajadores</p>
               </div>
               <div className="text-right">
                 <p className="text-sm font-black text-stone-50">{formatPercent(society.percent)}</p>
                 <ChevronRight size={16} className="mt-4 text-stone-500" />
               </div>
+            </div>
+            <div className="mt-3 grid grid-cols-2 gap-2 pl-2">
+              <div className="rounded-lg border border-white/[0.07] bg-black/20 px-2.5 py-2">
+                <p className="text-[10px] font-bold text-stone-500">Trabajadores</p>
+                <p className="mt-1 text-xs font-black text-stone-100">{society.workers}</p>
+              </div>
+              <div className="rounded-lg border border-white/[0.07] bg-black/20 px-2.5 py-2">
+                <p className="text-[10px] font-bold text-stone-500">Costo/trab.</p>
+                <p className="mt-1 text-xs font-black text-stone-100">
+                  {hasWorkers ? formatCompactCurrency(society.costPerWorker) : "Sin dotacion"}
+                </p>
+              </div>
+            </div>
+            <div className="mt-2 flex items-center justify-between gap-3 rounded-lg border border-white/[0.07] bg-white/[0.035] px-2.5 py-2 pl-2">
+              <span className="text-[10px] font-bold text-stone-500">Variacion</span>
+              <span className={`text-right text-xs font-black ${variationTone}`}>
+                {society.variation.hasComparison ? `${society.variation.label} ${society.variation.detail}` : "Sin comparacion"}
+              </span>
             </div>
             <div className="mt-3 h-1.5 overflow-hidden rounded-full bg-white/[0.07]">
               <div className="h-full rounded-full bg-gradient-to-r from-flame-500 to-flame-300" style={{ width: `${Math.max(2, Math.min(100, society.percent || 0))}%` }} />
@@ -755,6 +936,7 @@ export default function MobileExecutiveDashboard({
   const [filtersOpen, setFiltersOpen] = useState(false);
   const [activeTab, setActiveTab] = useState("home");
   const [isHydrating, setIsHydrating] = useState(true);
+  const [societyCriterion, setSocietyCriterion] = useState("cost");
   const searchTerm = String(filters.searchTerm || "").trim();
 
   useEffect(() => {
@@ -809,6 +991,14 @@ export default function MobileExecutiveDashboard({
     () => getTrendSummary(trendData, analytics.periodComparison, isAllPeriods),
     [analytics.periodComparison, isAllPeriods, trendData],
   );
+  const societyAnalytics = useMemo(
+    () => getSocietyAnalytics(societies, filters.period, analytics.societyComparison),
+    [analytics.societyComparison, filters.period, societies],
+  );
+  const sortedSocieties = useMemo(
+    () => sortSocietiesByCriterion(societyAnalytics, societyCriterion),
+    [societyAnalytics, societyCriterion],
+  );
 
   return (
     <div className="min-h-screen bg-ink-950 text-stone-100 md:hidden">
@@ -852,8 +1042,9 @@ export default function MobileExecutiveDashboard({
 
         {activeTab === "societies" ? (
           <>
-            <SocietyQuickChips societies={societies} activeCompany={activeCompany} onSelectCompany={onSelectCompany} />
-            <MobileSocietyList societies={societies} activeCompany={activeCompany} onSelectCompany={onSelectCompany} />
+            <SocietyCriteriaChips activeCriterion={societyCriterion} onChange={setSocietyCriterion} />
+            <SocietyExecutiveInsight societies={sortedSocieties} criterion={societyCriterion} />
+            <MobileSocietyList societies={sortedSocieties} activeCompany={activeCompany} onSelectCompany={onSelectCompany} />
           </>
         ) : null}
 

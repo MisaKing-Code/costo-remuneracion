@@ -204,6 +204,7 @@ export function useCostDashboard(activeCompany = "Todas") {
         workerMetric,
       },
       companyCosts,
+      societyComparison: getSocietyMetrics(comparisonRecords),
       businessCenterCosts,
       contractCosts,
       breakdown: costBreakdown(filteredRecords),
