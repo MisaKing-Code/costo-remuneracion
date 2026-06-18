@@ -134,6 +134,10 @@ export default function ExecutiveDashboard({ onLogout }) {
                     metricsData={analytics.companyMetrics}
                     compactCompany
                     executiveContrast
+                    showSecondaryMetric
+                    secondaryMetricType="costPerWorker"
+                    showLeaderGap
+                    showRankingInsight
                   />
                   <CompanyLeaderInsight
                     data={analytics.companyMetrics}
