@@ -18,9 +18,14 @@ export default function RankingBars({
   const max = Math.max(...data.map((item) => item.value), 1);
   const metricsByName = new Map(metricsData.map((item) => [item.name, item]));
   const leaderGap = data.length > 1 ? data[0].percent - data[1].percent : null;
+  const topTwoPercent = data.length > 1 ? data[0].percent + data[1].percent : null;
+  const executiveSubtitle =
+    executiveContrast && topTwoPercent
+      ? `Las dos principales sociedades concentran ${formatPercent(topTwoPercent)} del costo filtrado.`
+      : subtitle;
 
   return (
-    <SectionCard title={title} subtitle={subtitle} icon={icon}>
+    <SectionCard title={title} subtitle={executiveSubtitle} icon={icon}>
       <div className={executiveContrast ? "space-y-2" : "space-y-3"}>
         {data.map((item, index) => {
           const ratio = item.value / max;
@@ -35,8 +40,8 @@ export default function RankingBars({
               key={item.name}
               className={`grid grid-cols-[26px_1fr] items-center gap-2 rounded-lg transition ${
                 isLeader
-                  ? "border border-flame-400/25 bg-flame-500/[0.07] px-2.5 py-2 shadow-[0_0_20px_rgba(255,123,85,.1)]"
-                  : "py-1"
+                  ? "border border-flame-400/25 bg-flame-500/[0.07] px-2.5 py-2 shadow-[0_0_20px_rgba(255,123,85,.1)] duration-300 hover:-translate-y-0.5 hover:border-flame-300/35 hover:bg-flame-500/[0.10] hover:shadow-[0_0_26px_rgba(255,123,85,.14)]"
+                  : "border border-white/0 px-2 py-1 duration-300 hover:-translate-y-0.5 hover:border-white/[0.06] hover:bg-white/[0.035] hover:shadow-[0_0_18px_rgba(255,255,255,.045)]"
               }`}
             >
               <span
@@ -64,9 +69,9 @@ export default function RankingBars({
                   />
                 </div>
                 <div className="mt-1 flex flex-wrap items-center gap-x-2 gap-y-0.5 text-[10px] font-semibold">
-                  <span className="text-stone-500">{formatPercent(item.percent)} del costo total</span>
+                  <span className="text-stone-400">{formatPercent(item.percent)} del costo total</span>
                   <span className="text-stone-600">|</span>
-                  <span className="text-stone-500">
+                  <span className="text-stone-400">
                     {costPerWorker ? `${formatCompactCurrency(costPerWorker)} por trabajador` : "Sin dotacion"}
                   </span>
                   {isLeader && leaderGap > 0 ? (

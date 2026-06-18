@@ -41,29 +41,60 @@ function getVariation(society, selectedPeriod) {
   };
 }
 
-function buildInsight(percent, variation) {
-  const participationText =
-    percent > 50
-      ? "Concentra mas de la mitad del costo total."
-      : percent >= 30
-        ? "Representa una porcion relevante del costo corporativo."
-        : "Participacion distribuida respecto al resto de sociedades.";
-  const variationText = variation.hasComparison
-    ? variation.value > 0
-      ? "Presenta crecimiento respecto al periodo anterior."
-      : variation.value < 0
-        ? "Presenta reduccion respecto al periodo anterior."
-        : "Se mantiene estable respecto al periodo anterior."
-    : "";
+function getVariationState(variation) {
+  if (!variation.hasComparison || variation.percent === null) {
+    return { label: "Sin comparacion", className: "border-white/[0.08] bg-white/[0.04] text-stone-400" };
+  }
 
-  return [participationText, variationText].filter(Boolean).join(" ");
+  if (variation.percent > 10) {
+    return { label: "Crecimiento fuerte", className: "border-flame-300/30 bg-flame-500/15 text-flame-200" };
+  }
+
+  if (variation.percent > 3) {
+    return { label: "Crecimiento moderado", className: "border-flame-300/25 bg-flame-500/10 text-flame-200" };
+  }
+
+  if (variation.percent >= -3) {
+    return { label: "Estable", className: "border-stone-300/20 bg-white/[0.045] text-stone-300" };
+  }
+
+  if (variation.percent < -10) {
+    return { label: "Contraccion fuerte", className: "border-emerald-300/30 bg-emerald-500/12 text-emerald-200" };
+  }
+
+  return { label: "Contraccion moderada", className: "border-emerald-300/25 bg-emerald-500/10 text-emerald-200" };
 }
 
-function DetailItem({ label, value, accent = false }) {
+function buildInsight(leader, variation) {
+  const name = shortName(leader.name);
+  const percent = formatPercent(leader.percent);
+  const roleText =
+    leader.percent > 50
+      ? "continua siendo la principal fuente de costo corporativo"
+      : leader.percent >= 30
+        ? "representa una porcion relevante del costo corporativo"
+        : "mantiene una participacion distribuida frente al resto de sociedades";
+
+  if (!variation.hasComparison) {
+    return `${name} ${roleText}, concentrando el ${percent} del total filtrado. No existe comparacion disponible para el periodo.`;
+  }
+
+  const movement =
+    variation.percent > 3
+      ? "un crecimiento"
+      : variation.percent < -3
+        ? "una contraccion"
+        : "estabilidad";
+
+  return `${name} ${roleText}, concentrando el ${percent} del total filtrado. Durante el periodo registro ${movement} de ${formatPercent(Math.abs(variation.percent))} respecto al periodo anterior.`;
+}
+
+function DetailItem({ label, value, hint, accent = false }) {
   return (
     <div className="rounded-lg border border-white/[0.08] bg-white/[0.035] p-3">
-      <p className="tiny-label text-stone-500">{label}</p>
+      <p className="tiny-label text-stone-400">{label}</p>
       <p className={`mt-2 text-lg font-black leading-none ${accent ? "text-flame-200" : "text-stone-50"}`}>{value}</p>
+      {hint ? <p className="mt-1 text-[11px] font-bold text-stone-300">{hint}</p> : null}
     </div>
   );
 }
@@ -72,8 +103,20 @@ export default function CompanyLeaderInsight({ data = [], comparisonData = [], s
   const currentLeader = [...data].filter((item) => safeNumber(item.value) > 0).sort((a, b) => safeNumber(b.value) - safeNumber(a.value))[0];
   const comparisonLeader = comparisonData.find((item) => item.name === currentLeader?.name);
   const variation = getVariation(comparisonLeader, selectedPeriod);
+  const variationState = getVariationState(variation);
   const workers = safeNumber(currentLeader?.workers);
   const costPerWorker = workers ? safeNumber(currentLeader.value) / workers : 0;
+  const visibleWithWorkers = data.filter((item) => safeNumber(item.value) > 0 && safeNumber(item.workers) > 0);
+  const totalVisibleCost = visibleWithWorkers.reduce((total, item) => total + safeNumber(item.value), 0);
+  const totalVisibleWorkers = visibleWithWorkers.reduce((total, item) => total + safeNumber(item.workers), 0);
+  const averageCostPerWorker = totalVisibleWorkers ? totalVisibleCost / totalVisibleWorkers : 0;
+  const efficiencyDelta = averageCostPerWorker && costPerWorker ? ((costPerWorker - averageCostPerWorker) / averageCostPerWorker) * 100 : null;
+  const efficiencyLabel =
+    efficiencyDelta === null
+      ? "Sin benchmark"
+      : `${efficiencyDelta >= 0 ? "+" : ""}${formatPercent(efficiencyDelta)} ${
+          efficiencyDelta >= 0 ? "sobre promedio sociedades" : "bajo promedio sociedades"
+        }`;
 
   if (!currentLeader) {
     return (
@@ -87,9 +130,14 @@ export default function CompanyLeaderInsight({ data = [], comparisonData = [], s
   }
 
   return (
-    <SectionCard title="Sociedad lider" subtitle="Principal foco del costo filtrado" icon={Crown}>
+    <SectionCard
+      title="Sociedad lider"
+      subtitle="Principal foco del costo filtrado"
+      icon={Crown}
+      className="transition duration-300 hover:-translate-y-0.5 hover:shadow-[0_0_30px_rgba(255,123,85,.08)]"
+    >
       <div className="grid gap-3">
-        <div className="rounded-lg border border-flame-400/25 bg-flame-500/[0.10] p-3 shadow-[0_0_22px_rgba(255,123,85,.10)]">
+        <div className="rounded-lg border border-flame-400/25 bg-flame-500/[0.10] p-3 shadow-[0_0_22px_rgba(255,123,85,.10)] transition duration-300 hover:border-flame-300/35 hover:bg-flame-500/[0.12] hover:shadow-[0_0_30px_rgba(255,123,85,.14)]">
           <p className="tiny-label text-flame-300">Sociedad lider</p>
           <h3 className="mt-2 line-clamp-2 text-lg font-black leading-6 text-stone-50">{shortName(currentLeader.name)}</h3>
           <div className="mt-4 flex items-end justify-between gap-3">
@@ -100,20 +148,30 @@ export default function CompanyLeaderInsight({ data = [], comparisonData = [], s
 
         <div className="grid grid-cols-2 gap-3">
           <DetailItem label="Trabajadores" value={workers || "Sin dotacion"} />
-          <DetailItem label="Costo/trabajador" value={workers ? formatCompactCurrency(costPerWorker) : "Sin dotacion"} accent />
+          <DetailItem
+            label="Costo/trabajador"
+            value={workers ? formatCompactCurrency(costPerWorker) : "Sin dotacion"}
+            hint={workers ? efficiencyLabel : null}
+            accent
+          />
         </div>
 
         <div className="rounded-lg border border-white/[0.08] bg-white/[0.035] p-3">
-          <p className="tiny-label text-stone-500">Variacion</p>
+          <div className="flex items-center justify-between gap-2">
+            <p className="tiny-label text-stone-400">Variacion</p>
+            <span className={`rounded-full border px-2 py-1 text-[10px] font-black uppercase tracking-[0.08em] ${variationState.className}`}>
+              {variationState.label}
+            </span>
+          </div>
           <p className={`mt-2 text-lg font-black leading-none ${variation.value < 0 ? "text-emerald-300" : "text-flame-200"}`}>
             {variation.label}
           </p>
-          {variation.detail ? <p className="mt-1 text-[11px] font-bold text-stone-500">{variation.detail}</p> : null}
+          {variation.detail ? <p className="mt-1 text-[11px] font-bold text-stone-400">{variation.detail}</p> : null}
         </div>
 
         <div className="rounded-lg border border-flame-400/20 bg-black/20 p-3">
           <p className="tiny-label text-flame-300">Lectura ejecutiva</p>
-          <p className="mt-2 text-sm font-bold leading-6 text-stone-200">{buildInsight(currentLeader.percent, variation)}</p>
+          <p className="mt-2 line-clamp-2 text-sm font-bold leading-6 text-stone-200">{buildInsight(currentLeader, variation)}</p>
         </div>
       </div>
     </SectionCard>
