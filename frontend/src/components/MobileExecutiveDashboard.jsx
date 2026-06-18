@@ -145,6 +145,10 @@ function MobileSkeletonDashboard() {
 }
 
 function MobileKpiGrid({ stats, delta }) {
+  const workerMetric = stats.workerMetric;
+  const workers = workerMetric?.value ?? stats.workers;
+  const workerDetail = workerMetric?.subtitleTrabajadores ?? "Dotacion filtrada";
+
   return (
     <section className="grid grid-cols-2 gap-3">
       <MobileKpiCard icon={CircleDollarSign} label="Costo total" value={formatCompactCurrency(stats.totalCost)} detail="Costo filtrado" />
@@ -154,7 +158,7 @@ function MobileKpiGrid({ stats, delta }) {
         value={delta.label}
         detail={delta.detail}
       />
-      <MobileKpiCard icon={UsersRound} label="Trabajadores" value={stats.workers} detail="Dotacion filtrada" />
+      <MobileKpiCard icon={UsersRound} label="Trabajadores" value={workers} detail={workerDetail} />
       <MobileKpiCard icon={BriefcaseBusiness} label="Promedio" value={formatCompactCurrency(stats.averageCost)} detail="Costo por trabajador" />
     </section>
   );
@@ -437,6 +441,9 @@ function SocietyQuickChips({ societies = [], activeCompany, onSelectCompany }) {
 function ExecutiveBrief({ analytics, societies = [], activeCompany, isCorporate, delta }) {
   const leader = societies[0];
   const mainCenter = analytics.businessCenterCosts?.[0];
+  const workerMetric = analytics.stats?.workerMetric;
+  const workers = workerMetric?.value ?? safeNumber(analytics.stats?.workers);
+  const workerLabel = workerMetric?.labelTrabajadores ?? "Dotacion analizada";
   const hasCost = safeNumber(analytics.stats?.totalCost) > 0;
   const leaderText = isCorporate
     ? leader
@@ -468,7 +475,7 @@ function ExecutiveBrief({ analytics, societies = [], activeCompany, isCorporate,
   const items = [
     { icon: CircleDollarSign, label: "Costo del periodo", value: hasCost ? formatCompactCurrency(analytics.stats.totalCost) : "Sin datos" },
     { icon: Building2, label: isCorporate ? "Sociedad lider" : "Centro principal", value: leaderText },
-    { icon: UsersRound, label: "Dotacion analizada", value: `${safeNumber(analytics.stats?.workers)} trabajadores` },
+    { icon: UsersRound, label: workerLabel, value: `${workers} trabajadores` },
     { icon: MapPinned, label: "Senal del periodo", value: variationText },
   ];
 

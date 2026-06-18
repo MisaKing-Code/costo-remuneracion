@@ -34,6 +34,38 @@ function normalizeRut(value) {
   return normalizeSearchText(value).replace(/[^0-9k]/g, "");
 }
 
+function getWorkerPeriodMetric(records, selectedPeriod) {
+  const totalTrabajadoresPeriodo = new Set(records.map((item) => item.RUT_Trabajador).filter(Boolean)).size;
+  const workersByPeriod = records.reduce((acc, item) => {
+    const period = item.Periodo || "Sin periodo";
+
+    if (!acc[period]) {
+      acc[period] = new Set();
+    }
+
+    if (item.RUT_Trabajador) {
+      acc[period].add(item.RUT_Trabajador);
+    }
+
+    return acc;
+  }, {});
+  const periodWorkerCounts = Object.values(workersByPeriod).map((workers) => workers.size);
+  const promedioTrabajadoresPorPeriodo = periodWorkerCounts.length
+    ? Math.round(periodWorkerCounts.reduce((total, workers) => total + workers, 0) / periodWorkerCounts.length)
+    : 0;
+  const isAllPeriods = selectedPeriod === "Todos";
+  const labelTrabajadores = isAllPeriods ? "Prom. trabajadores" : "Trabajadores";
+  const subtitleTrabajadores = isAllPeriods ? "Promedio por periodo" : "Unicos filtrados";
+
+  return {
+    totalTrabajadoresPeriodo,
+    promedioTrabajadoresPorPeriodo,
+    labelTrabajadores,
+    subtitleTrabajadores,
+    value: isAllPeriods ? promedioTrabajadoresPorPeriodo : totalTrabajadoresPeriodo,
+  };
+}
+
 export function useCostDashboard(activeCompany = "Todas") {
   const dataset = getMaintenanceCostDataset();
   const {
@@ -138,6 +170,8 @@ export function useCostDashboard(activeCompany = "Todas") {
 
   const societies = useMemo(() => getSocietyMetrics(sidebarRecords), [sidebarRecords]);
 
+  const workerMetric = useMemo(() => getWorkerPeriodMetric(filteredRecords, filters.period), [filteredRecords, filters.period]);
+
   const comparisonRecords = useMemo(() => {
     const searchTerm = normalizeSearchText(filters.searchTerm);
     const searchRut = normalizeRut(filters.searchTerm);
@@ -165,7 +199,10 @@ export function useCostDashboard(activeCompany = "Todas") {
     const tableRows = getTopWorkersByCost(filteredRecords, { consolidateByWorker: isAllPeriods });
 
     return {
-      stats: getDashboardStats(filteredRecords),
+      stats: {
+        ...getDashboardStats(filteredRecords),
+        workerMetric,
+      },
       companyCosts,
       businessCenterCosts,
       contractCosts,
@@ -175,7 +212,7 @@ export function useCostDashboard(activeCompany = "Todas") {
       tableRows,
       isWorkerTableConsolidated: isAllPeriods,
     };
-  }, [comparisonRecords, filteredRecords, filters.period]);
+  }, [comparisonRecords, filteredRecords, filters.period, workerMetric]);
 
   const scope = useMemo(
     () => ({
@@ -184,10 +221,11 @@ export function useCostDashboard(activeCompany = "Todas") {
       filteredRecords: filteredRecords.length,
       totalRecords: scopeRecords.length,
       workers: new Set(filteredRecords.map((item) => item.RUT_Trabajador).filter(Boolean)).size,
+      workerMetric,
       companies: new Set(filteredRecords.map((item) => item.Nombre_Sociedad).filter(Boolean)).size,
       businessCenters: new Set(filteredRecords.map((item) => item.Centro_de_Negocio).filter(Boolean)).size,
     }),
-    [filteredRecords, filters.period, metadata.period, scopeRecords.length],
+    [filteredRecords, filters.period, metadata.period, scopeRecords.length, workerMetric],
   );
 
   return {

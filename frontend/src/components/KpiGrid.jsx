@@ -26,6 +26,10 @@ function KpiCard({ icon: Icon, label, value, secondary, indicator = 70 }) {
 }
 
 export default function KpiGrid({ stats }) {
+  const workerMetric = stats.workerMetric;
+  const workers = workerMetric?.value ?? stats.workers;
+  const workerSubtitle = workerMetric?.subtitleTrabajadores ?? "Unicos filtrados";
+
   return (
     <section className="grid gap-3 sm:grid-cols-2 xl:grid-cols-6">
       <KpiCard
@@ -49,7 +53,7 @@ export default function KpiGrid({ stats }) {
         secondary="Leyes sociales y aportes"
         indicator={68}
       />
-      <KpiCard icon={UsersRound} label="Trabajadores" value={stats.workers} secondary="Unicos filtrados" indicator={78} />
+      <KpiCard icon={UsersRound} label="Trabajadores" value={workers} secondary={workerSubtitle} indicator={78} />
       <KpiCard icon={Building2} label="Empresas" value={stats.companies} secondary="Sociedades filtradas" indicator={70} />
       <KpiCard icon={MapPinned} label="Centros" value={stats.businessCenters} secondary="Centros filtrados" indicator={62} />
     </section>

@@ -19,7 +19,9 @@ export default function Header({ stats, metadata, scope, activeCompany = "Todas"
   const range = scope?.availablePeriodRange || metadata.period || "Sin rango";
   const filteredRecords = scope?.filteredRecords ?? 0;
   const totalRecords = scope?.totalRecords ?? metadata.recordCount ?? 0;
-  const workers = scope?.workers ?? stats.workers;
+  const workerMetric = scope?.workerMetric ?? stats.workerMetric;
+  const workers = workerMetric?.value ?? scope?.workers ?? stats.workers;
+  const workerLabel = workerMetric?.labelTrabajadores ?? "Trabajadores";
   const companies = scope?.companies ?? stats.companies;
   const businessCenters = scope?.businessCenters ?? 0;
 
@@ -43,7 +45,7 @@ export default function Header({ stats, metadata, scope, activeCompany = "Todas"
           <div className="mt-3 flex flex-wrap items-center gap-2 text-xs font-semibold">
             <ScopePill icon={CalendarDays} label="Periodo activo" value={activePeriod} accent />
             <ScopePill icon={Rows3} label="Registros" value={`${filteredRecords} de ${totalRecords}`} />
-            <ScopePill icon={UsersRound} label="Trabajadores" value={workers} />
+            <ScopePill icon={UsersRound} label={workerLabel} value={workers} />
             <ScopePill icon={Building2} label="Empresas" value={companies} />
             <ScopePill icon={MapPinned} label="Centros" value={businessCenters} />
           </div>
