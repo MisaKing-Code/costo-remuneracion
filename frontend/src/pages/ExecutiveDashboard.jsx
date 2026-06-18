@@ -1,5 +1,6 @@
 import { Network, SearchX } from "lucide-react";
 import { useState } from "react";
+import BusinessCenterPodiumRanking from "../components/BusinessCenterPodiumRanking";
 import CompanyDonut from "../components/CompanyDonut";
 import CostBreakdown from "../components/CostBreakdown";
 import FilterBar from "../components/FilterBar";
@@ -138,7 +139,7 @@ export default function ExecutiveDashboard({ onLogout }) {
             </section>
 
             {isCorporate ? (
-              <RankingBars title="Top 10 Centros de Negocio por Costo" icon={Network} data={analytics.businessCenterCosts} />
+              <BusinessCenterPodiumRanking title="Top 10 Centros de Negocio por Costo" icon={Network} data={analytics.businessCenterCosts} />
             ) : null}
 
             <WorkerTable rows={analytics.tableRows} consolidated={analytics.isWorkerTableConsolidated} />
