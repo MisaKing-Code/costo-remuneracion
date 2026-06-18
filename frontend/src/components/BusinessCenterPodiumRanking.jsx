@@ -33,9 +33,11 @@ function PodiumItem({ item, rank, featured = false }) {
   return (
     <article
       className={[
-        "relative min-w-0 overflow-hidden rounded-lg border px-3 py-2.5 shadow-[inset_0_1px_0_rgba(255,255,255,.06)]",
+        "relative min-w-0 overflow-hidden rounded-lg border px-3 py-3 shadow-[inset_0_1px_0_rgba(255,255,255,.06)]",
         "transition duration-300 hover:border-flame-300/45",
-        featured ? "md:-translate-y-2 md:px-3.5 md:py-3.5 hover:md:-translate-y-2.5" : "md:translate-y-2 hover:md:translate-y-1.5",
+        featured
+          ? "md:-translate-y-1 md:px-3.5 md:py-4 md:shadow-[0_18px_34px_rgba(255,123,85,.10)] hover:md:-translate-y-1.5"
+          : "md:translate-y-1 hover:md:translate-y-0.5",
         tone.panel,
       ].join(" ")}
     >
@@ -63,7 +65,7 @@ function PodiumItem({ item, rank, featured = false }) {
         </div>
       </div>
       {featured ? (
-        <div className="mx-auto mt-3 hidden h-1 w-20 rounded-full bg-gradient-to-r from-transparent via-flame-300/70 to-transparent md:block" />
+        <div className="mx-auto mt-3 hidden h-1 w-24 rounded-full bg-gradient-to-r from-transparent via-flame-300/70 to-transparent md:block" />
       ) : null}
     </article>
   );
@@ -85,13 +87,17 @@ function ExecutiveRankingRow({ item, rank }) {
 export default function BusinessCenterPodiumRanking({ title, data, icon = Network }) {
   const topThree = data.slice(0, 3);
   const remaining = data.slice(3, 10);
+  const topThreeShare = topThree.reduce((total, item) => total + Number(item?.percent || 0), 0);
+  const insight =
+    topThree.length >= 3
+      ? `Los 3 principales centros concentran ${formatPercent(topThreeShare)} del costo total.`
+      : `El principal centro concentra ${formatPercent(topThree[0]?.percent || 0)} del costo total.`;
 
   return (
-    <SectionCard title={title} subtitle="Vista General - % del costo total" icon={icon}>
-      <div className="grid gap-4 md:grid-cols-[7fr_5fr] md:items-stretch">
-        <div className="flex min-w-0 flex-col justify-center rounded-lg border border-white/[0.06] bg-black/[0.10] px-3 py-3">
-          <p className="mb-2 text-[10px] font-black uppercase tracking-[0.08em] text-stone-500">Top 3 Ejecutivo</p>
-          <div className="mx-auto grid w-full max-w-[640px] gap-2 md:grid-cols-[0.92fr_1.12fr_0.92fr] md:items-end">
+    <SectionCard title={title} subtitle={insight} icon={icon}>
+      <div className="grid gap-3 md:grid-cols-[7fr_5fr] md:items-stretch">
+        <div className="flex min-w-0 flex-col justify-center rounded-lg border border-white/[0.06] bg-black/[0.14] px-3 py-3 shadow-[inset_0_1px_0_rgba(255,255,255,.035)]">
+          <div className="mx-auto grid w-full max-w-[620px] gap-2 md:grid-cols-[0.94fr_1.12fr_0.94fr] md:items-end">
             <PodiumItem item={topThree[1]} rank={2} />
             <PodiumItem item={topThree[0]} rank={1} featured />
             <PodiumItem item={topThree[2]} rank={3} />
