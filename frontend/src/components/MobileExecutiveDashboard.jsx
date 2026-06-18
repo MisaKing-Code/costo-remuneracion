@@ -88,7 +88,7 @@ function MobileTopBar({ activeCompany, periodLabel, activeChips, onOpenFilters }
           <h1 className="mt-0.5 truncate text-base font-black leading-tight text-stone-50">
             {activeCompany === "Todas" ? "Vista General" : shortName(activeCompany)}
           </h1>
-          <p className="mt-1.5 truncate text-[11px] font-bold text-stone-500">Periodo {formatPeriodLabel(periodLabel)}</p>
+          <p className="mt-0.5 truncate text-[11px] font-bold text-stone-500">Periodo {formatPeriodLabel(periodLabel)}</p>
         </div>
         <button
           type="button"
@@ -100,7 +100,7 @@ function MobileTopBar({ activeCompany, periodLabel, activeChips, onOpenFilters }
         </button>
       </div>
       {activeChips.length ? (
-        <div className="scrollbar-dark mt-4 flex gap-2 overflow-x-auto pb-1">
+        <div className="scrollbar-dark mt-3 flex gap-2 overflow-x-auto pb-1">
           {activeChips.map((chip) => (
             <FilterChip key={`${chip.label}-${chip.value}`} label={chip.label} value={chip.value} />
           ))}
@@ -536,7 +536,7 @@ function sortSocietiesByCriterion(societies, criterion) {
 
 function SocietyCriteriaChips({ activeCriterion, onChange }) {
   return (
-    <section className="scrollbar-dark -mx-3 flex gap-2 overflow-x-auto px-3 pb-1">
+    <section className="scrollbar-dark -mx-3 -mt-3 flex gap-2 overflow-x-auto px-3 pb-0 pt-0.5">
       {societyCriteria.map((criterion) => {
         const active = activeCriterion === criterion.id;
 
@@ -1016,7 +1016,7 @@ export default function MobileExecutiveDashboard({
       {isHydrating ? (
         <MobileSkeletonDashboard />
       ) : (
-      <main className="space-y-4 px-3 pb-24 pt-0">
+      <main className="space-y-4 px-3 pb-24 pt-3">
         {activeTab === "home" ? (
           <>
             <SocietyQuickChips societies={societies} activeCompany={activeCompany} onSelectCompany={onSelectCompany} />
