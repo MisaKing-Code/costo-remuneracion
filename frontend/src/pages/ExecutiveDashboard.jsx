@@ -1,7 +1,7 @@
 import { Network, SearchX } from "lucide-react";
 import { useState } from "react";
 import BusinessCenterPodiumRanking from "../components/BusinessCenterPodiumRanking";
-import CompanyDonut from "../components/CompanyDonut";
+import CompanyConcentrationAnalysis from "../components/CompanyConcentrationAnalysis";
 import CostBreakdown from "../components/CostBreakdown";
 import FilterBar from "../components/FilterBar";
 import Header from "../components/Header";
@@ -128,7 +128,7 @@ export default function ExecutiveDashboard({ onLogout }) {
               {isCorporate ? (
                 <>
                   <RankingBars title="Costo Remuneracional por Sociedad" data={analytics.companyCosts} compactCompany />
-                  <CompanyDonut data={analytics.companyCosts} />
+                  <CompanyConcentrationAnalysis data={analytics.companyCosts} />
                 </>
               ) : (
                 <>
