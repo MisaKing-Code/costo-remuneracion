@@ -73,12 +73,13 @@ function ContractMetric({ item, index }) {
 
 export default function ContractCompositionCard({ title = "Costo por Tipo de Contrato", data = [] }) {
   const composition = buildComposition(data);
+  const metricGridClass = composition.items.length > 1 ? "grid gap-3 lg:grid-cols-2" : "grid gap-3";
 
   return (
-    <SectionCard title={title} subtitle="Composicion del costo filtrado" icon={BadgeCheck} className="h-full">
+    <SectionCard title={title} subtitle="Composicion del costo filtrado" icon={BadgeCheck}>
       {composition.items.length ? (
-        <div className="flex h-full flex-col gap-3">
-          <div className="grid gap-3 lg:grid-cols-2">
+        <div className="space-y-3">
+          <div className={metricGridClass}>
             {composition.items.slice(0, 2).map((item, index) => (
               <ContractMetric key={item.name} item={item} index={index} />
             ))}
@@ -110,7 +111,7 @@ export default function ContractCompositionCard({ title = "Costo por Tipo de Con
             </div>
           </div>
 
-          <div className="mt-auto rounded-lg border border-flame-400/20 bg-flame-500/[0.08] p-3">
+          <div className="rounded-lg border border-flame-400/20 bg-flame-500/[0.08] p-3">
             <p className="tiny-label text-flame-300">Lectura ejecutiva</p>
             <p className="mt-2 text-sm font-bold leading-6 text-stone-200">{composition.reading}</p>
           </div>
