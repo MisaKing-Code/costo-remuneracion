@@ -412,7 +412,7 @@ function MobileRankingList({ title, data = [], compactCompany = false }) {
 
 function SocietyQuickChips({ societies = [], activeCompany, onSelectCompany }) {
   return (
-    <section className="scrollbar-dark -mx-3 flex gap-2 overflow-x-auto px-3 pb-1">
+    <section className="scrollbar-dark no-scrollbar -mx-3 flex gap-2 overflow-x-auto px-3 pb-1">
       <button
         type="button"
         onClick={() => onSelectCompany("Todas")}
@@ -536,7 +536,7 @@ function sortSocietiesByCriterion(societies, criterion) {
 
 function SocietyCriteriaChips({ activeCriterion, onChange }) {
   return (
-    <section className="scrollbar-dark -mx-3 -mt-3 flex gap-2 overflow-x-auto px-3 pb-0 pt-0.5">
+    <section className="scrollbar-dark no-scrollbar -mx-3 -mt-3 flex gap-2 overflow-x-auto px-3 pb-0 pt-0.5">
       {societyCriteria.map((criterion) => {
         const active = activeCriterion === criterion.id;
 

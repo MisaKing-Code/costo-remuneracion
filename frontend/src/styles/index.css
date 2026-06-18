@@ -61,4 +61,13 @@
     background: linear-gradient(180deg, #ff7b55, #9f5a43);
     border-radius: 999px;
   }
+
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
 }
