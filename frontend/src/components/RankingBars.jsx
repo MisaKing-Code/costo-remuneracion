@@ -2,41 +2,79 @@ import { BarChart3 } from "lucide-react";
 import SectionCard from "./SectionCard";
 import { formatCompactCurrency, formatPercent, shortName } from "../utils/formatters";
 
-export default function RankingBars({ title, data, icon = BarChart3, compactCompany = false, executiveContrast = false }) {
+function formatPointGap(value) {
+  return `${value > 0 ? "+" : ""}${(value || 0).toFixed(1).replace(".", ",")} pts porcentuales`;
+}
+
+export default function RankingBars({
+  title,
+  subtitle,
+  data,
+  icon = BarChart3,
+  compactCompany = false,
+  executiveContrast = false,
+  metricsData = [],
+}) {
   const max = Math.max(...data.map((item) => item.value), 1);
+  const metricsByName = new Map(metricsData.map((item) => [item.name, item]));
+  const leaderGap = data.length > 1 ? data[0].percent - data[1].percent : null;
 
   return (
-    <SectionCard title={title} icon={icon}>
-      <div className="space-y-3">
+    <SectionCard title={title} subtitle={subtitle} icon={icon}>
+      <div className={executiveContrast ? "space-y-2" : "space-y-3"}>
         {data.map((item, index) => {
           const ratio = item.value / max;
-          const width = executiveContrast ? Math.max(8, Math.pow(ratio, 1.35) * 88) : ratio * 100;
+          const width = executiveContrast ? Math.max(7, Math.pow(ratio, 1.5) * 86) : ratio * 100;
           const isLeader = executiveContrast && index === 0;
+          const metrics = metricsByName.get(item.name);
+          const workers = Number(metrics?.workers || 0);
+          const costPerWorker = workers > 0 ? item.value / workers : null;
 
           return (
-          <div
-            key={item.name}
-            className={`grid grid-cols-[24px_1fr_auto] items-center gap-2 rounded-lg transition ${
-              isLeader ? "border border-flame-400/20 bg-flame-500/[0.055] px-2 py-2 shadow-[0_0_18px_rgba(255,123,85,.08)]" : ""
-            }`}
-          >
-            <span className={`text-[11px] font-black ${isLeader ? "text-flame-300" : "text-stone-500"}`}>{index + 1}</span>
-            <div className="min-w-0">
-              <div className="mb-1 flex items-center justify-between gap-2">
-                <p className="truncate text-xs font-extrabold text-stone-100">
-                  {compactCompany ? shortName(item.name) : item.name}
-                </p>
-                <span className="shrink-0 text-[11px] font-black text-stone-100">{formatCompactCurrency(item.value)}</span>
+            <div
+              key={item.name}
+              className={`grid grid-cols-[26px_1fr] items-center gap-2 rounded-lg transition ${
+                isLeader
+                  ? "border border-flame-400/25 bg-flame-500/[0.07] px-2.5 py-2 shadow-[0_0_20px_rgba(255,123,85,.1)]"
+                  : "py-1"
+              }`}
+            >
+              <span
+                className={`grid h-6 w-6 place-items-center text-[11px] font-black ${
+                  isLeader
+                    ? "rounded-full border border-flame-300/35 bg-flame-500/15 text-flame-200"
+                    : "text-stone-500"
+                }`}
+              >
+                {index + 1}
+              </span>
+              <div className="min-w-0">
+                <div className="mb-1 flex items-center justify-between gap-3">
+                  <p className="truncate text-xs font-extrabold text-stone-100">
+                    {compactCompany ? shortName(item.name) : item.name}
+                  </p>
+                  <span className="shrink-0 text-[11px] font-black text-stone-100">
+                    {formatCompactCurrency(item.value)}
+                  </span>
+                </div>
+                <div className="h-1.5 overflow-hidden rounded-full bg-black/35">
+                  <div
+                    className="h-full rounded-full bg-gradient-to-r from-flame-500 to-flame-300"
+                    style={{ width: `${width}%` }}
+                  />
+                </div>
+                <div className="mt-1 flex flex-wrap items-center gap-x-2 gap-y-0.5 text-[10px] font-semibold">
+                  <span className="text-stone-500">{formatPercent(item.percent)} del costo total</span>
+                  <span className="text-stone-600">|</span>
+                  <span className="text-stone-500">
+                    {costPerWorker ? `${formatCompactCurrency(costPerWorker)} por trabajador` : "Sin dotacion"}
+                  </span>
+                  {isLeader && leaderGap > 0 ? (
+                    <span className="basis-full text-flame-200/80">Lidera por {formatPointGap(leaderGap)}</span>
+                  ) : null}
+                </div>
               </div>
-              <div className="h-2 overflow-hidden rounded-full bg-black/30">
-                <div
-                  className="h-full rounded-full bg-gradient-to-r from-flame-500 to-flame-300"
-                  style={{ width: `${width}%` }}
-                />
-              </div>
-              <p className="mt-1 text-[10px] font-semibold text-stone-500">{formatPercent(item.percent)} del costo total</p>
             </div>
-          </div>
           );
         })}
       </div>

@@ -127,7 +127,14 @@ export default function ExecutiveDashboard({ onLogout }) {
             <section className="grid gap-4 xl:grid-cols-[1.1fr_0.9fr]">
               {isCorporate ? (
                 <>
-                  <RankingBars title="Costo Remuneracional por Sociedad" data={analytics.companyCosts} compactCompany executiveContrast />
+                  <RankingBars
+                    title="Costo Remuneracional por Sociedad"
+                    subtitle="Participacion del costo filtrado por sociedad"
+                    data={analytics.companyCosts}
+                    metricsData={analytics.companyMetrics}
+                    compactCompany
+                    executiveContrast
+                  />
                   <CompanyLeaderInsight
                     data={analytics.companyMetrics}
                     comparisonData={analytics.societyComparison}
