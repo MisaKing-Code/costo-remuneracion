@@ -1,4 +1,4 @@
-import { Building2, CalendarDays, Database, MapPinned, Rows3, UsersRound } from "lucide-react";
+import { Building2, CalendarDays, MapPinned, Rows3, UsersRound } from "lucide-react";
 import { formatCompactCurrency, formatPercent, shortName } from "../utils/formatters";
 
 function ScopePill({ icon: Icon, label, value, accent = false }) {
@@ -64,14 +64,13 @@ export default function Header({ stats, metadata, scope, activeCompany = "Todas"
             {title}
           </h1>
           <p className="mt-2 max-w-3xl text-sm font-semibold leading-6 text-stone-400">
-            Periodo disponible {range}. Fuente {metadata.sheet || "DW V2"} con {filteredRecords} registros en el alcance actual.
+            Periodo disponible {range}. {filteredRecords} registros en el alcance actual.
           </p>
           <p className="mt-2 max-w-3xl text-sm font-bold leading-6 text-stone-200">
             {executiveHeadline}
           </p>
           <div className="mt-3 flex flex-wrap items-center gap-2 text-xs font-semibold">
             <ScopePill icon={CalendarDays} label="Periodo activo" value={activePeriodLabel} accent />
-            {leader?.name ? <ScopePill icon={Building2} label="Driver costo" value={shortName(leader.name)} /> : null}
             <ScopePill icon={Rows3} label="Registros" value={`${filteredRecords} de ${totalRecords}`} />
             <ScopePill icon={UsersRound} label={workerLabel} value={workers} />
             <ScopePill icon={Building2} label="Empresas" value={companies} />
@@ -80,17 +79,10 @@ export default function Header({ stats, metadata, scope, activeCompany = "Todas"
         </div>
 
         <div className="flex flex-col gap-2 sm:flex-row sm:items-stretch">
-          <div className="grid min-w-[250px] grid-cols-2 gap-2 rounded-lg border border-white/10 bg-black/[0.18] p-2">
+          <div className="grid min-w-[250px] gap-2 rounded-lg border border-white/10 bg-black/[0.18] p-2">
             <div className="rounded-lg bg-white/[0.05] p-3">
               <p className="tiny-label">Rango disponible</p>
               <p className="mt-1 truncate text-sm font-bold text-stone-100">{range}</p>
-            </div>
-            <div className="rounded-lg bg-white/[0.05] p-3">
-              <p className="tiny-label">Fuente</p>
-              <p className="mt-1 inline-flex items-center gap-1.5 truncate text-sm font-bold text-stone-100">
-                <Database size={13} className="shrink-0 text-flame-400" />
-                {metadata.sheet || "DW V2"}
-              </p>
             </div>
           </div>
         </div>
