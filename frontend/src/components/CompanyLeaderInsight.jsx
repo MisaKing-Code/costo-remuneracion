@@ -9,16 +9,30 @@ function safeNumber(value) {
 
 function getVariation(society, selectedPeriod) {
   const trend = Array.isArray(society?.trend) ? society.trend.filter((item) => item?.period) : [];
+  const isAllPeriods = !selectedPeriod || selectedPeriod === "Todos";
 
   if (trend.length < 2) {
-    return { hasComparison: false, label: "Sin comparacion disponible", value: 0, percent: null, detail: "" };
+    return {
+      hasComparison: false,
+      label: "Sin comparacion disponible",
+      value: 0,
+      percent: null,
+      detail: "",
+      isAllPeriods,
+    };
   }
 
-  const currentIndex =
-    selectedPeriod && selectedPeriod !== "Todos" ? trend.findIndex((item) => item.period === selectedPeriod) : trend.length - 1;
+  const currentIndex = isAllPeriods ? trend.length - 1 : trend.findIndex((item) => item.period === selectedPeriod);
 
   if (currentIndex <= 0) {
-    return { hasComparison: false, label: "Sin comparacion disponible", value: 0, percent: null, detail: "" };
+    return {
+      hasComparison: false,
+      label: "Sin comparacion disponible",
+      value: 0,
+      percent: null,
+      detail: "",
+      isAllPeriods,
+    };
   }
 
   const current = trend[currentIndex];
@@ -26,7 +40,16 @@ function getVariation(society, selectedPeriod) {
   const previousCost = safeNumber(previous.totalCost);
 
   if (!previousCost) {
-    return { hasComparison: false, label: "Sin comparacion disponible", value: 0, percent: null, detail: "" };
+    return {
+      hasComparison: false,
+      label: "Sin comparacion disponible",
+      value: 0,
+      percent: null,
+      detail: "",
+      isAllPeriods,
+      currentPeriod: current.period,
+      previousPeriod: previous.period,
+    };
   }
 
   const value = safeNumber(current.totalCost) - previousCost;
@@ -37,7 +60,10 @@ function getVariation(society, selectedPeriod) {
     label: `${value > 0 ? "+" : ""}${formatPercent(percent)}`,
     value,
     percent,
-    detail: `vs ${previous.period}`,
+    detail: isAllPeriods ? `${current.period} vs ${previous.period}` : `vs ${previous.period}`,
+    isAllPeriods,
+    currentPeriod: current.period,
+    previousPeriod: previous.period,
   };
 }
 
@@ -86,7 +112,9 @@ function buildInsight(leader, variation) {
         ? "una contraccion"
         : "estabilidad";
 
-  return `${name} ${roleText}, concentrando el ${percent} del total filtrado. Durante el periodo registro ${movement} de ${formatPercent(Math.abs(variation.percent))} respecto al periodo anterior.`;
+  const context = variation.isAllPeriods ? "En el ultimo periodo visible" : "Durante el periodo";
+
+  return `${name} ${roleText}, concentrando el ${percent} del total filtrado. ${context} registro ${movement} de ${formatPercent(Math.abs(variation.percent))} respecto al periodo anterior.`;
 }
 
 function DetailItem({ label, value, hint, accent = false }) {
@@ -158,7 +186,7 @@ export default function CompanyLeaderInsight({ data = [], comparisonData = [], s
 
         <div className="rounded-lg border border-white/[0.08] bg-white/[0.035] p-3">
           <div className="flex items-center justify-between gap-2">
-            <p className="tiny-label text-stone-400">Variacion</p>
+            <p className="tiny-label text-stone-400">{variation.isAllPeriods ? "Variacion ultimo periodo" : "Variacion"}</p>
             <span className={`rounded-full border px-2 py-1 text-[10px] font-black uppercase tracking-[0.08em] ${variationState.className}`}>
               {variationState.label}
             </span>
@@ -171,7 +199,7 @@ export default function CompanyLeaderInsight({ data = [], comparisonData = [], s
 
         <div className="rounded-lg border border-flame-400/20 bg-black/20 p-3">
           <p className="tiny-label text-flame-300">Lectura ejecutiva</p>
-          <p className="mt-2 line-clamp-2 text-sm font-bold leading-6 text-stone-200">{buildInsight(currentLeader, variation)}</p>
+          <p className="mt-2 text-sm font-bold leading-7 text-stone-200">{buildInsight(currentLeader, variation)}</p>
         </div>
       </div>
     </SectionCard>
