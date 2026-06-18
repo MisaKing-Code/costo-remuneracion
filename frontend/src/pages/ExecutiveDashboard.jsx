@@ -163,7 +163,11 @@ export default function ExecutiveDashboard({ onLogout }) {
               <BusinessCenterPodiumRanking title="Top 10 Centros de Negocio por Costo" icon={Network} data={analytics.businessCenterCosts} />
             ) : null}
 
-            <WorkerTable rows={analytics.tableRows} consolidated={analytics.isWorkerTableConsolidated} />
+            <WorkerTable
+              rows={analytics.tableRows}
+              consolidated={analytics.isWorkerTableConsolidated}
+              totalCost={analytics.stats.totalCost}
+            />
           </>
         )}
       </div>
