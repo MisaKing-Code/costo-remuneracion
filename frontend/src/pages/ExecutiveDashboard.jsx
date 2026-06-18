@@ -1,7 +1,7 @@
 import { Network, SearchX } from "lucide-react";
 import { useState } from "react";
 import BusinessCenterPodiumRanking from "../components/BusinessCenterPodiumRanking";
-import CompanyConcentrationAnalysis from "../components/CompanyConcentrationAnalysis";
+import CompanyLeaderInsight from "../components/CompanyLeaderInsight";
 import CostBreakdown from "../components/CostBreakdown";
 import FilterBar from "../components/FilterBar";
 import Header from "../components/Header";
@@ -127,8 +127,12 @@ export default function ExecutiveDashboard({ onLogout }) {
             <section className="grid gap-4 xl:grid-cols-[1.1fr_0.9fr]">
               {isCorporate ? (
                 <>
-                  <RankingBars title="Costo Remuneracional por Sociedad" data={analytics.companyCosts} compactCompany />
-                  <CompanyConcentrationAnalysis data={analytics.companyCosts} />
+                  <RankingBars title="Costo Remuneracional por Sociedad" data={analytics.companyCosts} compactCompany executiveContrast />
+                  <CompanyLeaderInsight
+                    data={analytics.companyMetrics}
+                    comparisonData={analytics.societyComparison}
+                    selectedPeriod={filters.period}
+                  />
                 </>
               ) : (
                 <>

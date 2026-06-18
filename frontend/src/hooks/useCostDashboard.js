@@ -193,6 +193,7 @@ export function useCostDashboard(activeCompany = "Todas") {
 
   const analytics = useMemo(() => {
     const companyCosts = groupByCost(filteredRecords, "Nombre_Sociedad");
+    const companyMetrics = getSocietyMetrics(filteredRecords);
     const businessCenterCosts = groupByCost(filteredRecords, "Centro_de_Negocio").slice(0, 10);
     const contractCosts = groupByCost(filteredRecords, "Contrato_Trabajador");
     const isAllPeriods = filters.period === "Todos";
@@ -204,6 +205,7 @@ export function useCostDashboard(activeCompany = "Todas") {
         workerMetric,
       },
       companyCosts,
+      companyMetrics,
       societyComparison: getSocietyMetrics(comparisonRecords),
       businessCenterCosts,
       contractCosts,
