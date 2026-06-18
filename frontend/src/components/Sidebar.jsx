@@ -79,7 +79,10 @@ function SocietySparkline({ data = [] }) {
   );
 }
 
-function SocietyCard({ society, active, onClick }) {
+function SocietyCard({ society, workerMetric, active, onClick }) {
+  const workers = workerMetric?.value ?? society.workers;
+  const workerLabel = workerMetric?.labelTrabajadores === "Prom. trabajadores" ? "promedio trabajadores" : "trabajadores";
+
   return (
     <button
       type="button"
@@ -113,7 +116,7 @@ function SocietyCard({ society, active, onClick }) {
         <div className="min-w-0">
           <p className="flex items-center gap-1 text-[10px] font-bold text-stone-400">
             <Users size={11} className="text-stone-500" />
-            {society.workers} trabajadores
+            {workers} {workerLabel.toLowerCase()}
           </p>
           <div className="mt-2 h-1.5 overflow-hidden rounded-full bg-white/[0.07]">
             <div
@@ -229,6 +232,7 @@ export default function Sidebar({
               <SocietyCard
                 key={society.name}
                 society={society}
+                workerMetric={societyWorkerMetrics?.[society.name]}
                 active={activeCompany === society.name}
                 onClick={() => onSelectCompany(society.name)}
               />
