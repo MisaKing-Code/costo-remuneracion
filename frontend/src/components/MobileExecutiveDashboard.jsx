@@ -44,6 +44,10 @@ function formatSafePercent(value) {
   return formatPercent(Number.isFinite(value) ? value : 0);
 }
 
+function formatPeriodLabel(period) {
+  return period === "Todos" ? "Todos los periodos" : period;
+}
+
 function MobileSelect({ label, value, onChange, options = [], allLabel, disabled = false }) {
   return (
     <label className="flex min-w-0 flex-col gap-1.5">
@@ -55,7 +59,7 @@ function MobileSelect({ label, value, onChange, options = [], allLabel, disabled
         className="h-11 min-w-0 rounded-lg border border-white/10 bg-ink-800 px-3 text-sm font-bold text-stone-100 outline-none focus:border-flame-400 disabled:cursor-not-allowed disabled:border-flame-400/20 disabled:bg-flame-500/[0.08] disabled:text-flame-200"
       >
         {disabled && value !== allLabel ? <option value={value}>{value}</option> : null}
-        <option value={allLabel}>{allLabel}</option>
+        <option value={allLabel}>{label === "Periodo" ? "Todos los periodos" : allLabel}</option>
         {options.map((option) => (
           <option key={option} value={option}>
             {option}
@@ -84,7 +88,7 @@ function MobileTopBar({ activeCompany, periodLabel, activeChips, onOpenFilters }
           <h1 className="mt-0.5 truncate text-base font-black leading-tight text-stone-50">
             {activeCompany === "Todas" ? "Vista General" : shortName(activeCompany)}
           </h1>
-          <p className="mt-0.5 truncate text-[11px] font-bold text-stone-500">Periodo {periodLabel}</p>
+          <p className="mt-0.5 truncate text-[11px] font-bold text-stone-500">Periodo {formatPeriodLabel(periodLabel)}</p>
         </div>
         <button
           type="button"
@@ -1055,7 +1059,7 @@ export default function MobileExecutiveDashboard({
         {activeTab === "trend" ? (
           <MobileTrendExecutiveView
             data={trendData}
-            title={isAllPeriods ? "Tendencia mensual" : `Contexto ${filters.period}`}
+            title={isAllPeriods ? "Tendencia todos los periodos" : `Contexto ${filters.period}`}
             summary={trendSummary}
           />
         ) : null}

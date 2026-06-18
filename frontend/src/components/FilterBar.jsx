@@ -1,6 +1,6 @@
 import { Filter, RotateCcw, Search } from "lucide-react";
 
-function FilterSelect({ label, value, onChange, options = [], allLabel, disabled = false }) {
+function FilterSelect({ label, value, onChange, options = [], allLabel, allDisplayLabel = allLabel, disabled = false }) {
   return (
     <label className="flex min-w-0 flex-col gap-1">
       <span className="tiny-label">{label}</span>
@@ -11,7 +11,7 @@ function FilterSelect({ label, value, onChange, options = [], allLabel, disabled
         className="h-9 min-w-0 rounded-lg border border-white/10 bg-ink-800 px-3 text-xs font-semibold text-stone-100 outline-none transition hover:border-flame-400/45 focus:border-flame-400 disabled:cursor-not-allowed disabled:border-flame-400/20 disabled:bg-flame-500/[0.08] disabled:text-flame-200"
       >
         {disabled && value !== allLabel ? <option value={value}>{value}</option> : null}
-        <option value={allLabel}>{allLabel}</option>
+        <option value={allLabel}>{allDisplayLabel}</option>
         {options.map((option) => (
           <option key={option} value={option}>
             {option}
@@ -72,6 +72,7 @@ export default function FilterBar({ filters, setFilters, options, lockedCompany 
             onChange={(value) => update("period", value)}
             options={options.periods}
             allLabel="Todos"
+            allDisplayLabel="Todos los periodos"
           />
           <FilterSelect
             label={isCompanyLocked ? "Sociedad seleccionada" : "Empresa"}

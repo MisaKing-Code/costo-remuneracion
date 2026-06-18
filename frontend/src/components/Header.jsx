@@ -1,4 +1,5 @@
 import { Building2, CalendarDays, Database, MapPinned, Rows3, UsersRound } from "lucide-react";
+import { formatCompactCurrency, formatPercent, shortName } from "../utils/formatters";
 
 function ScopePill({ icon: Icon, label, value, accent = false }) {
   return (
@@ -14,8 +15,30 @@ function ScopePill({ icon: Icon, label, value, accent = false }) {
   );
 }
 
-export default function Header({ stats, metadata, scope, activeCompany = "Todas" }) {
+function formatPeriodLabel(period) {
+  return period === "Todos" ? "Todos los periodos" : period;
+}
+
+function buildExecutiveHeadline({ activePeriod, activeCompany, stats, leader, periodComparison }) {
+  const periodLabel = formatPeriodLabel(activePeriod);
+  const periodContext = activePeriod === "Todos" ? "acumulado" : "periodo activo";
+  const costText = formatCompactCurrency(stats.totalCost);
+  const leaderText = leader?.name
+    ? `Sociedad lider: ${shortName(leader.name)}${leader.percent ? ` (${formatPercent(leader.percent)})` : ""}.`
+    : activeCompany !== "Todas"
+      ? `Sociedad seleccionada: ${shortName(activeCompany)}.`
+      : "Sin sociedad lider disponible.";
+  const hasComparison = periodComparison?.previousPeriod && periodComparison.deltaVsPreviousPct !== null;
+  const variationText = hasComparison
+    ? `Variacion vs ${periodComparison.previousPeriod}: ${periodComparison.deltaVsPrevious >= 0 ? "+" : ""}${formatPercent(periodComparison.deltaVsPreviousPct)}.`
+    : "Sin comparacion contra periodo anterior disponible.";
+
+  return `${periodLabel} (${periodContext}): costo total ${costText}. ${leaderText} ${variationText}`;
+}
+
+export default function Header({ stats, metadata, scope, activeCompany = "Todas", leader, periodComparison }) {
   const activePeriod = scope?.activePeriod || "Todos";
+  const activePeriodLabel = formatPeriodLabel(activePeriod);
   const range = scope?.availablePeriodRange || metadata.period || "Sin rango";
   const filteredRecords = scope?.filteredRecords ?? 0;
   const totalRecords = scope?.totalRecords ?? metadata.recordCount ?? 0;
@@ -27,6 +50,7 @@ export default function Header({ stats, metadata, scope, activeCompany = "Todas"
 
   const isCorporate = activeCompany === "Todas";
   const title = isCorporate ? "Dashboard Corporativo de Remuneraciones" : `Dashboard Remuneracional · ${activeCompany}`;
+  const executiveHeadline = buildExecutiveHeadline({ activePeriod, activeCompany, stats, leader, periodComparison });
 
   return (
     <header className="panel overflow-hidden p-4 sm:p-5">
@@ -42,8 +66,12 @@ export default function Header({ stats, metadata, scope, activeCompany = "Todas"
           <p className="mt-2 max-w-3xl text-sm font-semibold leading-6 text-stone-400">
             Periodo disponible {range}. Fuente {metadata.sheet || "DW V2"} con {filteredRecords} registros en el alcance actual.
           </p>
+          <p className="mt-2 max-w-3xl text-sm font-bold leading-6 text-stone-200">
+            {executiveHeadline}
+          </p>
           <div className="mt-3 flex flex-wrap items-center gap-2 text-xs font-semibold">
-            <ScopePill icon={CalendarDays} label="Periodo activo" value={activePeriod} accent />
+            <ScopePill icon={CalendarDays} label="Periodo activo" value={activePeriodLabel} accent />
+            {leader?.name ? <ScopePill icon={Building2} label="Driver costo" value={shortName(leader.name)} /> : null}
             <ScopePill icon={Rows3} label="Registros" value={`${filteredRecords} de ${totalRecords}`} />
             <ScopePill icon={UsersRound} label={workerLabel} value={workers} />
             <ScopePill icon={Building2} label="Empresas" value={companies} />

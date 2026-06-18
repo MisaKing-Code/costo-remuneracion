@@ -71,7 +71,7 @@ function EmptyWorkerState() {
   );
 }
 
-export default function WorkerTable({ rows, consolidated = false, totalCost = 0 }) {
+export default function WorkerTable({ rows, consolidated = false, totalCost = 0, showPeriod = false }) {
   const topRows = [...rows].sort((a, b) => Number(b.Total_Costo || 0) - Number(a.Total_Costo || 0)).slice(0, 15);
   const topTotal = topRows.reduce((total, row) => total + Number(row.Total_Costo || 0), 0);
   const topShare = totalCost ? (topTotal / totalCost) * 100 : 0;
@@ -115,10 +115,19 @@ export default function WorkerTable({ rows, consolidated = false, totalCost = 0 
           </div>
 
           <div className="scrollbar-dark max-h-[500px] overflow-auto rounded-lg border border-white/10 bg-ink-900/90 shadow-[inset_0_1px_0_rgba(255,255,255,.035)]">
-            <table className="w-full min-w-[1040px] border-collapse text-left">
+            <table className={`w-full ${showPeriod ? "min-w-[1120px]" : "min-w-[1040px]"} border-collapse text-left`}>
               <thead className="sticky top-0 z-10 bg-ink-800/95 backdrop-blur">
                 <tr className="border-b border-white/10">
-                  {["#", "Trabajador", "Empresa / Cargo", "Tipo", "Contrato", "Total Haberes", "Costo Total"].map((head) => (
+                  {[
+                    "#",
+                    "Trabajador",
+                    "Empresa / Cargo",
+                    ...(showPeriod ? ["Periodo"] : []),
+                    "Tipo",
+                    "Contrato",
+                    "Total Haberes",
+                    "Costo Total",
+                  ].map((head) => (
                     <th
                       key={head}
                       className={`px-3 py-3 text-[10px] font-black uppercase tracking-[0.08em] text-stone-400 ${
@@ -147,6 +156,11 @@ export default function WorkerTable({ rows, consolidated = false, totalCost = 0 
                       <p className="truncate text-xs font-black text-stone-200">{shortName(row.Nombre_Sociedad)}</p>
                       <p className="mt-0.5 line-clamp-2 text-[11px] font-semibold leading-4 text-stone-500">{row.Cargo}</p>
                     </td>
+                    {showPeriod ? (
+                      <td className="px-3 py-2.5 text-xs font-black tabular-nums text-stone-200">
+                        {row.Periodo || "Sin periodo"}
+                      </td>
+                    ) : null}
                     <td className="px-3 py-2.5">
                       <StatusBadge value={row.Tipo_Trabajador} />
                     </td>
