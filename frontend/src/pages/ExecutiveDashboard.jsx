@@ -52,7 +52,6 @@ export default function ExecutiveDashboard({ onLogout }) {
   const hasNoResults = scope.filteredRecords === 0;
   const isCorporate = activeCompany === "Todas";
   const isAllPeriods = filters.period === "Todos";
-  const leadingSociety = analytics.companyMetrics?.[0] || analytics.companyCosts?.[0] || null;
 
   const handleSelectCompany = (company) => {
     setActiveCompany(company);
@@ -129,7 +128,6 @@ export default function ExecutiveDashboard({ onLogout }) {
           metadata={metadata}
           scope={scope}
           activeCompany={activeCompany}
-          leader={leadingSociety}
           periodComparison={analytics.periodComparison}
         />
         <FilterBar filters={filters} setFilters={setFilters} options={options} lockedCompany={activeCompany} />
