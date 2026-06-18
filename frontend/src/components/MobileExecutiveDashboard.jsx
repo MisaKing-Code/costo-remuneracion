@@ -17,13 +17,14 @@ import {
 } from "lucide-react";
 import { Area, AreaChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 import { useEffect, useMemo, useState } from "react";
+import MobileBusinessCentersView from "./MobileBusinessCentersView";
 import { formatCompactCurrency, formatCurrency, formatPercent, shortName } from "../utils/formatters";
 
 const tabs = [
   { id: "home", label: "Inicio", icon: Home },
   { id: "societies", label: "Sociedades", icon: Building2 },
+  { id: "centers", label: "Centros", icon: MapPinned },
   { id: "trend", label: "Tendencia", icon: LineChartIcon },
-  { id: "ranking", label: "Brief", icon: Sparkles },
   { id: "people", label: "Personas", icon: UsersRound },
 ];
 
@@ -297,7 +298,6 @@ function ExecutiveBrief({ analytics, societies = [], activeCompany, isCorporate,
     { icon: CircleDollarSign, label: "Costo del periodo", value: hasCost ? formatCompactCurrency(analytics.stats.totalCost) : "Sin datos" },
     { icon: Building2, label: isCorporate ? "Sociedad lider" : "Centro principal", value: leaderText },
     { icon: UsersRound, label: "Dotacion analizada", value: `${safeNumber(analytics.stats?.workers)} trabajadores` },
-    { icon: BriefcaseBusiness, label: "Promedio trabajador", value: formatCompactCurrency(analytics.stats?.averageCost) },
     { icon: MapPinned, label: "Senal del periodo", value: variationText },
   ];
 
@@ -317,18 +317,18 @@ function ExecutiveBrief({ analytics, societies = [], activeCompany, isCorporate,
         <p className="mt-2 text-xs font-semibold leading-5 text-stone-400">{movement}</p>
       </div>
 
-      <div className="grid gap-3">
+      <div className="grid grid-cols-2 gap-2">
         {items.map((item) => {
           const Icon = item.icon;
           return (
-            <article key={item.label} className="rounded-xl border border-white/10 bg-ink-900/95 p-3 transition-all duration-200 active:scale-[0.98]">
-              <div className="flex items-start gap-3">
-                <div className="grid h-8 w-8 shrink-0 place-items-center rounded-lg border border-flame-400/20 bg-flame-500/12 text-flame-300">
+            <article key={item.label} className="rounded-xl border border-white/10 bg-ink-900/95 p-2.5 transition-all duration-200 active:scale-[0.98]">
+              <div className="flex items-start gap-2">
+                <div className="grid h-7 w-7 shrink-0 place-items-center rounded-lg border border-flame-400/20 bg-flame-500/12 text-flame-300">
                   <Icon size={15} strokeWidth={2.4} />
                 </div>
                 <div className="min-w-0">
                   <p className="tiny-label text-stone-500">{item.label}</p>
-                  <p className="mt-1 text-sm font-black leading-5 text-stone-100">{item.value}</p>
+                  <p className="mt-1 line-clamp-2 text-xs font-black leading-4 text-stone-100">{item.value}</p>
                 </div>
               </div>
             </article>
@@ -628,9 +628,6 @@ export default function MobileExecutiveDashboard({
     };
   }, [analytics.periodComparison, isAllPeriods, trendData]);
 
-  const rankingData = isCorporate ? analytics.companyCosts : analytics.businessCenterCosts;
-  const rankingTitle = isCorporate ? "Ranking sociedades" : "Ranking centros";
-
   return (
     <div className="min-h-screen bg-ink-950 text-stone-100 md:hidden">
       <MobileTopBar
@@ -648,14 +645,15 @@ export default function MobileExecutiveDashboard({
           <>
             <SocietyQuickChips societies={societies} activeCompany={activeCompany} onSelectCompany={onSelectCompany} />
             <MobileKpiGrid stats={analytics.stats} delta={delta} />
-            <section className="rounded-xl border border-white/10 bg-white/[0.035] p-3">
-              <p className="tiny-label text-flame-300">Resumen ejecutivo</p>
-              <p className="mt-2 text-sm font-bold leading-6 text-stone-200">
-                {formatCompactCurrency(analytics.stats.totalCost)} en {scope.workers} trabajadores y {scope.businessCenters} centros activos.
-              </p>
-            </section>
+            <ExecutiveBrief
+              analytics={analytics}
+              societies={societies}
+              activeCompany={activeCompany}
+              isCorporate={isCorporate}
+              delta={delta}
+            />
             <MobileTrendCard data={trendData} />
-            <MobileRankingList title={rankingTitle} data={rankingData} compactCompany={isCorporate} />
+            {isCorporate ? <MobileRankingList title="Top sociedades" data={analytics.companyCosts} compactCompany /> : null}
             <button
               type="button"
               onClick={() => setActiveTab("people")}
@@ -677,20 +675,14 @@ export default function MobileExecutiveDashboard({
           </>
         ) : null}
 
+        {activeTab === "centers" ? (
+          <MobileBusinessCentersView data={analytics.businessCenterCosts} visibleCenters={scope.businessCenters} />
+        ) : null}
+
         {activeTab === "trend" ? (
           <>
             <MobileTrendCard data={trendData} title={isAllPeriods ? "Tendencia mensual" : `Contexto ${filters.period}`} />
           </>
-        ) : null}
-
-        {activeTab === "ranking" ? (
-          <ExecutiveBrief
-            analytics={analytics}
-            societies={societies}
-            activeCompany={activeCompany}
-            isCorporate={isCorporate}
-            delta={delta}
-          />
         ) : null}
 
         {activeTab === "people" ? (
