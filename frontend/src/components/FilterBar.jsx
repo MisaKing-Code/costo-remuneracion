@@ -37,7 +37,6 @@ export default function FilterBar({ filters, setFilters, options, lockedCompany 
   const isCompanyLocked = lockedCompany !== "Todas";
   const searchTerm = String(filters.searchTerm || "").trim();
   const activeChips = [
-    filters.period !== "Todos" ? { label: "Periodo", value: filters.period } : null,
     isCompanyLocked
       ? { label: "Sociedad", value: lockedCompany }
       : filters.company !== "Todas"

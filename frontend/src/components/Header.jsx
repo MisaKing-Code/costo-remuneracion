@@ -1,4 +1,4 @@
-import { Building2, CalendarDays, MapPinned, Rows3, UsersRound } from "lucide-react";
+import { Building2, MapPinned, UsersRound } from "lucide-react";
 import { formatCompactCurrency, formatPercent, shortName } from "../utils/formatters";
 
 function ScopePill({ icon: Icon, label, value, accent = false }) {
@@ -38,10 +38,8 @@ function buildExecutiveHeadline({ activePeriod, activeCompany, stats, leader, pe
 
 export default function Header({ stats, metadata, scope, activeCompany = "Todas", leader, periodComparison }) {
   const activePeriod = scope?.activePeriod || "Todos";
-  const activePeriodLabel = formatPeriodLabel(activePeriod);
   const range = scope?.availablePeriodRange || metadata.period || "Sin rango";
   const filteredRecords = scope?.filteredRecords ?? 0;
-  const totalRecords = scope?.totalRecords ?? metadata.recordCount ?? 0;
   const workerMetric = scope?.workerMetric ?? stats.workerMetric;
   const workers = workerMetric?.value ?? scope?.workers ?? stats.workers;
   const workerLabel = workerMetric?.labelTrabajadores ?? "Trabajadores";
@@ -70,8 +68,6 @@ export default function Header({ stats, metadata, scope, activeCompany = "Todas"
             {executiveHeadline}
           </p>
           <div className="mt-3 flex flex-wrap items-center gap-2 text-xs font-semibold">
-            <ScopePill icon={CalendarDays} label="Periodo activo" value={activePeriodLabel} accent />
-            <ScopePill icon={Rows3} label="Registros" value={`${filteredRecords} de ${totalRecords}`} />
             <ScopePill icon={UsersRound} label={workerLabel} value={workers} />
             <ScopePill icon={Building2} label="Empresas" value={companies} />
             <ScopePill icon={MapPinned} label="Centros" value={businessCenters} />
