@@ -1,7 +1,9 @@
 import { Network, SearchX } from "lucide-react";
 import { useState } from "react";
 import BusinessCenterPodiumRanking from "../components/BusinessCenterPodiumRanking";
+import BusinessCenterCompactRanking from "../components/BusinessCenterCompactRanking";
 import CompanyLeaderInsight from "../components/CompanyLeaderInsight";
+import ContractCompositionCard from "../components/ContractCompositionCard";
 import CostBreakdown from "../components/CostBreakdown";
 import FilterBar from "../components/FilterBar";
 import Header from "../components/Header";
@@ -147,8 +149,12 @@ export default function ExecutiveDashboard({ onLogout }) {
                 </>
               ) : (
                 <>
-                  <RankingBars title="Top Centros de Negocio de la Sociedad" icon={Network} data={analytics.businessCenterCosts} />
-                  <RankingBars title="Costo por Tipo de Contrato" data={analytics.contractCosts} />
+                  <BusinessCenterCompactRanking
+                    title="Top Centros de Negocio de la Sociedad"
+                    icon={Network}
+                    data={analytics.businessCenterCosts}
+                  />
+                  <ContractCompositionCard data={analytics.contractCosts} />
                 </>
               )}
             </section>

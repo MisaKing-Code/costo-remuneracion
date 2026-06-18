@@ -43,7 +43,7 @@ export default function RankingBars({
             showSecondaryMetric && secondaryMetricType === "costPerWorker"
               ? costPerWorker
                 ? `${formatCompactCurrency(costPerWorker)} por trabajador`
-                : "Sin dotacion"
+                : null
               : null;
 
           return (
