@@ -195,6 +195,177 @@ function MobileTrendCard({ data = [], title = "Tendencia mensual" }) {
   );
 }
 
+function getTrendSummary(data = [], periodComparison, isAllPeriods) {
+  const series = data.map((item) => ({ ...item, totalCost: safeNumber(item.totalCost) })).filter((item) => item.period);
+
+  if (!series.length) {
+    return {
+      current: null,
+      previous: null,
+      deltaLabel: "N/D",
+      deltaDetail: "Sin periodos visibles",
+      direction: "neutral",
+      max: null,
+      min: null,
+      average: 0,
+      sortedPeriods: [],
+      insight: "No hay periodos suficientes para construir una lectura temporal.",
+    };
+  }
+
+  const current =
+    !isAllPeriods && periodComparison?.selectedPeriod
+      ? series.find((item) => item.period === periodComparison.selectedPeriod) || {
+          period: periodComparison.selectedPeriod,
+          totalCost: safeNumber(periodComparison.selectedCost),
+        }
+      : series[series.length - 1];
+  const currentIndex = series.findIndex((item) => item.period === current.period);
+  const previous =
+    !isAllPeriods && periodComparison?.previousPeriod
+      ? { period: periodComparison.previousPeriod, totalCost: safeNumber(periodComparison.previousCost) }
+      : currentIndex > 0
+        ? series[currentIndex - 1]
+        : null;
+  const deltaValue = previous?.totalCost ? current.totalCost - previous.totalCost : 0;
+  const deltaPercent = previous?.totalCost ? (deltaValue / previous.totalCost) * 100 : null;
+  const max = series.reduce((best, item) => (item.totalCost > best.totalCost ? item : best), series[0]);
+  const min = series.reduce((best, item) => (item.totalCost < best.totalCost ? item : best), series[0]);
+  const average = series.reduce((total, item) => total + item.totalCost, 0) / series.length;
+  const sortedPeriods = [...series].sort((a, b) => b.totalCost - a.totalCost);
+  const direction = deltaValue > 0 ? "up" : deltaValue < 0 ? "down" : "flat";
+  const deltaLabel = deltaPercent === null ? "N/D" : `${deltaValue > 0 ? "+" : ""}${formatPercent(deltaPercent)}`;
+  const deltaDetail = previous ? `vs ${previous.period}` : "Sin periodo anterior";
+  const averageTone = current.totalCost >= average ? "sobre el promedio visible" : "bajo el promedio visible";
+  const movementText =
+    direction === "up"
+      ? `El costo sube ${deltaLabel} respecto a ${previous.period}.`
+      : direction === "down"
+        ? `El costo baja ${deltaLabel} respecto a ${previous.period}.`
+        : previous
+          ? `El costo se mantiene estable respecto a ${previous.period}.`
+          : "La lectura actual no cuenta con periodo anterior comparable.";
+  const peakText =
+    max.period === current.period
+      ? "El periodo actual marca el costo mas alto de la serie visible."
+      : `El maximo visible corresponde a ${max.period}.`;
+
+  return {
+    current,
+    previous,
+    deltaLabel,
+    deltaDetail,
+    direction,
+    max,
+    min,
+    average,
+    sortedPeriods,
+    insight: `${movementText} ${peakText} El periodo actual esta ${averageTone}.`,
+  };
+}
+
+function MobileTrendPreview({ summary, onOpenTrend }) {
+  const currentValue = summary.current ? formatCompactCurrency(summary.current.totalCost) : "Sin datos";
+  const tone = summary.direction === "down" ? "text-emerald-300" : summary.direction === "up" ? "text-flame-300" : "text-stone-300";
+
+  return (
+    <button
+      type="button"
+      onClick={onOpenTrend}
+      className="flex w-full items-center justify-between gap-3 rounded-xl border border-white/10 bg-ink-900/95 p-3 text-left shadow-[0_12px_28px_rgba(0,0,0,.22)] transition-all duration-200 active:scale-[0.98]"
+    >
+      <span className="min-w-0">
+        <span className="tiny-label block text-stone-500">Tendencia del periodo</span>
+        <span className="mt-1 block text-xl font-black leading-none text-stone-50">{currentValue}</span>
+        <span className={`mt-2 block text-xs font-black ${tone}`}>{summary.deltaLabel}</span>
+        <span className="mt-0.5 block text-[11px] font-bold text-stone-500">{summary.deltaDetail}</span>
+      </span>
+      <span className="inline-flex shrink-0 items-center gap-1 rounded-full border border-flame-400/25 bg-flame-500/[0.10] px-3 py-2 text-[11px] font-black text-flame-200">
+        Ver detalle
+        <ChevronRight size={14} />
+      </span>
+    </button>
+  );
+}
+
+function MobileTrendMetric({ label, value, detail }) {
+  return (
+    <article className="rounded-xl border border-white/10 bg-ink-900/95 p-3">
+      <p className="tiny-label text-stone-500">{label}</p>
+      <p className="mt-2 text-sm font-black leading-none text-stone-50">{value}</p>
+      {detail ? <p className="mt-1 text-[11px] font-bold text-stone-500">{detail}</p> : null}
+    </article>
+  );
+}
+
+function MobilePeriodRanking({ periods = [] }) {
+  return (
+    <section className="rounded-xl border border-white/10 bg-ink-900/95 px-3 py-2 shadow-[0_12px_28px_rgba(0,0,0,.22)]">
+      <div className="flex items-center justify-between gap-3 pb-2">
+        <div>
+          <p className="tiny-label text-stone-500">Ranking de periodos</p>
+          <p className="mt-1 text-xs font-bold text-stone-400">Ordenado por costo remuneracional</p>
+        </div>
+        <BarChart3 size={17} className="text-flame-400" />
+      </div>
+      {periods.map((item, index) => (
+        <article key={item.period} className="grid grid-cols-[24px_minmax(0,1fr)_auto] items-center gap-3 border-t border-white/[0.06] py-2.5">
+          <span className="text-[11px] font-black tabular-nums text-stone-500">{index + 1}</span>
+          <p className="truncate text-sm font-black text-stone-100">{item.period}</p>
+          <p className="text-right text-sm font-black tabular-nums text-flame-300">{formatCompactCurrency(item.totalCost)}</p>
+        </article>
+      ))}
+    </section>
+  );
+}
+
+function MobileTrendExecutiveView({ data = [], title, summary }) {
+  const currentValue = summary.current ? formatCompactCurrency(summary.current.totalCost) : "Sin datos";
+  const tone = summary.direction === "down" ? "text-emerald-300" : summary.direction === "up" ? "text-flame-300" : "text-stone-300";
+
+  return (
+    <section className="space-y-3">
+      <div className="rounded-xl border border-flame-400/20 bg-flame-500/[0.08] p-3 shadow-[0_14px_34px_rgba(0,0,0,.24)]">
+        <p className="tiny-label text-flame-300">Resumen Ejecutivo Temporal</p>
+        <div className="mt-3 grid grid-cols-[1fr_auto] items-end gap-3">
+          <div>
+            <p className="text-[11px] font-bold text-stone-400">Costo actual</p>
+            <p className="mt-1 text-3xl font-black leading-none text-stone-50">{currentValue}</p>
+          </div>
+          <div className="text-right">
+            <p className={`text-lg font-black leading-none ${tone}`}>{summary.deltaLabel}</p>
+            <p className="mt-1 text-[11px] font-bold text-stone-500">{summary.deltaDetail}</p>
+          </div>
+        </div>
+        <p className="mt-3 text-xs font-bold text-stone-400">{data.length} periodos visibles</p>
+      </div>
+
+      <div className="grid grid-cols-3 gap-2">
+        <MobileTrendMetric label="Maximo" value={summary.max?.period || "N/D"} detail={summary.max ? formatCompactCurrency(summary.max.totalCost) : null} />
+        <MobileTrendMetric label="Minimo" value={summary.min?.period || "N/D"} detail={summary.min ? formatCompactCurrency(summary.min.totalCost) : null} />
+        <MobileTrendMetric label="Promedio" value={formatCompactCurrency(summary.average)} detail="visible" />
+      </div>
+
+      <MobileTrendCard data={data} title={title} />
+
+      <section className="rounded-xl border border-flame-400/20 bg-white/[0.035] p-3">
+        <div className="flex items-center gap-2">
+          <div className="grid h-8 w-8 place-items-center rounded-lg border border-flame-400/20 bg-flame-500/12 text-flame-300">
+            <Sparkles size={15} strokeWidth={2.4} />
+          </div>
+          <div>
+            <p className="tiny-label text-flame-300">Insight Ejecutivo</p>
+            <h2 className="text-base font-black text-stone-50">Lectura temporal</h2>
+          </div>
+        </div>
+        <p className="mt-3 text-sm font-bold leading-6 text-stone-200">{summary.insight}</p>
+      </section>
+
+      <MobilePeriodRanking periods={summary.sortedPeriods} />
+    </section>
+  );
+}
+
 function MobileRankingList({ title, data = [], compactCompany = false }) {
   const max = Math.max(...data.map((item) => item.value), 1);
 
@@ -627,6 +798,10 @@ export default function MobileExecutiveDashboard({
       percent,
     };
   }, [analytics.periodComparison, isAllPeriods, trendData]);
+  const trendSummary = useMemo(
+    () => getTrendSummary(trendData, analytics.periodComparison, isAllPeriods),
+    [analytics.periodComparison, isAllPeriods, trendData],
+  );
 
   return (
     <div className="min-h-screen bg-ink-950 text-stone-100 md:hidden">
@@ -652,7 +827,7 @@ export default function MobileExecutiveDashboard({
               isCorporate={isCorporate}
               delta={delta}
             />
-            <MobileTrendCard data={trendData} />
+            <MobileTrendPreview summary={trendSummary} onOpenTrend={() => setActiveTab("trend")} />
             {isCorporate ? <MobileRankingList title="Top sociedades" data={analytics.companyCosts} compactCompany /> : null}
             <button
               type="button"
@@ -680,9 +855,11 @@ export default function MobileExecutiveDashboard({
         ) : null}
 
         {activeTab === "trend" ? (
-          <>
-            <MobileTrendCard data={trendData} title={isAllPeriods ? "Tendencia mensual" : `Contexto ${filters.period}`} />
-          </>
+          <MobileTrendExecutiveView
+            data={trendData}
+            title={isAllPeriods ? "Tendencia mensual" : `Contexto ${filters.period}`}
+            summary={trendSummary}
+          />
         ) : null}
 
         {activeTab === "people" ? (
