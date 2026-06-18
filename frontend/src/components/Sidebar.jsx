@@ -143,11 +143,15 @@ function SummaryMetric({ icon: Icon, value, label }) {
   );
 }
 
-function CorporateSummary({ activeCompany, societies }) {
+function CorporateSummary({ activeCompany, societies, workerMetric, societyWorkerMetrics = {} }) {
   const activeSociety = societies.find((item) => item.name === activeCompany);
   const totalCost = societies.reduce((total, item) => total + item.value, 0);
-  const totalWorkers = societies.reduce((total, item) => total + item.workers, 0);
   const isCorporate = activeCompany === "Todas" || !activeSociety;
+  const activeSocietyWorkerMetric = activeSociety ? societyWorkerMetrics[activeSociety.name] : null;
+  const totalWorkers = workerMetric?.value ?? societies.reduce((total, item) => total + item.workers, 0);
+  const totalWorkerLabel = workerMetric?.labelTrabajadores ?? "Trabajadores";
+  const societyWorkers = activeSocietyWorkerMetric?.value ?? activeSociety?.workers ?? 0;
+  const societyWorkerLabel = activeSocietyWorkerMetric?.labelTrabajadores ?? "Trabajadores";
 
   return (
     <div className="mb-3 rounded-lg border border-white/[0.08] bg-black/20 p-3">
@@ -157,12 +161,12 @@ function CorporateSummary({ activeCompany, societies }) {
           <>
             <SummaryMetric icon={Factory} value={societies.length} label="Sociedades" />
             <SummaryMetric icon={DollarSign} value={formatCompactCurrency(totalCost)} label="Costo total" />
-            <SummaryMetric icon={Users} value={totalWorkers} label="Trabajadores" />
+            <SummaryMetric icon={Users} value={totalWorkers} label={totalWorkerLabel} />
           </>
         ) : (
           <>
             <SummaryMetric icon={BarChart3} value={formatPercent(activeSociety.percent)} label="Participacion" />
-            <SummaryMetric icon={Users} value={activeSociety.workers} label="Trabajadores" />
+            <SummaryMetric icon={Users} value={societyWorkers} label={societyWorkerLabel} />
             <SummaryMetric icon={Factory} value={activeSociety.businessCenters} label="Centros" />
           </>
         )}
@@ -171,7 +175,15 @@ function CorporateSummary({ activeCompany, societies }) {
   );
 }
 
-export default function Sidebar({ activeCompany, activePeriodLabel = "Todos", societies = [], onSelectCompany, onLogout }) {
+export default function Sidebar({
+  activeCompany,
+  activePeriodLabel = "Todos",
+  societies = [],
+  workerMetric,
+  societyWorkerMetrics,
+  onSelectCompany,
+  onLogout,
+}) {
   return (
     <aside className="panel flex h-full min-h-0 flex-col overflow-hidden border-white/[0.08] bg-ink-900/98">
       <div className="border-b border-white/10 p-4">
@@ -226,7 +238,12 @@ export default function Sidebar({ activeCompany, activePeriodLabel = "Todos", so
       </div>
 
       <div className="border-t border-white/10 p-3">
-        <CorporateSummary activeCompany={activeCompany} societies={societies} />
+        <CorporateSummary
+          activeCompany={activeCompany}
+          societies={societies}
+          workerMetric={workerMetric}
+          societyWorkerMetrics={societyWorkerMetrics}
+        />
         <button
           type="button"
           onClick={onLogout}

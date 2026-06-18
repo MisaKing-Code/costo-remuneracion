@@ -35,8 +35,20 @@ function EmptyResultsState() {
 
 export default function ExecutiveDashboard({ onLogout }) {
   const [activeCompany, setActiveCompany] = useState("Todas");
-  const { isDatasetValid, datasetError, metadata, filters, setFilters, options, analytics, scope, societies, sidebarPeriodLabel } =
-    useCostDashboard(activeCompany);
+  const {
+    isDatasetValid,
+    datasetError,
+    metadata,
+    filters,
+    setFilters,
+    options,
+    analytics,
+    scope,
+    societies,
+    sidebarPeriodLabel,
+    sidebarWorkerMetric,
+    sidebarSocietyWorkerMetrics,
+  } = useCostDashboard(activeCompany);
   const hasNoResults = scope.filteredRecords === 0;
   const isCorporate = activeCompany === "Todas";
   const isAllPeriods = filters.period === "Todos";
@@ -75,6 +87,8 @@ export default function ExecutiveDashboard({ onLogout }) {
       activeCompany={activeCompany}
       activePeriodLabel={sidebarPeriodLabel}
       societies={societies}
+      workerMetric={sidebarWorkerMetric}
+      societyWorkerMetrics={sidebarSocietyWorkerMetrics}
       onSelectCompany={handleSelectCompany}
       onLogout={onLogout}
     />

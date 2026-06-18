@@ -169,6 +169,30 @@ export function useCostDashboard(activeCompany = "Todas") {
   }, [filters, records]);
 
   const societies = useMemo(() => getSocietyMetrics(sidebarRecords), [sidebarRecords]);
+  const sidebarWorkerMetric = useMemo(() => getWorkerPeriodMetric(sidebarRecords, filters.period), [filters.period, sidebarRecords]);
+  const sidebarSocietyWorkerMetrics = useMemo(() => {
+    const grouped = sidebarRecords.reduce((acc, item) => {
+      const society = item.Nombre_Sociedad;
+
+      if (!society) {
+        return acc;
+      }
+
+      if (!acc[society]) {
+        acc[society] = [];
+      }
+
+      acc[society].push(item);
+      return acc;
+    }, {});
+
+    return Object.fromEntries(
+      Object.entries(grouped).map(([society, societyRecords]) => [
+        society,
+        getWorkerPeriodMetric(societyRecords, filters.period),
+      ]),
+    );
+  }, [filters.period, sidebarRecords]);
 
   const workerMetric = useMemo(() => getWorkerPeriodMetric(filteredRecords, filters.period), [filteredRecords, filters.period]);
 
@@ -238,6 +262,8 @@ export function useCostDashboard(activeCompany = "Todas") {
     metadata,
     activeCompany,
     societies,
+    sidebarWorkerMetric,
+    sidebarSocietyWorkerMetrics,
     sidebarPeriodLabel: filters.period === "Todos" ? metadata.period || "Todos" : filters.period,
     filters,
     setFilters,
